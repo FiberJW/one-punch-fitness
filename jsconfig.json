@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "jsx": "react-native"
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}

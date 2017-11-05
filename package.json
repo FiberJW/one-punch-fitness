@@ -1,0 +1,31 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "private": true,
+  "dependencies": {
+    "expo": "^22.0.0",
+    "react": "16.0.0-beta.5",
+    "react-native":
+      "https://github.com/expo/react-native/archive/sdk-22.0.2.tar.gz"
+  },
+  "name": "one-punch-fitness",
+  "version": "0.0.0",
+  "description":
+    "Could the you of tomorrow beat you today? Instead of giving in, move forward.",
+  "author": "Juwan Wheatley",
+  "eslintConfig": {
+    "extends": "universe/native"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-universe": "^1.0.6",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.3.0",
+    "prettier": "^1.7.4"
+  },
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json,css}": ["prettier --write", "git add"]
+  }
+}
