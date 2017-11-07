@@ -9,7 +9,11 @@ export default class Header extends Component {
 
     return (
       <Container>
-        <Back navigation={this.props.navigation} />
+        {this.props.navigation.state.index ? (
+          <Back navigation={this.props.navigation} />
+        ) : (
+          <PlaceHolder />
+        )}
         <Label text={screenDetails.options.title} disabled focused />
         <PlaceHolder />
       </Container>
