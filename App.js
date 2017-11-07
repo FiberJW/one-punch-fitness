@@ -1,22 +1,26 @@
-// @ts-check
+import { Font, AppLoading } from "expo";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import MainTabNav from "./navigation/MainTabNav";
+import Container from "./components/styled/AppContainer";
 
 export default class App extends React.Component {
+  state = {
+    loaded: false
+  };
+
+  componentDidMount() {
+    Font.loadAsync({
+      InterMedium: require("./assets/fonts/Inter-UI-Medium.ttf")
+    }).then(() => {
+      this.setState({ loaded: true });
+    });
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <Container>
+        {this.state.loaded ? <MainTabNav /> : <AppLoading />}
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
