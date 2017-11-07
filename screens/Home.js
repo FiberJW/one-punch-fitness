@@ -15,7 +15,7 @@ export default withNavigation(
           }}
         >
           <Button
-            title="Poof"
+            title="skrrrahh"
             onPress={() => {
               this.props.screenProps.navigation.navigate("Workout");
             }}
