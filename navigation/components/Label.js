@@ -3,8 +3,8 @@ import { TouchableOpacity } from "react-native";
 import TabLabelContainer from "./styled/TabLabelContainer";
 import TabLabelText from "./styled/TabLabelText";
 
-export default ({ focused, text, onPress }) => (
-  <TouchableOpacity onPress={onPress}>
+export default ({ focused, text, onPress, disabled }) => (
+  <TouchableOpacity onPress={onPress} disabled={disabled}>
     <TabLabelContainer focused={focused}>
       <TabLabelText focused={focused}>{text.toLowerCase()}</TabLabelText>
     </TabLabelContainer>

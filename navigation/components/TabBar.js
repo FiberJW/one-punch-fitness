@@ -3,12 +3,12 @@ import { ScrollView, StatusBar } from "react-native";
 import PropTypes from "prop-types";
 import Container from "./styled/TabBarContainer";
 import colors from "../../config/colors";
-import TabLabel from "./TabLabel";
+import Label from "./Label";
 import TabIconWrapper from "./TabIconWrapper";
 
 export default class TabBar extends Component {
   static propTypes = {
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
   };
 
   render() {
@@ -22,13 +22,13 @@ export default class TabBar extends Component {
             const focused = index === i;
 
             return route.key !== "Settings" ? (
-              <TabLabel
+              <Label
                 key={i}
                 focused={focused}
                 text={this.props.getLabel({
                   route,
                   tintColor: "white",
-                  focused
+                  focused,
                 })}
                 onPress={() => this.props.jumpToIndex(i)}
               />
@@ -41,7 +41,7 @@ export default class TabBar extends Component {
             const Icon = this.props.renderIcon({
               route,
               tintColor: "white",
-              focused
+              focused,
             });
 
             return (

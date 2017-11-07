@@ -1,16 +1,16 @@
 import { Font, AppLoading } from "expo";
 import React from "react";
-import MainTabNav from "./navigation/MainTabNav";
+import MainStack from "./navigation/MainStack";
 import Container from "./components/styled/AppContainer";
 
 export default class App extends React.Component {
   state = {
-    loaded: false
+    loaded: false,
   };
 
   componentDidMount() {
     Font.loadAsync({
-      InterMedium: require("./assets/fonts/Inter-UI-Medium.ttf")
+      InterMedium: require("./assets/fonts/Inter-UI-Medium.ttf"),
     }).then(() => {
       this.setState({ loaded: true });
     });
@@ -19,7 +19,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Container>
-        {this.state.loaded ? <MainTabNav /> : <AppLoading />}
+        {this.state.loaded ? <MainStack /> : <AppLoading />}
       </Container>
     );
   }
