@@ -11,6 +11,7 @@ export default class App extends React.Component {
   componentDidMount() {
     Font.loadAsync({
       InterMedium: require("./assets/fonts/Inter-UI-Medium.ttf"),
+      InterReg: require("./assets/fonts/Inter-UI-Regular.ttf"),
     }).then(() => {
       this.setState({ loaded: true });
     });
