@@ -18,7 +18,7 @@ export default class CalendarScreen extends Component {
         <Button
           title="pap, pap, ka-ka-ka"
           onPress={() => {
-            this.props.screenProps.navigation.navigate("Info");
+            this.props.screenProps.rootNavigation.navigate("Info");
           }}
         />
       </View>

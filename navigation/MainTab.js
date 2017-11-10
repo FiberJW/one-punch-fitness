@@ -26,6 +26,6 @@ export default class MainTab extends Component {
       }
     );
 
-    return <Tabs screenProps={{ navigation: this.props.navigation }} />;
+    return <Tabs screenProps={{ rootNavigation: this.props.navigation }} />;
   }
 }
