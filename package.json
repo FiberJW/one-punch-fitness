@@ -21,6 +21,7 @@
   "devDependencies": {
     "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
+    "flow-bin": "0.53.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier": "^1.7.4"
