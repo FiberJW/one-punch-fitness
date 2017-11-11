@@ -122,7 +122,7 @@ const OverflowButton = props => (
       <Image
         source={require("../assets/images/icon-chevron-down.png")}
         style={{ height: 6, width: 12 }}
-        resizeMode="cover"
+        resizeMode="contain"
       />
     </OverflowContainer>
   </TouchableOpacity>
