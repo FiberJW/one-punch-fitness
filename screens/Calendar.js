@@ -1,10 +1,15 @@
+// @flow
 import React, { Component } from "react";
 import { View, Button } from "react-native";
 
-export default class CalendarScreen extends Component {
+type Props = { screenProps: { rootNavigation: any } };
+type State = void;
+
+export default class CalendarScreen extends Component<Props, State> {
   static navigationOptions = {
     title: "calendar",
   };
+
   render() {
     return (
       <View
