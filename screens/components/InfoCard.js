@@ -1,127 +1,15 @@
 // @flow
 import React, { Component } from "react";
-import { Dimensions, Image, TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo";
-import styled from "styled-components/native";
 import colors from "../../config/colors";
-
-const CardContainer = styled.View`
-  background-color: white;
-  width: ${Dimensions.get("window").width - 16}px;
-  margin-horizontal: 8px;
-  margin-top: 8px;
-  overflow: hidden;
-  border-radius: 12px;
-`;
-
-const TopSecContainer = styled.View``;
-
-const InfoCardDescription = styled.Text`
-  font-family: InterReg;
-  background-color: transparent;
-  font-size: 12px;
-  color: ${colors.spotiBlack};
-  margin: 16px;
-`;
-
-const CoverImage = styled.Image`
-  height: 148px;
-  width: 100%;
-  border-top-right-radius: 12px;
-  border-top-left-radius: 12px;
-`;
-
-const OverflowContainer = styled.View`
-  height: 32px;
-  width: 32px;
-  border-radius: 8px;
-  overflow: hidden;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.twentyWhite};
-`;
-
-const PopupMenuContainer = styled.View`
-  border-radius: 8px;
-  overflow: hidden;
-  justify-content: center;
-  align-items: center;
-  max-width: 200px;
-  max-height: 200px;
-  padding: 4px;
-  align-items: stretch;
-  background-color: ${colors.twentyWhite};
-`;
-
-const CardTitle = styled.Text`
-  color: white;
-  font-size: 24px;
-  font-family: InterMedium;
-  position: absolute;
-  left: 16;
-  right: 16;
-  bottom: 16;
-  background-color: transparent;
-`;
-
-const PopupOptionTitle = styled.Text`
-  color: white;
-  font-size: 16px;
-  font-family: InterMedium;
-  background-color: transparent;
-`;
-
-const PopupOptionContainer = styled.View`
-  background-color: ${colors.fortyBlack};
-  padding-vertical: 2px;
-  padding-horizontal: 8px;
-  margin-bottom: ${({ last }) => (last ? 0 : 4)}px;
-  border-radius: 4px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const PopupMenu = props => (
-  <TouchableOpacity
-    activeOpacity={0.8}
-    style={{
-      position: "absolute",
-      top: 8,
-      right: 8,
-    }}
-    onPress={props.actions[0].onPress}
-  >
-    <PopupMenuContainer>
-      {props.actions.map((action, i) => (
-        <TouchableOpacity key={i} activeOpacity={0.8} onPress={action.onPress}>
-          <PopupOptionContainer last={i === props.actions.length - 1}>
-            <PopupOptionTitle>{action.title}</PopupOptionTitle>
-          </PopupOptionContainer>
-        </TouchableOpacity>
-      ))}
-    </PopupMenuContainer>
-  </TouchableOpacity>
-);
-
-const OverflowButton = props => (
-  <TouchableOpacity
-    activeOpacity={0.8}
-    style={{
-      position: "absolute",
-      top: 8,
-      right: 8,
-    }}
-    onPress={props.onPress}
-  >
-    <OverflowContainer>
-      <Image
-        source={require("../../assets/images/icon-chevron-down.png")}
-        style={{ height: 6, width: 12 }}
-        resizeMode="contain"
-      />
-    </OverflowContainer>
-  </TouchableOpacity>
-);
+import Container from "./styled/InfoCardContainer";
+import InfoCardDescription from "./styled/InfoCardDescription";
+import CoverImage from "./styled/InfoCardCoverImage";
+import CardTitle from "./styled/InfoCardTitle";
+import InfoCardButtonContainer from "./styled/InfoCardButtonContainer";
+import OverflowButton from "./InfoCardOverflowButton";
+import PopupMenu from "./InfoCardPopupMenu";
 
 type Props = {
   navigation: {
@@ -154,8 +42,8 @@ export default class InfoCard extends Component<Props, State> {
             : () => this.props.navigation.navigate("Info")
         }
       >
-        <CardContainer>
-          <TopSecContainer>
+        <Container>
+          <View>
             <CoverImage
               source={require("../../assets/images/saitama-secret-training.png")}
               resizeMode="cover"
@@ -170,36 +58,40 @@ export default class InfoCard extends Component<Props, State> {
                 height: 148,
               }}
             />
-            {this.state.menuOpen ? (
-              <PopupMenu
-                actions={[
-                  {
-                    title: "share",
-                    onPress: () => console.log("sharing!"),
-                  },
-                  {
-                    title: "remind me later",
-                    onPress: () => console.log("postponing this infocard"),
-                  },
-                  {
-                    title: "remove card",
-                    onPress: () => console.log("deleting this infocard"),
-                  },
-                ]}
-              />
-            ) : (
-              <OverflowButton
-                onPress={() =>
-                  this.setState(prevState => ({
-                    ...prevState,
-                    menuOpen: true,
-                  }))}
-              />
-            )}
+            <InfoCardButtonContainer
+              activeOpacity={this.state.menuOpen ? 1 : 0.8}
+              disabled={this.state.menuOpen}
+              onPress={() =>
+                this.setState(prevState => ({
+                  ...prevState,
+                  menuOpen: true,
+                }))}
+            >
+              {this.state.menuOpen ? (
+                <PopupMenu
+                  actions={[
+                    {
+                      title: "share",
+                      onPress: () => console.log("sharing!"),
+                    },
+                    {
+                      title: "remind me later",
+                      onPress: () => console.log("postponing this infocard"),
+                    },
+                    {
+                      title: "remove card",
+                      onPress: () => console.log("deleting this infocard"),
+                    },
+                  ]}
+                />
+              ) : (
+                <OverflowButton />
+              )}
+            </InfoCardButtonContainer>
             <CardTitle>{this.props.title}</CardTitle>
-          </TopSecContainer>
+          </View>
           <InfoCardDescription>{this.props.description}</InfoCardDescription>
-        </CardContainer>
+        </Container>
       </TouchableOpacity>
     );
   }

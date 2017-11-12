@@ -1,0 +1,12 @@
+// @flow
+import { Dimensions } from "react-native";
+import styled from "styled-components/native";
+
+export default styled.View`
+  background-color: white;
+  width: ${Dimensions.get("window").width - 16}px;
+  margin-horizontal: 8px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 12px;
+`;
