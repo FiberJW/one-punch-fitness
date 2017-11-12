@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo";
+import * as Animatable from "react-native-animatable";
 import colors from "../../config/colors";
 import Container from "./styled/InfoCardContainer";
 import InfoCardDescription from "./styled/InfoCardDescription";
@@ -34,11 +35,16 @@ export default class InfoCard extends Component<Props, State> {
         activeOpacity={this.state.menuOpen ? 1 : 0.9}
         onPress={
           this.state.menuOpen
-            ? () =>
-                this.setState(prevState => ({
-                  ...prevState,
-                  menuOpen: false,
-                }))
+            ? () => {
+                this.refs.InfoCardButton.slideOutRight(80).then(() => {
+                  this.setState(prevState => ({
+                    ...prevState,
+                    menuOpen: false,
+                  }));
+
+                  this.refs.InfoCardButton.slideInDown(150);
+                });
+              }
             : () => this.props.navigation.navigate("Info")
         }
       >
@@ -62,27 +68,33 @@ export default class InfoCard extends Component<Props, State> {
               activeOpacity={this.state.menuOpen ? 1 : 0.8}
               disabled={this.state.menuOpen}
               onPress={() =>
-                this.setState(prevState => ({
-                  ...prevState,
-                  menuOpen: true,
-                }))}
+                this.refs.InfoCardButton.slideOutUp(150).then(() => {
+                  this.setState(prevState => ({
+                    ...prevState,
+                    menuOpen: true,
+                  }));
+
+                  this.refs.InfoCardButton.slideInRight(150);
+                })}
             >
-              {this.state.menuOpen ? (
-                <PopupMenu
-                  actions={[
-                    {
-                      title: "remind me later",
-                      onPress: () => console.log("postponing this infocard"),
-                    },
-                    {
-                      title: "archive card",
-                      onPress: () => console.log("deleting this infocard"),
-                    },
-                  ]}
-                />
-              ) : (
-                <OverflowButton />
-              )}
+              <Animatable.View ref="InfoCardButton" easing="ease-out">
+                {this.state.menuOpen ? (
+                  <PopupMenu
+                    actions={[
+                      {
+                        title: "remind me later",
+                        onPress: () => console.log("postponing this infocard"),
+                      },
+                      {
+                        title: "archive card",
+                        onPress: () => console.log("deleting this infocard"),
+                      },
+                    ]}
+                  />
+                ) : (
+                  <OverflowButton />
+                )}
+              </Animatable.View>
             </InfoCardButtonContainer>
             <CardTitle>{this.props.title}</CardTitle>
           </View>
