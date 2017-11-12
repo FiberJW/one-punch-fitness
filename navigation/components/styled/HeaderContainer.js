@@ -1,3 +1,4 @@
+// @flow
 import { Platform } from "react-native";
 import { Constants } from "expo";
 import styled from "styled-components/native";

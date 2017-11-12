@@ -1,9 +1,15 @@
+// @flow
 import { Font, AppLoading } from "expo";
-import React from "react";
+import React, { Component } from "react";
 import MainStack from "./navigation/MainStack";
 import Container from "./components/styled/AppContainer";
 
-export default class App extends React.Component {
+type Props = void;
+type State = {
+  loaded: boolean,
+};
+
+export default class App extends Component<Props, State> {
   state = {
     loaded: false,
   };

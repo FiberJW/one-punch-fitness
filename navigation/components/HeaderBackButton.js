@@ -1,10 +1,15 @@
+// @flow
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import Container from "./styled/HeaderBackContainer";
 import Icon from "./styled/HeaderBackIcon";
 
-export default props => (
+type Props = {
+  navigation: any,
+};
+
+export default (props: Props) => (
   <TouchableOpacity onPress={() => props.navigation.goBack()}>
     <Container>
       <Icon
