@@ -7,7 +7,7 @@ import SettingsScreen from "../screens/Settings";
 import TabBar from "./components/TabBar";
 
 type Props = {
-  navigation: any,
+  navigation: {},
 };
 
 type State = void;

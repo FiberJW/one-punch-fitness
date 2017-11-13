@@ -6,7 +6,9 @@ import Container from "./styled/HeaderBackContainer";
 import Icon from "./styled/HeaderBackIcon";
 
 type Props = {
-  navigation: any,
+  navigation: {
+    goBack: () => void,
+  },
 };
 
 export default (props: Props) => (
