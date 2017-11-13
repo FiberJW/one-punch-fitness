@@ -17,6 +17,7 @@ export default class App extends Component<Props, State> {
   componentDidMount() {
     Font.loadAsync({
       InterMedium: require("./assets/fonts/Inter-UI-Medium.ttf"),
+      InterBold: require("./assets/fonts/Inter-UI-Bold.ttf"),
       InterReg: require("./assets/fonts/Inter-UI-Regular.ttf"),
     }).then(() => {
       this.setState({ loaded: true });
