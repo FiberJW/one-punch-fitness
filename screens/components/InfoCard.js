@@ -82,10 +82,6 @@ export default class InfoCard extends Component<Props, State> {
                   <PopupMenu
                     actions={[
                       {
-                        title: "remind me later",
-                        onPress: () => console.log("postponing this infocard"),
-                      },
-                      {
                         title: "archive card",
                         onPress: () => console.log("deleting this infocard"),
                       },
