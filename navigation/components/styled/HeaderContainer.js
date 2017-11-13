@@ -6,7 +6,7 @@ import colors from "../../../config/colors";
 
 export default styled.View`
   padding-top: ${Platform.OS !== "ios" ? Constants.statusBarHeight : 0};
-  background-color: ${colors.purpp};
+  background-color: ${colors.status};
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

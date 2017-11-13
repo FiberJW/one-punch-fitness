@@ -5,5 +5,5 @@ import colors from "../../config/colors";
 
 export default styled(SafeAreaView)`
   flex: 1;
-  background-color: ${colors.purpp};
+  background-color: ${colors.status};
 `;

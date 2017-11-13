@@ -5,7 +5,7 @@ import { Platform } from "react-native";
 import colors from "../../../config/colors";
 
 export default styled.View`
-  background-color: ${colors.purpp};
+  background-color: ${colors.status};
   padding-top: ${Platform.OS !== "ios" ? Constants.statusBarHeight : 0};
   width: 100%;
   padding-left: 8px;

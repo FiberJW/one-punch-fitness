@@ -79,7 +79,7 @@ const StartButtonBase = styled.View`
 
 const StartButtonText = styled.Text`
   font-family: InterMedium;
-  font-size: 14px;
+  font-size: 16px;
   color: white;
   background-color: transparent;
 `;
@@ -174,12 +174,10 @@ export default class WorkoutCard extends Component<Props, State> {
           </View>
         </View>
         <View>
-          <LinearGradient
-            start={[0, 0.5]}
-            end={[1, 0.5]}
-            colors={[colors.heavenBlue, colors.froggo]}
+          <View
             style={{
               height: 64,
+              backgroundColor: colors.start,
               borderBottomRightRadius: 12,
               borderBottomLeftRadius: 12,
             }}
@@ -189,7 +187,7 @@ export default class WorkoutCard extends Component<Props, State> {
                 <StartButtonText>start</StartButtonText>
               </StartButtonBase>
             </TouchableOpacity>
-          </LinearGradient>
+          </View>
         </View>
       </Container>
     );
