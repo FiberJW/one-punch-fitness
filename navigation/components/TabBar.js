@@ -8,11 +8,16 @@ import Label from "./Label";
 import TabIconWrapper from "./TabIconWrapper";
 
 type Props = {
-  navigation: any,
-  getLabel: ({ route: any, tintColor: string, focused: boolean }) => string,
+  navigation: {
+    state: {
+      index: number,
+      routes: Array<{}>,
+    },
+  },
+  getLabel: ({ route: {}, tintColor: string, focused: boolean }) => string,
   jumpToIndex: (i: number) => void,
   renderIcon: ({
-    route: any,
+    route: {},
     tintColor: string,
     focused: boolean,
   }) => Element<*>,

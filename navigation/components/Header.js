@@ -5,9 +5,14 @@ import Container from "./styled/HeaderContainer";
 import Back, { PlaceHolder } from "./HeaderBackButton";
 
 type Props = {
-  getScreenDetails: any => any,
-  scene: any,
-  navigation: any,
+  getScreenDetails: ({}) => { options: { title: string } },
+  scene: {},
+  navigation: {
+    state: {
+      index: number,
+    },
+    goBack: () => void,
+  },
 };
 
 type State = void;

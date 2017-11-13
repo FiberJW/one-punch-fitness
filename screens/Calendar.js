@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, Button } from "react-native";
 
-type Props = { screenProps: { rootNavigation: any } };
+type Props = { screenProps: { rootNavigation: { navigate: string => void } } };
 type State = void;
 
 export default class CalendarScreen extends Component<Props, State> {
