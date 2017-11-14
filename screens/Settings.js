@@ -1,8 +1,12 @@
+// @flow
 import React, { Component } from "react";
 import { View } from "react-native";
 import TabIcon from "../navigation/components/styled/TabIcon";
 
-export default class SettingsScreen extends Component {
+type Props = {};
+type State = void;
+
+export default class SettingsScreen extends Component<Props, State> {
   static navigationOptions = {
     tabBarLabel: null,
     tabBarIcon: ({ focused, tintColor }) => (
@@ -11,7 +15,7 @@ export default class SettingsScreen extends Component {
         tintColor={tintColor}
         source={require("../assets/images/icon-settings.png")}
       />
-    )
+    ),
   };
 
   render() {

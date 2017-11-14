@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { TabNavigator as tabNavigator } from "react-navigation";
 import HomeScreen from "../screens/Home";
@@ -5,7 +6,13 @@ import CalendarScreen from "../screens/Calendar";
 import SettingsScreen from "../screens/Settings";
 import TabBar from "./components/TabBar";
 
-export default class MainTab extends Component {
+type Props = {
+  navigation: {},
+};
+
+type State = void;
+
+export default class MainTab extends Component<Props, State> {
   static navigationOptions = {
     header: null,
   };
@@ -26,6 +33,6 @@ export default class MainTab extends Component {
       }
     );
 
-    return <Tabs screenProps={{ navigation: this.props.navigation }} />;
+    return <Tabs screenProps={{ rootNavigation: this.props.navigation }} />;
   }
 }
