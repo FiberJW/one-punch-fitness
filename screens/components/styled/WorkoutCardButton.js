@@ -10,4 +10,5 @@ export default styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${colors.twentyWhite};
+  ${({ disabled }: { disabled: boolean }) => (disabled ? "opacity: 0.3;" : "")};
 `;
