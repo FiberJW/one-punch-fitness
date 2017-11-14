@@ -119,8 +119,9 @@ export default class WorkoutCard extends Component<Props, State> {
               }));
             }}
           >
-            <Button>
+            <Button disabled={this.state.level === 0}>
               <ButtonIcon
+                disabled={this.state.level === 0}
                 source={require("../../assets/images/icon-arrow-left.png")}
                 resizeMode="contain"
               />
@@ -136,8 +137,9 @@ export default class WorkoutCard extends Component<Props, State> {
               }));
             }}
           >
-            <Button>
+            <Button disabled={this.state.level === 5}>
               <ButtonIcon
+                disabled={this.state.level === 5}
                 source={require("../../assets/images/icon-arrow-right.png")}
                 resizeMode="contain"
               />
