@@ -1,14 +1,16 @@
 // @flow
 import React, { Component } from "react";
-import { View, TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo";
-import styled from "styled-components/native";
+import { View } from "react-native";
 import colors from "../../config/colors";
 import Container from "./styled/WorkoutCardContainer";
 import CoverImage from "./styled/WorkoutCardCoverImage";
-import ButtonContainer from "./styled/WorkoutCardButtonContainer";
-import Button from "./styled/WorkoutCardButton";
-import ButtonIcon from "./styled/WorkoutCardButtonIcon";
+import Header from "./styled/WorkoutCardHeader";
+import IntensityButton from "./WorkoutCardIntensityButton";
+import ImageGradient from "./styled/WorkoutCardImageGradient";
+import RoutineFacet from "./WorkoutCardRoutineFacet";
+import LevelLabel from "./styled/WorkoutCardLevelLabel";
+import StartButton from "./WorkoutCardStartButton";
+import RoutineContainer from "./styled/WorkoutCardRoutineContainer";
 
 type Props = {
   navigation: {
@@ -21,69 +23,6 @@ type State = {
   level: number,
 };
 
-const LevelLabel = styled.Text`
-  color: white;
-  font-size: 24px;
-  font-family: InterMedium;
-  background-color: transparent;
-  position: absolute;
-  bottom: 18px;
-`;
-
-const RoutineAmount = styled.Text`
-  font-family: InterBold;
-  color: ${colors.spotiBlack};
-  font-size: 14px;
-`;
-
-const RoutineType = styled.Text`
-  font-family: InterReg;
-  color: ${colors.spotiBlack};
-  font-size: 14px;
-`;
-
-const RoutineFacet = ({
-  type,
-  sets,
-  reps,
-  name,
-  time,
-}: {
-  type: "active" | "rest",
-  sets: number | string,
-  reps: number | string,
-  name: string,
-}) => (
-  <View
-    style={{
-      flexDirection: "row",
-    }}
-  >
-    <RoutineAmount>
-      {type === "active"
-        ? `${sets}${name === "run" ? "" : "x"}${reps} `
-        : `${reps}${sets} `}
-    </RoutineAmount>
-    <RoutineType>{name}</RoutineType>
-  </View>
-);
-
-const StartButtonBase = styled.View`
-  background-color: ${colors.twentyWhite};
-  border-radius: 8px;
-  flex: 1;
-  margin: 16px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StartButtonText = styled.Text`
-  font-family: InterMedium;
-  font-size: 16px;
-  color: white;
-  background-color: transparent;
-`;
-
 export default class WorkoutCard extends Component<Props, State> {
   state = {
     menuOpen: false,
@@ -93,67 +32,35 @@ export default class WorkoutCard extends Component<Props, State> {
   render() {
     return (
       <Container>
-        <View style={{ alignItems: "center" }}>
+        <Header>
           <CoverImage
             source={require("../../assets/images/level-0.png")}
             resizeMode="cover"
           />
-          <LinearGradient
-            colors={["rgba(0,0,0,0)", colors.spotiBlack]}
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: 0,
-              height: 200,
-            }}
-          />
+          <ImageGradient colors={["rgba(0,0,0,0)", colors.spotiBlack]} />
           <LevelLabel>level {this.state.level}</LevelLabel>
-          <ButtonContainer
+          <IntensityButton
             disabled={this.state.level === 0}
-            left
+            direction="down"
             onPress={() => {
               this.setState(prevState => ({
                 ...prevState,
                 level: prevState.level - 1,
               }));
             }}
-          >
-            <Button disabled={this.state.level === 0}>
-              <ButtonIcon
-                disabled={this.state.level === 0}
-                source={require("../../assets/images/icon-arrow-left.png")}
-                resizeMode="contain"
-              />
-            </Button>
-          </ButtonContainer>
-          <ButtonContainer
+          />
+          <IntensityButton
             disabled={this.state.level === 5}
-            right
+            direction="up"
             onPress={() => {
               this.setState(prevState => ({
                 ...prevState,
                 level: prevState.level + 1,
               }));
             }}
-          >
-            <Button disabled={this.state.level === 5}>
-              <ButtonIcon
-                disabled={this.state.level === 5}
-                source={require("../../assets/images/icon-arrow-right.png")}
-                resizeMode="contain"
-              />
-            </Button>
-          </ButtonContainer>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            margin: 16,
-          }}
-        >
+          />
+        </Header>
+        <RoutineContainer>
           <View>
             <RoutineFacet type="active" sets={10} reps={10} name="push-ups" />
             <RoutineFacet type="active" sets={10} reps={10} name="sit-ups" />
@@ -174,22 +81,13 @@ export default class WorkoutCard extends Component<Props, State> {
               name="transition period"
             />
           </View>
-        </View>
+        </RoutineContainer>
         <View>
-          <View
-            style={{
-              height: 64,
-              backgroundColor: colors.start,
-              borderBottomRightRadius: 12,
-              borderBottomLeftRadius: 12,
+          <StartButton
+            onPress={() => {
+              console.log("starting workout");
             }}
-          >
-            <TouchableOpacity style={{ flex: 1 }}>
-              <StartButtonBase>
-                <StartButtonText>start</StartButtonText>
-              </StartButtonBase>
-            </TouchableOpacity>
-          </View>
+          />
         </View>
       </Container>
     );
