@@ -1,15 +1,15 @@
 // @flow
 import React from "react";
-import Container from "./styled/InfoCardOverflowButtonContainer";
+import Base from "./styled/InfoCardOverflowButtonBase";
 import Icon from "./styled/InfoCardOverflowButtonIcon";
 
 type Props = {};
 
 export default (props: Props) => (
-  <Container>
+  <Base>
     <Icon
       source={require("../../assets/images/icon-chevron-down.png")}
       resizeMode="contain"
     />
-  </Container>
+  </Base>
 );

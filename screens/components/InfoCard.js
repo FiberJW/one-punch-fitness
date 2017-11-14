@@ -8,7 +8,7 @@ import Container from "./styled/InfoCardContainer";
 import InfoCardDescription from "./styled/InfoCardDescription";
 import CoverImage from "./styled/InfoCardCoverImage";
 import CardTitle from "./styled/InfoCardTitle";
-import InfoCardButtonContainer from "./styled/InfoCardButtonContainer";
+import InfoCardButtonTouchable from "./styled/InfoCardButtonTouchable";
 import OverflowButton from "./InfoCardOverflowButton";
 import PopupMenu from "./InfoCardPopupMenu";
 
@@ -64,7 +64,7 @@ export default class InfoCard extends Component<Props, State> {
                 height: 148,
               }}
             />
-            <InfoCardButtonContainer
+            <InfoCardButtonTouchable
               activeOpacity={this.state.menuOpen ? 1 : 0.8}
               disabled={this.state.menuOpen}
               onPress={() =>
@@ -91,7 +91,7 @@ export default class InfoCard extends Component<Props, State> {
                   <OverflowButton />
                 )}
               </Animatable.View>
-            </InfoCardButtonContainer>
+            </InfoCardButtonTouchable>
             <CardTitle>{this.props.title}</CardTitle>
           </View>
           <InfoCardDescription>{this.props.description}</InfoCardDescription>
