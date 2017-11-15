@@ -85,7 +85,7 @@ export default class WorkoutCard extends Component<Props, State> {
         <View>
           <StartButton
             onPress={() => {
-              console.log("starting workout");
+              this.props.navigation.navigate("Workout");
             }}
           />
         </View>

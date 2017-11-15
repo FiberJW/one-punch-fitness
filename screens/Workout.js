@@ -11,6 +11,6 @@ export default class WorkoutScreen extends Component<Props, State> {
   };
 
   render() {
-    return <View style={{ flex: 1, backgroundColor: "lightblue" }} />;
+    return <View style={{ flex: 1, backgroundColor: "#FAF8FF" }} />;
   }
 }
