@@ -12,7 +12,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#FEC42F"
+      "backgroundColor": "#651FFF"
     },
     "packagerOpts": {
       "assetExts": ["ttf", "mp4"]
