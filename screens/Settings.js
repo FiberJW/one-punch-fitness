@@ -9,7 +9,13 @@ type State = void;
 export default class SettingsScreen extends Component<Props, State> {
   static navigationOptions = {
     tabBarLabel: null,
-    tabBarIcon: ({ focused, tintColor }) => (
+    tabBarIcon: ({
+      focused,
+      tintColor,
+    }: {
+      focused: boolean,
+      tintColor: string,
+    }) => (
       <TabIcon
         focused={focused}
         tintColor={tintColor}
