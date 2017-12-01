@@ -1,8 +1,8 @@
 // @flow
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import TabLabelContainer from "./styled/TabLabelContainer";
-import TabLabelText from "./styled/TabLabelText";
+import Container from "./styled/Container";
+import Text from "./styled/Text";
 
 type Props = {
   focused: boolean,
@@ -13,8 +13,8 @@ type Props = {
 
 export default ({ focused, text, onPress, disabled }: Props) => (
   <TouchableOpacity onPress={onPress} disabled={disabled}>
-    <TabLabelContainer focused={focused}>
-      <TabLabelText focused={focused}>{text.toLowerCase()}</TabLabelText>
-    </TabLabelContainer>
+    <Container focused={focused}>
+      <Text focused={focused}>{text.toLowerCase()}</Text>
+    </Container>
   </TouchableOpacity>
 );

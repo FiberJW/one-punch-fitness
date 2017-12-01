@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from "react";
-import Label from "./Label";
-import Container from "./styled/HeaderContainer";
-import Back, { PlaceHolder } from "./HeaderBackButton";
+import Label from "../TabBar/Label";
+import Container from "./styled/Container";
+import Back, { PlaceHolder } from "./BackButton";
 
 type Props = {
   getScreenDetails: ({}) => { options: { title: string } },

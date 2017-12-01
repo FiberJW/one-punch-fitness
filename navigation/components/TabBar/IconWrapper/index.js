@@ -2,7 +2,7 @@
 import React from "react";
 import type { Node } from "react";
 import { TouchableOpacity } from "react-native";
-import TabIconContainer from "./styled/TabIconContainer";
+import Container from "./styled/Container";
 
 type Props = {
   focused: boolean,
@@ -12,6 +12,6 @@ type Props = {
 
 export default ({ focused, icon, onPress }: Props) => (
   <TouchableOpacity onPress={onPress}>
-    <TabIconContainer focused={focused}>{icon}</TabIconContainer>
+    <Container focused={focused}>{icon}</Container>
   </TouchableOpacity>
 );

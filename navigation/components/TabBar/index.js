@@ -2,10 +2,10 @@
 import React, { Component } from "react";
 import type { Element } from "react";
 import { ScrollView, StatusBar } from "react-native";
-import Container from "./styled/TabBarContainer";
-import colors from "../../config/colors";
+import Container from "./styled/Container";
+import colors from "../../../config/colors";
 import Label from "./Label";
-import TabIconWrapper from "./TabIconWrapper";
+import TabIconWrapper from "./IconWrapper";
 
 type Props = {
   navigation: {

@@ -2,8 +2,8 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import Container from "./styled/HeaderBackContainer";
-import Icon from "./styled/HeaderBackIcon";
+import Container from "./styled/Container";
+import Icon from "./styled/Icon";
 
 type Props = {
   navigation: {
@@ -16,7 +16,7 @@ export default (props: Props) => (
     <Container>
       <Icon
         resizeMode="contain"
-        source={require("../../assets/images/icon-chevron-left.png")}
+        source={require("../../../../assets/images/icon-chevron-left.png")}
       />
     </Container>
   </TouchableOpacity>

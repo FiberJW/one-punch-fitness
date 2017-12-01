@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { View } from "react-native";
-import TabIcon from "../navigation/components/styled/TabIcon";
+import TabIcon from "../navigation/components/TabBar/styled/Icon";
 
 type Props = {};
 type State = void;
