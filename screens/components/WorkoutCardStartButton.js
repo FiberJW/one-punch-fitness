@@ -1,8 +1,7 @@
 // @flow
 import React from "react";
 import Container from "./styled/WorkoutCardStartButtonContainer";
-import Touchable from "./styled/WorkoutCardStartButtonTouchable";
-import Base from "./styled/WorkoutCardStartButtonBase";
+import TouchableBase from "./styled/WorkoutCardStartButtonTouchableBase";
 import Label from "./styled/WorkoutCardStartButtonLabel";
 
 type Props = {
@@ -11,10 +10,8 @@ type Props = {
 
 export default ({ onPress }: Props) => (
   <Container>
-    <Touchable onPress={onPress}>
-      <Base>
-        <Label>start</Label>
-      </Base>
-    </Touchable>
+    <TouchableBase feedbackEnabled activeElevation={4.6} onPress={onPress}>
+      <Label>start</Label>
+    </TouchableBase>
   </Container>
 );

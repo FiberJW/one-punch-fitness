@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import colors from "../config/colors";
+import ElevatedView from "../components/ElevatedView";
 
 const Container = styled.View`
   flex: 1;
@@ -58,11 +59,22 @@ const TransitionActionButtonTouchable = styled.TouchableOpacity`
   margin-horizontal: 16px;
 `;
 
+const TransitionActionButtonElevation = styled(ElevatedView)`
+  border-radius: 12px;
+`;
+
 const TransitionActionButton = p => (
-  <TransitionActionButtonTouchable onPress={p.onPress}>
-    <TransitionActionButtonBase>
-      <TransitionActionButtonLabel>GO</TransitionActionButtonLabel>
-    </TransitionActionButtonBase>
+  <TransitionActionButtonTouchable>
+    <TransitionActionButtonElevation
+      feedbackEnabled
+      elevationColor={colors.start}
+      activeElevation={6}
+      onPress={p.onPress}
+    >
+      <TransitionActionButtonBase>
+        <TransitionActionButtonLabel>GO</TransitionActionButtonLabel>
+      </TransitionActionButtonBase>
+    </TransitionActionButtonElevation>
   </TransitionActionButtonTouchable>
 );
 

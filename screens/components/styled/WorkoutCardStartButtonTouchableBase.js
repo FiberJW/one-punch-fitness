@@ -1,8 +1,9 @@
 // @flow
 import styled from "styled-components/native";
 import colors from "../../../config/colors";
+import ElevatedView from "../../../components/ElevatedView";
 
-export default styled.View`
+export default styled(ElevatedView)`
   background-color: ${colors.twentyWhite};
   border-radius: 8px;
   flex: 1;
