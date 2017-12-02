@@ -1,8 +1,8 @@
 // @flow
 import React from "react";
-import Container from "./styled/WorkoutCardStartButtonContainer";
-import TouchableBase from "./styled/WorkoutCardStartButtonTouchableBase";
-import Label from "./styled/WorkoutCardStartButtonLabel";
+import Container from "./styled/Container";
+import TouchableBase from "./styled/TouchableBase";
+import Label from "./styled/Label";
 
 type Props = {
   onPress: () => void,

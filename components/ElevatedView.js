@@ -1,4 +1,8 @@
-// @flow
+/**
+ * @providesModule ElevatedView
+ * @flow
+ */
+
 import * as React from "react";
 import { Animated, TouchableWithoutFeedback } from "react-native";
 

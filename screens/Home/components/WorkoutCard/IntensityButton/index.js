@@ -1,8 +1,8 @@
 // @flow
 import React from "react";
-import Touchable from "./styled/WorkoutCardButtonTouchable";
-import Base from "./styled/WorkoutCardButtonBase";
-import Icon from "./styled/WorkoutCardButtonIcon";
+import Touchable from "./styled/Touchable";
+import Base from "./styled/Base";
+import Icon from "./styled/Icon";
 
 type Props = {
   direction: "up" | "down",
@@ -22,8 +22,8 @@ export default ({ disabled, direction, onPress }: Props) => (
         disabled={disabled}
         source={
           direction === "down"
-            ? require("../../assets/images/icon-arrow-left.png")
-            : require("../../assets/images/icon-arrow-right.png")
+            ? require("../../../../../assets/images/icon-arrow-left.png")
+            : require("../../../../../assets/images/icon-arrow-right.png")
         }
         resizeMode="contain"
       />

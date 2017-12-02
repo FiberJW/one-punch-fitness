@@ -1,7 +1,7 @@
 // @flow
 import styled from "styled-components/native";
-import colors from "../../../config/colors";
-import ElevatedView from "../../../components/ElevatedView";
+import colors from "colors";
+import ElevatedView from "ElevatedView";
 
 export default styled(ElevatedView)`
   background-color: ${colors.twentyWhite};

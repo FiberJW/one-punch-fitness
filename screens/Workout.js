@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 import colors from "../config/colors";
-import ElevatedView from "../components/ElevatedView";
+import ElevatedView from "ElevatedView";
 
 const Container = styled.View`
   flex: 1;

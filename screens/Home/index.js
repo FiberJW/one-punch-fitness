@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from "react";
 import InfoCard from "./components/InfoCard";
-import Container from "./components/styled/HomeScreenContainer";
-import SectionLabel from "./components/styled/HomeScreenSectionLabel";
+import Container from "./components/styled/Container";
+import SectionLabel from "./components/styled/SectionLabel";
 import WorkoutCard from "./components/WorkoutCard";
 
 type Props = { screenProps: { rootNavigation: { navigate: string => void } } };

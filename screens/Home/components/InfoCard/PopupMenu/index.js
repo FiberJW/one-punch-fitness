@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
-import Option from "./InfoCardPopupMenuOption";
-import Container from "./styled/InfoCardPopupMenuContainer";
+import Option from "./Option";
+import Container from "./styled/Container";
 
 type Props = {
   actions: Array<Action>,

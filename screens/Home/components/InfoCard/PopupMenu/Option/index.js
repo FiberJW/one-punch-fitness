@@ -1,9 +1,9 @@
 // @flow
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import type { Action } from "./InfoCardPopupMenu";
-import Label from "./styled/InfoCardPopupMenuOptionLabel";
-import Base from "./styled/InfoCardPopupMenuOptionBase";
+import type { Action } from "../index";
+import Label from "./styled/Label";
+import Base from "./styled/Base";
 
 type Props = { action: Action, last: boolean };
 

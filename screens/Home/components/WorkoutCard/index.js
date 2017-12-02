@@ -1,16 +1,16 @@
 // @flow
 import React, { Component } from "react";
 import { View } from "react-native";
-import colors from "../../config/colors";
-import Container from "./styled/WorkoutCardContainer";
-import CoverImage from "./styled/WorkoutCardCoverImage";
-import Header from "./styled/WorkoutCardHeader";
-import IntensityButton from "./WorkoutCardIntensityButton";
-import ImageGradient from "./styled/WorkoutCardImageGradient";
-import RoutineFacet from "./WorkoutCardRoutineFacet";
-import LevelLabel from "./styled/WorkoutCardLevelLabel";
-import StartButton from "./WorkoutCardStartButton";
-import RoutineContainer from "./styled/WorkoutCardRoutineContainer";
+import colors from "colors";
+import Container from "./styled/Container";
+import CoverImage from "./styled/CoverImage";
+import Header from "./styled/Header";
+import IntensityButton from "./IntensityButton";
+import ImageGradient from "./styled/ImageGradient";
+import LevelLabel from "./styled/LevelLabel";
+import RoutineContainer from "./styled/RoutineContainer";
+import RoutineFacet from "./RoutineFacet";
+import StartButton from "./StartButton";
 
 type Props = {
   navigation: {
@@ -34,7 +34,7 @@ export default class WorkoutCard extends Component<Props, State> {
       <Container>
         <Header>
           <CoverImage
-            source={require("../../assets/images/level-0.png")}
+            source={require("../../../../assets/images/level-0.png")}
             resizeMode="cover"
           />
           <ImageGradient colors={["rgba(0,0,0,0)", colors.spotiBlack]} />

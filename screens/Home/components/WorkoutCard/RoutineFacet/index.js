@@ -1,8 +1,8 @@
 // @flow
 import React from "react";
-import Amount from "./styled/WorkoutCardRoutineFacetAmount";
-import Type from "./styled/WorkoutCardRoutineFacetType";
-import Container from "./styled/WorkoutCardRoutineFacetContainer";
+import Amount from "./styled/Amount";
+import Type from "./styled/Type";
+import Container from "./styled/Container";
 
 export default ({
   type,

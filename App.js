@@ -2,7 +2,7 @@
 import { Font, AppLoading } from "expo";
 import React, { Component } from "react";
 import MainStack from "./navigation/MainStack";
-import Container from "./components/styled/AppContainer";
+import Container from "./components/styled/Container";
 
 type Props = void;
 type State = {

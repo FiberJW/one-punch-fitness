@@ -3,14 +3,14 @@ import React, { Component } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo";
 import * as Animatable from "react-native-animatable";
-import colors from "../../config/colors";
-import Container from "./styled/InfoCardContainer";
-import InfoCardDescription from "./styled/InfoCardDescription";
-import CoverImage from "./styled/InfoCardCoverImage";
-import CardTitle from "./styled/InfoCardTitle";
-import InfoCardButtonTouchable from "./styled/InfoCardButtonTouchable";
-import OverflowButton from "./InfoCardOverflowButton";
-import PopupMenu from "./InfoCardPopupMenu";
+import colors from "../../../../config/colors";
+import Container from "./styled/Container";
+import Description from "./styled/Description";
+import CoverImage from "./styled/CoverImage";
+import Title from "./styled/Title";
+import ButtonTouchable from "./styled/ButtonTouchable";
+import OverflowButton from "./OverflowButton";
+import PopupMenu from "./PopupMenu";
 
 type Props = {
   navigation: {
@@ -36,13 +36,13 @@ export default class InfoCard extends Component<Props, State> {
         onPress={
           this.state.menuOpen
             ? () => {
-                this.refs.InfoCardButton.slideOutRight(80).then(() => {
+                this.refs.Button.slideOutRight(80).then(() => {
                   this.setState(prevState => ({
                     ...prevState,
                     menuOpen: false,
                   }));
 
-                  this.refs.InfoCardButton.slideInDown(150);
+                  this.refs.Button.slideInDown(150);
                 });
               }
             : () => this.props.navigation.navigate("Info")
@@ -51,7 +51,7 @@ export default class InfoCard extends Component<Props, State> {
         <Container>
           <View>
             <CoverImage
-              source={require("../../assets/images/saitama-secret-training.png")}
+              source={require("../../../../assets/images/saitama-secret-training.png")}
               resizeMode="cover"
             />
             <LinearGradient
@@ -64,20 +64,21 @@ export default class InfoCard extends Component<Props, State> {
                 height: 148,
               }}
             />
-            <InfoCardButtonTouchable
+            <ButtonTouchable
               activeOpacity={this.state.menuOpen ? 1 : 0.8}
               disabled={this.state.menuOpen}
               onPress={() =>
-                this.refs.InfoCardButton.slideOutUp(150).then(() => {
+                this.refs.Button.slideOutUp(150).then(() => {
                   this.setState(prevState => ({
                     ...prevState,
                     menuOpen: true,
                   }));
 
-                  this.refs.InfoCardButton.slideInRight(150);
-                })}
+                  this.refs.Button.slideInRight(150);
+                })
+              }
             >
-              <Animatable.View ref="InfoCardButton" easing="ease-out">
+              <Animatable.View ref="Button" easing="ease-out">
                 {this.state.menuOpen ? (
                   <PopupMenu
                     actions={[
@@ -91,10 +92,10 @@ export default class InfoCard extends Component<Props, State> {
                   <OverflowButton />
                 )}
               </Animatable.View>
-            </InfoCardButtonTouchable>
-            <CardTitle>{this.props.title}</CardTitle>
+            </ButtonTouchable>
+            <Title>{this.props.title}</Title>
           </View>
-          <InfoCardDescription>{this.props.description}</InfoCardDescription>
+          <Description>{this.props.description}</Description>
         </Container>
       </TouchableOpacity>
     );
