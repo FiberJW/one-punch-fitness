@@ -10,7 +10,12 @@ type Props = {
 
 export default ({ onPress }: Props) => (
   <Container>
-    <TouchableBase feedbackEnabled activeElevation={4.6} onPress={onPress}>
+    <TouchableBase
+      feedbackEnabled
+      elevation={1.5}
+      activeElevation={0.5}
+      onPress={onPress}
+    >
       <Label>start</Label>
     </TouchableBase>
   </Container>
