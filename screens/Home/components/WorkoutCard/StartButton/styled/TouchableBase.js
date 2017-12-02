@@ -1,9 +1,8 @@
 // @flow
 import styled from "styled-components/native";
 import colors from "colors";
-import ElevatedView from "ElevatedView";
 
-export default styled(ElevatedView)`
+export default styled.TouchableOpacity`
   background-color: ${colors.twentyOnStart};
   border-radius: 8px;
   flex: 1;
