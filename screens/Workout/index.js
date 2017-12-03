@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
-import { View } from "react-native";
 import Transition from "./components/Transition";
+import Session from "./components/Session";
 import Container from "./components/styled/Container";
 
 type Props = *;
@@ -31,17 +31,11 @@ export default class WorkoutScreen extends Component<Props, State> {
     return (
       <Container>
         {this.state.inProgress ? (
-          <InWorkout />
+          <Session />
         ) : (
           <Transition toggleProgress={this.toggleProgress} />
         )}
       </Container>
     );
-  }
-}
-
-class InWorkout extends Component<*, void> {
-  render() {
-    return <View />;
   }
 }
