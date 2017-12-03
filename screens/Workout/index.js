@@ -15,6 +15,7 @@ type Props = *;
 type State = {
   inSession: boolean,
   timeUsed: number,
+  timerHandle?: number,
 };
 
 type Action = {
@@ -27,19 +28,22 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
     title: "workout",
   };
 
-  state = {
+  state: State = {
     inSession: false,
     timeUsed: 0,
   };
 
   startSession = () => {
-    this.timerHandle = setInterval(() => {
-      this.dispatch({ type: "INCREMENT" });
-    }, 1000);
+    this.dispatch({
+      type: "START_TIMER",
+      payload: setInterval(() => {
+        this.dispatch({ type: "INCREMENT" });
+      }, 1000),
+    });
   };
 
   componentWillUnmount() {
-    clearInterval(this.timerHandle);
+    clearInterval(this.state.timerHandle);
   }
 
   reducer = (state: State, action: Action): State => {
@@ -53,6 +57,11 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
         return {
           ...state,
           inSession: !state.inSession,
+        };
+      case "SET_TIMER":
+        return {
+          ...state,
+          timerHandle: action.payload,
         };
       default:
         return { ...state };
