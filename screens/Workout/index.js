@@ -84,7 +84,10 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
 
     return (
       <Background>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          alwaysBounceVertical={false}
+        >
           <Container>
             {Layout.map((it: string, i: number) => {
               switch (it) {

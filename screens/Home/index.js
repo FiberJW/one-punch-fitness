@@ -11,7 +11,10 @@ type State = void;
 export default class HomeScreen extends Component<Props, State> {
   render() {
     return (
-      <Container>
+      <Container
+        contentContainerStyle={{ flexGrow: 1 }}
+        alwaysBounceVertical={false}
+      >
         <WorkoutCard navigation={this.props.screenProps.rootNavigation} />
         <SectionLabel>GOODIES</SectionLabel>
         <InfoCard

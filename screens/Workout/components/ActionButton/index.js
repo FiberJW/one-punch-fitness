@@ -1,16 +1,13 @@
 // @flow
 import React from "react";
-import colors from "colors";
 import Label from "./styled/Label";
-import TouchableBase from "./styled/TouchableBase";
+import Base from "./styled/Base";
+import Touchable from "./styled/Touchable";
 
 export default ({ onPress, label }: { onPress: () => *, label: string }) => (
-  <TouchableBase
-    feedbackEnabled
-    elevationColor={colors.start}
-    activeElevation={6}
-    onPress={onPress}
-  >
-    <Label>{label}</Label>
-  </TouchableBase>
+  <Touchable activeOpacity={0.75} onPress={onPress}>
+    <Base>
+      <Label>{label}</Label>
+    </Base>
+  </Touchable>
 );
