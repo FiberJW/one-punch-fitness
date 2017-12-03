@@ -1,5 +1,6 @@
 // @flow
-import React, { Component } from "react";
+import React from "react";
+import ReducerComponent from "ReducerComponent";
 import { ScrollView } from "react-native";
 import Container from "./components/styled/Container";
 import Background from "./components/styled/Background";
@@ -13,15 +14,49 @@ import SetReps from "./components/styled/SetReps";
 type Props = *;
 type State = {
   inSession: boolean,
+  timeUsed: number,
 };
 
-export default class WorkoutScreen extends Component<Props, State> {
+type Action = {
+  type: string,
+  payload?: *,
+};
+
+export default class WorkoutScreen extends ReducerComponent<Props, State> {
   static navigationOptions = {
     title: "workout",
   };
 
   state = {
     inSession: false,
+    timeUsed: 0,
+  };
+
+  startSession = () => {
+    this.timerHandle = setInterval(() => {
+      this.dispatch({ type: "INCREMENT" });
+    }, 1000);
+  };
+
+  componentWillUnmount() {
+    clearInterval(this.timerHandle);
+  }
+
+  reducer = (state: State, action: Action): State => {
+    switch (action.type) {
+      case "INCREMENT":
+        return {
+          ...state,
+          timeUsed: state.timeUsed + 1,
+        };
+      case "TOGGLE_SESSION":
+        return {
+          ...state,
+          inSession: !state.inSession,
+        };
+      default:
+        return { ...state };
+    }
   };
 
   transitionLayout: string[] = ["Image", "Progress", "SetInfo", "Action"];
@@ -32,15 +67,6 @@ export default class WorkoutScreen extends Component<Props, State> {
     "SessionControls",
     "Action",
   ];
-
-  toggleSession = () => {
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        inSession: !prevState.inSession,
-      };
-    });
-  };
 
   render() {
     const Layout = this.state.inSession
@@ -62,7 +88,7 @@ export default class WorkoutScreen extends Component<Props, State> {
                     />
                   );
                 case "Timer":
-                  return <Timer key={i} resizeMode="cover" duration={6} />;
+                  return <Timer key={i} time={this.state.timeUsed} />;
                 case "Progress":
                   return <Progress key={i}>set 1 of 10</Progress>;
                 case "SetInfo":
@@ -77,7 +103,7 @@ export default class WorkoutScreen extends Component<Props, State> {
                   return (
                     <ActionButton
                       key={i}
-                      onPress={this.toggleSession}
+                      onPress={() => this.dispatch({ type: "TOGGLE_SESSION" })}
                       label={this.state.inSession ? "COMPLETE" : "GO"}
                     />
                   );
