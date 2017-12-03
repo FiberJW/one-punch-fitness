@@ -1,11 +1,9 @@
 // @flow
 import styled from "styled-components/native";
-import colors from "colors";
 
 export default styled.Text`
-  font-family: InterReg;
+  font-family: InterBold;
   font-size: 36px;
+  color: ${({ color }) => color};
   text-align: center;
-  color: ${colors.status};
-  margin-vertical: 8px;
 `;

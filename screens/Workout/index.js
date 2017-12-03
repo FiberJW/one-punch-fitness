@@ -1,7 +1,8 @@
 // @flow
 import React from "react";
 import ReducerComponent from "ReducerComponent";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
+import colors from "colors";
 import Container from "./components/styled/Container";
 import Background from "./components/styled/Background";
 import ActionButton from "./components/ActionButton";
@@ -10,6 +11,8 @@ import Image from "./components/styled/Image";
 import Progress from "./components/styled/Progress";
 import SetType from "./components/styled/SetType";
 import SetReps from "./components/styled/SetReps";
+import SessionControl from "./components/SessionControl";
+import SessionControlGroup from "./components/SessionControl/styled/Group";
 
 type Props = *;
 type State = {
@@ -29,7 +32,7 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
   };
 
   state: State = {
-    inSession: false,
+    inSession: true,
     timeUsed: 0,
   };
 
@@ -87,6 +90,7 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           alwaysBounceVertical={false}
+          showsVerticalScrollIndicator={false}
         >
           <Container>
             {Layout.map((it: string, i: number) => {
@@ -110,7 +114,24 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
                     </SetType>
                   );
                 case "SessionControls":
-                  return null;
+                  return (
+                    <SessionControlGroup key={i}>
+                      <SessionControl
+                        color={colors.blueLeftUsTooSoon}
+                        onPress={() => {
+                          // this.dispatch({ type: "TOGGLE_SESSION" })
+                        }}
+                        label={"PAUSE"}
+                      />
+                      <SessionControl
+                        color={colors.bRED}
+                        onPress={() => {
+                          // this.dispatch({ type: "TOGGLE_SESSION" })
+                        }}
+                        label={"STOP"}
+                      />
+                    </SessionControlGroup>
+                  );
                 case "Action":
                   return (
                     <ActionButton

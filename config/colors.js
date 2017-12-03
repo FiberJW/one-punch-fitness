@@ -19,4 +19,5 @@ export default {
   start: "#1DE9B6",
   bRED: "#FF5252",
   twentyOnStart: "#61F0CC",
+  blueLeftUsTooSoon: "#536DFE",
 };

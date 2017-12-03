@@ -14,6 +14,7 @@ export default class HomeScreen extends Component<Props, State> {
       <Container
         contentContainerStyle={{ flexGrow: 1 }}
         alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
       >
         <WorkoutCard navigation={this.props.screenProps.rootNavigation} />
         <SectionLabel>GOODIES</SectionLabel>
