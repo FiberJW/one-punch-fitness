@@ -5,8 +5,7 @@ import colors from "colors";
 export default styled.Text`
   font-family: InterReg;
   background-color: transparent;
-  font-size: ${({ deficit, remainingTime }) =>
-    deficit ? 64 + Math.abs(remainingTime) : 64}px;
-  color: ${({ deficit }) => (deficit ? colors.bRED : colors.spotiBlack)};
+  font-size: 64px;
+  color: ${colors.spotiBlack};
   text-align: center;
 `;

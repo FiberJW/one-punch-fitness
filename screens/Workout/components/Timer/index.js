@@ -9,7 +9,7 @@ type Props = {
 };
 
 type State = {
-  remainingTime: number,
+  timeUsed: number,
 };
 
 type Action = {
@@ -19,14 +19,12 @@ type Action = {
 
 export default class Timer extends ReducerComponent<Props, State> {
   state = {
-    remainingTime: 0,
+    timeUsed: 0,
   };
 
   componentDidMount() {
-    this.dispatch({ type: "INIT" });
-
     this.timerHandle = setInterval(() => {
-      this.dispatch({ type: "DECREMENT" });
+      this.dispatch({ type: "INCREMENT" });
     }, 1000);
   }
 
@@ -36,15 +34,10 @@ export default class Timer extends ReducerComponent<Props, State> {
 
   reducer = (state: State, action: Action): State => {
     switch (action.type) {
-      case "INIT":
+      case "INCREMENT":
         return {
           ...state,
-          remainingTime: this.props.duration,
-        };
-      case "DECREMENT":
-        return {
-          ...state,
-          remainingTime: state.remainingTime - 1,
+          timeUsed: state.timeUsed + 1,
         };
       default:
         return { ...state };
@@ -53,13 +46,8 @@ export default class Timer extends ReducerComponent<Props, State> {
 
   render() {
     return (
-      <Container deficit={this.state.remainingTime < 0}>
-        <Time
-          remainingTime={this.state.remainingTime}
-          deficit={this.state.remainingTime < 0}
-        >
-          {this.state.remainingTime}
-        </Time>
+      <Container>
+        <Time>{this.state.timeUsed}</Time>
       </Container>
     );
   }

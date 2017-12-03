@@ -10,5 +10,5 @@ export default styled.View`
   border-width: 8px;
   justify-content: center;
   align-items: center;
-  border-color: ${({ deficit }) => (deficit ? colors.bRED : colors.status)};
+  border-color: ${colors.status};
 `;
