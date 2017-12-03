@@ -17,5 +17,6 @@ export default {
   froggo: "#39B822",
   status: "#651FFF",
   start: "#1DE9B6",
+  bRED: "#FF5252",
   twentyOnStart: "#61F0CC",
 };

@@ -4,13 +4,13 @@ import colors from "colors";
 import Label from "./styled/Label";
 import TouchableBase from "./styled/TouchableBase";
 
-export default ({ onPress }: { onPress: () => * }) => (
+export default ({ onPress, label }: { onPress: () => *, label: string }) => (
   <TouchableBase
     feedbackEnabled
     elevationColor={colors.start}
     activeElevation={6}
     onPress={onPress}
   >
-    <Label>GO</Label>
+    <Label>{label}</Label>
   </TouchableBase>
 );

@@ -4,6 +4,7 @@ import { ScrollView } from "react-native";
 import Container from "./components/styled/Container";
 import Background from "./components/styled/Background";
 import ActionButton from "./components/ActionButton";
+import Timer from "./components/Timer";
 import Image from "./components/styled/Image";
 import Progress from "./components/styled/Progress";
 import SetType from "./components/styled/SetType";
@@ -26,6 +27,7 @@ export default class WorkoutScreen extends Component<Props, State> {
   transitionLayout: string[] = ["Image", "Progress", "SetInfo", "Action"];
   sessionLayout: string[] = [
     "SetInfo",
+    "Timer",
     "Progress",
     "SessionControls",
     "Action",
@@ -59,6 +61,8 @@ export default class WorkoutScreen extends Component<Props, State> {
                       source={require("../../assets/images/workout/prep.png")}
                     />
                   );
+                case "Timer":
+                  return <Timer key={i} resizeMode="cover" duration={6} />;
                 case "Progress":
                   return <Progress key={i}>set 1 of 10</Progress>;
                 case "SetInfo":
@@ -70,7 +74,13 @@ export default class WorkoutScreen extends Component<Props, State> {
                 case "SessionControls":
                   return null;
                 case "Action":
-                  return <ActionButton key={i} onPress={this.toggleSession} />;
+                  return (
+                    <ActionButton
+                      key={i}
+                      onPress={this.toggleSession}
+                      label={this.state.inSession ? "COMPLETE" : "GO"}
+                    />
+                  );
                 default:
                   return null;
               }
