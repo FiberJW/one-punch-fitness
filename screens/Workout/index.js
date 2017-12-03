@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import ReducerComponent from "ReducerComponent";
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import colors from "colors";
 import Container from "./components/styled/Container";
 import Background from "./components/styled/Background";
@@ -19,6 +19,7 @@ type State = {
   inSession: boolean,
   timeUsed: number,
   timerHandle?: number,
+  status: string,
 };
 
 type Action = {
@@ -33,17 +34,20 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
 
   state: State = {
     inSession: true,
+    status: "ACTIVE",
     timeUsed: 0,
   };
 
-  startSession = () => {
+  componentDidMount() {
     this.dispatch({
       type: "START_TIMER",
       payload: setInterval(() => {
-        this.dispatch({ type: "INCREMENT" });
+        if (this.state.status !== "PAUSED") {
+          this.dispatch({ type: "INCREMENT" });
+        }
       }, 1000),
     });
-  };
+  }
 
   componentWillUnmount() {
     clearInterval(this.state.timerHandle);
@@ -61,10 +65,29 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
           ...state,
           inSession: !state.inSession,
         };
-      case "SET_TIMER":
+      case "START_TIMER":
         return {
           ...state,
           timerHandle: action.payload,
+          timeUsed: 0,
+          status: "ACTIVE",
+        };
+      case "STOP_TIMER":
+        return {
+          ...state,
+          timerHandle: action.payload,
+          status: "STOPPED",
+        };
+      case "PAUSE_TIMER":
+        return {
+          ...state,
+          status: "PAUSED",
+        };
+
+      case "RESUME_TIMER":
+        return {
+          ...state,
+          status: "ACTIVE",
         };
       default:
         return { ...state };
@@ -119,14 +142,45 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
                       <SessionControl
                         color={colors.blueLeftUsTooSoon}
                         onPress={() => {
-                          // this.dispatch({ type: "TOGGLE_SESSION" })
+                          if (this.state.status === "PAUSED") {
+                            this.dispatch({
+                              type: "RESUME_TIMER",
+                            });
+                          } else if (this.state.status === "STOPPED") {
+                            this.dispatch({
+                              type: "START_TIMER",
+                              payload: setInterval(() => {
+                                if (this.state.status !== "PAUSED") {
+                                  this.dispatch({ type: "INCREMENT" });
+                                }
+                              }, 1000),
+                            });
+                          } else {
+                            this.dispatch({
+                              type: "PAUSE_TIMER",
+                            });
+                          }
                         }}
-                        label={"PAUSE"}
+                        label={(() => {
+                          switch (this.state.status) {
+                            case "ACTIVE":
+                              return "PAUSE";
+                            case "PAUSED":
+                              return "RESUME";
+                            case "STOPPED":
+                              return "START";
+                            default:
+                              return "";
+                          }
+                        })()}
                       />
                       <SessionControl
                         color={colors.bRED}
                         onPress={() => {
-                          // this.dispatch({ type: "TOGGLE_SESSION" })
+                          this.dispatch({
+                            type: "STOP_TIMER",
+                            payload: clearInterval(this.state.timerHandle),
+                          });
                         }}
                         label={"STOP"}
                       />
