@@ -33,21 +33,10 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
   };
 
   state: State = {
-    inSession: true,
+    inSession: false,
     status: "ACTIVE",
     timeUsed: 0,
   };
-
-  componentDidMount() {
-    this.dispatch({
-      type: "START_TIMER",
-      payload: setInterval(() => {
-        if (this.state.status !== "PAUSED") {
-          this.dispatch({ type: "INCREMENT" });
-        }
-      }, 1000),
-    });
-  }
 
   componentWillUnmount() {
     clearInterval(this.state.timerHandle);
@@ -190,7 +179,24 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
                   return (
                     <ActionButton
                       key={i}
-                      onPress={() => this.dispatch({ type: "TOGGLE_SESSION" })}
+                      onPress={() => {
+                        if (this.state.inSession) {
+                          this.dispatch({
+                            type: "STOP_TIMER",
+                            payload: clearInterval(this.state.timerHandle),
+                          });
+                        } else {
+                          this.dispatch({
+                            type: "START_TIMER",
+                            payload: setInterval(() => {
+                              if (this.state.status !== "PAUSED") {
+                                this.dispatch({ type: "INCREMENT" });
+                              }
+                            }, 1000),
+                          });
+                        }
+                        this.dispatch({ type: "TOGGLE_SESSION" });
+                      }}
                       label={this.state.inSession ? "COMPLETE" : "GO"}
                     />
                   );
