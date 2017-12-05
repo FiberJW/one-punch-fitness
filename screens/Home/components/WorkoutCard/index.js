@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import colors from "colors";
+import { Illustrations } from "Assets";
 import Container from "./styled/Container";
 import CoverImage from "./styled/CoverImage";
 import Header from "./styled/Header";
@@ -33,15 +34,12 @@ export default class WorkoutCard extends Component<Props, State> {
     return (
       <Container>
         <Header>
-          <CoverImage
-            source={require("../../../../assets/images/level-0.png")}
-            resizeMode="cover"
-          />
+          <CoverImage source={Illustrations.SaitamaLevel0} resizeMode="cover" />
           <ImageGradient colors={["rgba(0,0,0,0)", colors.spotiBlack]} />
           <LevelLabel>level {this.state.level}</LevelLabel>
           <IntensityButton
             disabled={this.state.level === 0}
-            direction="down"
+            action="decrement"
             onPress={() => {
               this.setState(prevState => ({
                 ...prevState,
@@ -51,7 +49,7 @@ export default class WorkoutCard extends Component<Props, State> {
           />
           <IntensityButton
             disabled={this.state.level === 5}
-            direction="up"
+            action="increment"
             onPress={() => {
               this.setState(prevState => ({
                 ...prevState,

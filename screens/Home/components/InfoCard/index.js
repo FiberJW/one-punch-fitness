@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo";
+import { Illustrations } from "Assets";
 import * as Animatable from "react-native-animatable";
 import colors from "../../../../config/colors";
 import Container from "./styled/Container";
@@ -51,7 +52,7 @@ export default class InfoCard extends Component<Props, State> {
         <Container>
           <View>
             <CoverImage
-              source={require("../../../../assets/images/saitama-secret-training.png")}
+              source={Illustrations.TheSecretSauce}
               resizeMode="cover"
             />
             <LinearGradient

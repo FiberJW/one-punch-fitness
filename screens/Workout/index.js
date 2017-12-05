@@ -3,6 +3,7 @@ import React from "react";
 import ReducerComponent from "ReducerComponent";
 import { ScrollView } from "react-native";
 import colors from "colors";
+import { Illustrations } from "Assets";
 import Container from "./components/styled/Container";
 import Background from "./components/styled/Background";
 import ActionButton from "./components/ActionButton";
@@ -112,7 +113,7 @@ export default class WorkoutScreen extends ReducerComponent<Props, State> {
                     <Image
                       key={i}
                       resizeMode="cover"
-                      source={require("../../assets/images/workout/prep.png")}
+                      source={Illustrations.WorkoutPrep}
                     />
                   );
                 case "Timer":

@@ -1,30 +1,27 @@
 // @flow
 import React from "react";
+import { Icons } from "Assets";
 import Touchable from "./styled/Touchable";
 import Base from "./styled/Base";
 import Icon from "./styled/Icon";
 
 type Props = {
-  direction: "up" | "down",
+  action: "increment" | "decrement",
   disabled: boolean,
   onPress: () => void,
 };
 
-export default ({ disabled, direction, onPress }: Props) => (
+export default ({ disabled, action, onPress }: Props) => (
   <Touchable
     disabled={disabled}
-    left={direction === "down"}
-    right={direction === "up"}
+    left={action === "decrement"}
+    right={action === "increment"}
     onPress={onPress}
   >
     <Base disabled={disabled}>
       <Icon
         disabled={disabled}
-        source={
-          direction === "down"
-            ? require("../../../../../assets/images/icon-arrow-left.png")
-            : require("../../../../../assets/images/icon-arrow-right.png")
-        }
+        source={action === "decrement" ? Icons.ArrowLeft : Icons.ArrowRight}
         resizeMode="contain"
       />
     </Base>
