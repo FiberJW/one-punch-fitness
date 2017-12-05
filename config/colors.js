@@ -1,4 +1,8 @@
-// @flow
+/**
+ * @providesModule colors
+ * @flow
+ */
+
 export default {
   purpp: "#42002F",
   halfWhite: "rgba(2555, 255, 255, 0.5)",
@@ -13,4 +17,7 @@ export default {
   froggo: "#39B822",
   status: "#651FFF",
   start: "#1DE9B6",
+  bRED: "#FF5252",
+  twentyOnStart: "#61F0CC",
+  blueLeftUsTooSoon: "#536DFE",
 };

@@ -2,12 +2,13 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "dependencies": {
-    "expo": "^22.0.0",
-    "react": "16.0.0-beta.5",
+    "expo": "^23.0.0",
+    "react": "16.0.0",
     "react-native":
-      "https://github.com/expo/react-native/archive/sdk-22.0.2.tar.gz",
+      "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
     "react-native-animatable": "^1.2.4",
     "react-navigation": "^1.0.0-beta.19",
+    "flow-bin": "0.56.0",
     "styled-components": "^2.2.3"
   },
   "name": "one-punch-fitness",
@@ -21,7 +22,6 @@
   "devDependencies": {
     "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
-    "flow-bin": "0.53.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier": "^1.7.4"

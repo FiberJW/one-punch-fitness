@@ -1,9 +1,9 @@
 // @flow
 import { Font, AppLoading } from "expo";
 import React, { Component } from "react";
+import { Fonts } from "Assets";
 import MainStack from "./navigation/MainStack";
-import Container from "./components/styled/AppContainer";
-
+import Container from "./components/styled/Container";
 type Props = void;
 type State = {
   loaded: boolean,
@@ -15,11 +15,7 @@ export default class App extends Component<Props, State> {
   };
 
   componentDidMount() {
-    Font.loadAsync({
-      InterMedium: require("./assets/fonts/Inter-UI-Medium.ttf"),
-      InterBold: require("./assets/fonts/Inter-UI-Bold.ttf"),
-      InterReg: require("./assets/fonts/Inter-UI-Regular.ttf"),
-    }).then(() => {
+    Font.loadAsync(Fonts).then(() => {
       this.setState({ loaded: true });
     });
   }

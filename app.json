@@ -4,21 +4,22 @@
     "description": "An empty new project",
     "slug": "one-punch-fitness",
     "privacy": "public",
-    "sdkVersion": "22.0.0",
+    "sdkVersion": "23.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/ios-icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#FEC42F"
+      "resizeMode": "contain",
+      "backgroundColor": "#651FFF"
     },
     "packagerOpts": {
       "assetExts": ["ttf", "mp4"]
     },
     "ios": {
       "supportsTablet": false,
+      "loadJSInBackgroundExperimental": true,
       "icon": "./assets/ios-icon.png"
     },
     "android": {

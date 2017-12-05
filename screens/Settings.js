@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from "react";
 import { View } from "react-native";
-import TabIcon from "../navigation/components/styled/TabIcon";
+import { Icons } from "Assets";
+import TabIcon from "../navigation/components/TabBar/styled/Icon";
 
 type Props = {};
 type State = void;
@@ -9,11 +10,17 @@ type State = void;
 export default class SettingsScreen extends Component<Props, State> {
   static navigationOptions = {
     tabBarLabel: null,
-    tabBarIcon: ({ focused, tintColor }) => (
+    tabBarIcon: ({
+      focused,
+      tintColor,
+    }: {
+      focused: boolean,
+      tintColor: string,
+    }) => (
       <TabIcon
         focused={focused}
         tintColor={tintColor}
-        source={require("../assets/images/icon-settings.png")}
+        source={Icons.Settings}
       />
     ),
   };
