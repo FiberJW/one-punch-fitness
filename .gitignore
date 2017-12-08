@@ -2,3 +2,6 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 .DS_Store
+lib/**/*
+.merlin
+.bsb.lock

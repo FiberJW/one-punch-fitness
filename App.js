@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import { Fonts } from "Assets";
 import MainStack from "./navigation/MainStack";
 import Container from "./components/styled/Container";
+import { log } from "./re/app";
+
 type Props = void;
 type State = {
   loaded: boolean,
@@ -15,6 +17,7 @@ export default class App extends Component<Props, State> {
   };
 
   componentDidMount() {
+    log();
     Font.loadAsync(Fonts).then(() => {
       this.setState({ loaded: true });
     });

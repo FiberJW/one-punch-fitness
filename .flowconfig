@@ -36,7 +36,8 @@
 <PROJECT_ROOT>/node_modules/xdl/.*
 <PROJECT_ROOT>/node_modules/reqwest/.*
 <PROJECT_ROOT>/node_modules/metro-bundler/.*
-.*/node_modules/styled-components/.*
+<PROJECT_ROOT>/node_modules/styled-components/.*
+<PROJECT_ROOT>/node_modules/@expo/traveling-fastlane-darwin/.*
 
 [include]
 
