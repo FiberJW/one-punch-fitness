@@ -36,6 +36,7 @@
     "flow": "flow",
     "publish-bundle": "bsb -make-world -clean-world && exp publish",
     "build-reason": "bsb -make-world -clean-world",
+    "postinstall": "npm run build-reason",
     "start": "concurrently \"bsb -make-world -clean-world -w\" \"exp r\""
   },
   "lint-staged": {
