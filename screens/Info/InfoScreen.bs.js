@@ -3,70 +3,38 @@
 
 var Assets = require("Assets");
 var ReasonReact = require("reason-react/src/reasonReact.js");
-var Title = require("./styled/Title");
-var Container = require("./styled/Container");
-var HeroImage = require("./styled/HeroImage");
-var TextContentContainer = require("./styled/TextContentContainer");
-
-function make(source, resizeMode, children) {
-  return ReasonReact.wrapJsForReason(
-    HeroImage.default,
-    {
-      source: source,
-      resizeMode: resizeMode,
-    },
-    children
-  );
-}
-
-var HeroImage$1 = /* module */ [/* make */ make];
-
-function make$1(children) {
-  return ReasonReact.wrapJsForReason(Container.default, {}, children);
-}
-
-var Container$1 = /* module */ [/* make */ make$1];
-
-function make$2(children) {
-  return ReasonReact.wrapJsForReason(
-    TextContentContainer.default,
-    {},
-    children
-  );
-}
-
-var TextContentContainer$1 = /* module */ [/* make */ make$2];
-
-function make$3(children) {
-  return ReasonReact.wrapJsForReason(Title.default, {}, children);
-}
-
-var Title$1 = /* module */ [/* make */ make$3];
+var InfoScreenStyled = require("./styled/InfoScreenStyled.bs.js");
 
 var component = ReasonReact.statelessComponent("InfoScreen");
 
-function make$4() {
+function make() {
   var newrecord = component.slice();
   newrecord[/* render */ 9] = function() {
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
-      make$1(
+      InfoScreenStyled.Container[/* make */ 0](
         /* array */ [
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            make(Assets.Illustrations.theSecretSauce, "cover", /* array */ [])
+            InfoScreenStyled.HeroImage[/* make */ 0](
+              Assets.Illustrations.theSecretSauce,
+              "cover",
+              /* array */ []
+            )
           ),
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            make$2(
+            InfoScreenStyled.TextContentContainer[/* make */ 0](
               /* array */ [
                 ReasonReact.element(
                   /* None */ 0,
                   /* None */ 0,
-                  make$3(/* array */ ["What is Saitama's secret?"])
+                  InfoScreenStyled.Title[/* make */ 0](
+                    /* array */ ["What is Saitama's secret?"]
+                  )
                 ),
               ]
             )
@@ -79,15 +47,11 @@ function make$4() {
 }
 
 var $$default = ReasonReact.wrapReasonForJs(component, function() {
-  return make$4(/* array */ []);
+  return make(/* array */ []);
 });
 
-exports.HeroImage = HeroImage$1;
-exports.Container = Container$1;
-exports.TextContentContainer = TextContentContainer$1;
-exports.Title = Title$1;
 exports.component = component;
-exports.make = make$4;
+exports.make = make;
 exports.$$default = $$default;
 exports.default = $$default;
 exports.__esModule = true;
