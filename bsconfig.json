@@ -9,6 +9,10 @@
     {
       "dir": "./re",
       "subdirs": true
+    },
+    {
+      "dir": "./screens",
+      "subdirs": true
     }
   ],
   "refmt": 3,
