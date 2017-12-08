@@ -2,13 +2,17 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "dependencies": {
+    "bs-platform": "^2.1.0",
+    "bs-react-native": "^0.3.0",
+    "chalk": "^2.3.0",
     "expo": "^23.0.0",
+    "flow-bin": "0.56.0",
     "react": "16.0.0",
     "react-native":
       "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
     "react-native-animatable": "^1.2.4",
     "react-navigation": "^1.0.0-beta.19",
-    "flow-bin": "0.56.0",
+    "reason-react": "0.2.4",
     "styled-components": "^2.2.3"
   },
   "name": "one-punch-fitness",
@@ -19,16 +23,25 @@
   "eslintConfig": {
     "extends": "universe/native"
   },
+  "eslintIgnore": ["/**/*.bs.js"],
   "devDependencies": {
+    "blessed": "^0.1.81",
     "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
+    "exp": "^47.0.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier": "^1.7.4"
   },
   "scripts": {
     "precommit": "lint-staged",
-    "flow": "flow"
+    "flow": "flow",
+    "publish-bundle": "npm run build-reason && exp publish",
+    "build-reason": "bsb -make-world -clean-world",
+    "watch-reason": "bsb -make-world -clean-world -w",
+    "start-expo": "exp r",
+    "start": "node dev",
+    "postinstall": "npm run build-reason"
   },
   "lint-staged": {
     "*.{js,json,css}": ["prettier --write", "git add"]

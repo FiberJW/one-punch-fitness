@@ -1,0 +1,23 @@
+{
+  "name": "one-punch-fitness",
+  "reason": {
+    "react-jsx": 2
+  },
+  "bsc-flags": ["-bs-super-errors"],
+  "bs-dependencies": ["bs-react-native", "reason-react"],
+  "sources": [
+    {
+      "dir": "./screens",
+      "subdirs": true
+    }
+  ],
+  "refmt": 3,
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "js-post-build": {
+    "cmd": "prettier --write"
+  },
+  "suffix": ".bs.js"
+}
