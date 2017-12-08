@@ -1,1 +1,1 @@
-let log = () => Js.log("hiiii from reason");
+let log = () => Js.log("hi from reason");
