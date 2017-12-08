@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { Fonts } from "Assets";
 import MainStack from "./navigation/MainStack";
 import Container from "./components/styled/Container";
-import { log } from "./re/app";
+import { log } from "./re/log";
 
 type Props = void;
 type State = {
