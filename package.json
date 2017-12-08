@@ -11,7 +11,7 @@
       "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
     "react-native-animatable": "^1.2.4",
     "react-navigation": "^1.0.0-beta.19",
-    "reason-react": "^0.3.0",
+    "reason-react": "0.2.4",
     "styled-components": "^2.2.3"
   },
   "name": "one-punch-fitness",
@@ -22,6 +22,7 @@
   "eslintConfig": {
     "extends": "universe/native"
   },
+  "eslintIgnore": ["re/**/*.js"],
   "devDependencies": {
     "concurrently": "^3.5.1",
     "eslint": "^4.10.0",
@@ -36,7 +37,6 @@
     "flow": "flow",
     "publish-bundle": "bsb -make-world -clean-world && exp publish",
     "build-reason": "bsb -make-world -clean-world",
-    "postinstall": "npm run build-reason",
     "start": "concurrently \"bsb -make-world -clean-world -w\" \"exp r\""
   },
   "lint-staged": {
