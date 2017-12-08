@@ -24,7 +24,7 @@
   },
   "eslintIgnore": ["/**/*.bs.js"],
   "devDependencies": {
-    "concurrently": "^3.5.1",
+    "blessed": "^0.1.81",
     "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
     "exp": "^47.0.0",
@@ -35,9 +35,12 @@
   "scripts": {
     "precommit": "lint-staged",
     "flow": "flow",
-    "publish-bundle": "bsb -make-world -clean-world && exp publish",
+    "publish-bundle": "npm run build-reason && exp publish",
     "build-reason": "bsb -make-world -clean-world",
-    "start": "concurrently \"bsb -make-world -clean-world -w\" \"exp r\""
+    "watch-reason": "bsb -make-world -clean-world -w",
+    "start-expo": "exp r",
+    "start": "node dev",
+    "postinstall": "npm run build-reason"
   },
   "lint-staged": {
     "*.{js,json,css}": ["prettier --write", "git add"]
