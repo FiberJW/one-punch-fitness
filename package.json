@@ -22,7 +22,7 @@
   "eslintConfig": {
     "extends": "universe/native"
   },
-  "eslintIgnore": ["re/**/*.js"],
+  "eslintIgnore": ["/**/*.bs.js"],
   "devDependencies": {
     "concurrently": "^3.5.1",
     "eslint": "^4.10.0",

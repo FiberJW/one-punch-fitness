@@ -7,10 +7,6 @@
   "bs-dependencies": ["bs-react-native", "reason-react"],
   "sources": [
     {
-      "dir": "./re",
-      "subdirs": true
-    },
-    {
       "dir": "./screens",
       "subdirs": true
     }
@@ -19,5 +15,9 @@
   "package-specs": {
     "module": "commonjs",
     "in-source": true
-  }
+  },
+  "js-post-build": {
+    "cmd": "prettier --write"
+  },
+  "suffix": ".bs.js"
 }

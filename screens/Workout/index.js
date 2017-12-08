@@ -6,7 +6,7 @@ import colors from "colors";
 import { Illustrations } from "Assets";
 import Container from "./components/styled/Container";
 import Background from "./components/styled/Background";
-import ActionButton from "./components/ActionButton";
+import ActionButton from "./components/ActionButton/index.bs";
 import Timer from "./components/Timer";
 import Image from "./components/styled/Image";
 import Progress from "./components/styled/Progress";
