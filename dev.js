@@ -1,5 +1,6 @@
 const blessed = require("blessed");
 const { spawn } = require("child_process");
+const chalk = require("chalk");
 
 const screen = blessed.screen({
   smartCSR: true,
@@ -63,13 +64,13 @@ reasonBuildSysWatch.on("close", code => {
 });
 
 expoServer.stdout.on("data", data => {
-  expoBox.pushLine(data.toString());
+  expoBox.pushLine(chalk.blue(data.toString()));
   expoBox.setScrollPerc(100);
   screen.render();
 });
 
 expoServer.stderr.on("data", data => {
-  expoBox.pushLine(data.toString());
+  expoBox.pushLine(chalk.yellow(data.toString()));
   expoBox.setScrollPerc(100);
   screen.render();
 });

@@ -4,6 +4,7 @@
   "dependencies": {
     "bs-platform": "^2.1.0",
     "bs-react-native": "^0.3.0",
+    "chalk": "^2.3.0",
     "expo": "^23.0.0",
     "flow-bin": "0.56.0",
     "react": "16.0.0",
