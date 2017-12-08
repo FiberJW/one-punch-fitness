@@ -4,8 +4,6 @@ import React, { Component } from "react";
 import { Fonts } from "Assets";
 import MainStack from "./navigation/MainStack";
 import Container from "./components/styled/Container";
-import { log } from "./re/log";
-import { app as ReApp } from "./re/app";
 
 type Props = void;
 type State = {
@@ -18,7 +16,6 @@ export default class App extends Component<Props, State> {
   };
 
   componentDidMount() {
-    log();
     Font.loadAsync(Fonts).then(() => {
       this.setState({ loaded: true });
     });
@@ -27,8 +24,7 @@ export default class App extends Component<Props, State> {
   render() {
     return (
       <Container>
-        {this.state.loaded ? <ReApp /> : <AppLoading />}
-        {/* {this.state.loaded ? <MainStack /> : <AppLoading />} */}
+        {this.state.loaded ? <MainStack /> : <AppLoading />}
       </Container>
     );
   }
