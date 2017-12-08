@@ -12,9 +12,9 @@ const screen = blessed.screen({
 screen.title = "one-punch-fitness -- dev process [option+drag to select text]";
 
 const bsbBox = blessed.box({
-  align: "left",
   width: "50%",
   height: "100%",
+  right: true,
   mouse: true,
   keys: true,
   scrollable: true,
@@ -25,10 +25,9 @@ const bsbBox = blessed.box({
 });
 
 const expoBox = blessed.box({
-  align: "right",
+  left: true,
   scrollable: true,
   width: "50%",
-  right: true,
   mouse: true,
   keys: true,
   height: "100%",
