@@ -34,7 +34,7 @@ export default class WorkoutCard extends Component<Props, State> {
     return (
       <Container>
         <Header>
-          <CoverImage source={Illustrations.SaitamaLevel0} resizeMode="cover" />
+          <CoverImage source={Illustrations.saitamaLevel0} resizeMode="cover" />
           <ImageGradient colors={["rgba(0,0,0,0)", colors.spotiBlack]} />
           <LevelLabel>level {this.state.level}</LevelLabel>
           <IntensityButton
