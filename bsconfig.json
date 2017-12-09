@@ -7,7 +7,7 @@
   "bs-dependencies": ["bs-react-native", "reason-react"],
   "sources": [
     {
-      "dir": "./screens",
+      "dir": "./src",
       "subdirs": true
     }
   ],

@@ -2,8 +2,8 @@
 import { Font, AppLoading } from "expo";
 import React, { Component } from "react";
 import { Fonts } from "Assets";
-import MainStack from "./navigation/MainStack";
-import Container from "./components/styled/Container";
+import MainStack from "./src/navigation/MainStack";
+import Container from "./src/components/styled/Container";
 
 type Props = void;
 type State = {
