@@ -5,6 +5,7 @@ var Title = require("./Title");
 var Container = require("./Container");
 var HeroImage = require("./HeroImage");
 var ReasonReact = require("reason-react/src/reasonReact.js");
+var Description = require("./Description");
 var TextContentContainer = require("./TextContentContainer");
 
 function make(source, resizeMode, children) {
@@ -42,8 +43,15 @@ function make$3(children) {
 
 var Title$1 = /* module */ [/* make */ make$3];
 
+function make$4(children) {
+  return ReasonReact.wrapJsForReason(Description.default, {}, children);
+}
+
+var Description$1 = /* module */ [/* make */ make$4];
+
 exports.HeroImage = HeroImage$1;
 exports.Container = Container$1;
 exports.TextContentContainer = TextContentContainer$1;
 exports.Title = Title$1;
+exports.Description = Description$1;
 /* ./Title Not a pure module */

@@ -26,3 +26,9 @@ module Title = {
   let make = (children) =>
     ReasonReact.wrapJsForReason(~reactClass=title, ~props=Js.Obj.empty(), children);
 };
+
+module Description = {
+  [@bs.module "./Description"] external description : ReasonReact.reactClass = "default";
+  let make = (children) =>
+    ReasonReact.wrapJsForReason(~reactClass=description, ~props=Js.Obj.empty(), children);
+};
