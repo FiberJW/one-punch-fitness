@@ -3,7 +3,7 @@
  */
 
 export default {
-  SaitamaLevel0: require("./level-0.png"),
-  WorkoutPrep: require("./prep.png"),
-  TheSecretSauce: require("./saitamas-secret.png"),
+  saitamaLevel0: require("./level-0.png"),
+  workoutPrep: require("./prep.png"),
+  theSecretSauce: require("./saitamas-secret.png"),
 };

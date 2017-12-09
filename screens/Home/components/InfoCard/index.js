@@ -52,7 +52,7 @@ export default class InfoCard extends Component<Props, State> {
         <Container>
           <View>
             <CoverImage
-              source={Illustrations.TheSecretSauce}
+              source={Illustrations.theSecretSauce}
               resizeMode="cover"
             />
             <LinearGradient
