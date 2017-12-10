@@ -4,6 +4,7 @@
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var StyleRe = require("bs-react-native/src/styleRe.js");
+var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var ReactNative = require("bs-react-native/src/reactNative.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
 var DailyProgressStyled = require("./styled/DailyProgressStyled.bs.js");
@@ -14,6 +15,28 @@ var component = ReasonReact.reducerComponent("DailyProgress");
 function make() {
   var newrecord = component.slice();
   newrecord[/* render */ 9] = function(self) {
+    var workout = /* array */ [
+      /* record */ [
+        /* name */ "push-ups",
+        /* amountCompleted */ 75,
+        /* max */ 100,
+      ],
+      /* record */ [
+        /* name */ "sit-ups",
+        /* amountCompleted */ 75,
+        /* max */ 100,
+      ],
+      /* record */ [
+        /* name */ "squats",
+        /* amountCompleted */ 75,
+        /* max */ 100,
+      ],
+      /* record */ [
+        /* name */ "running",
+        /* amountCompleted */ 0.3,
+        /* max */ 10,
+      ],
+    ];
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
@@ -83,34 +106,15 @@ function make() {
                     /* None */ 0,
                     /* None */ 0,
                     /* array */ [
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.Title[/* make */ 0](
-                          /* array */ ["push-ups"]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.Title[/* make */ 0](
-                          /* array */ ["sit-ups"]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.Title[/* make */ 0](
-                          /* array */ ["squats"]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.Title[/* make */ 0](
-                          /* array */ ["running"]
-                        )
-                      ),
+                      workout.map(function(rf, i) {
+                        return ReasonReact.element(
+                          /* Some */ [Pervasives.string_of_int(i)],
+                          /* None */ 0,
+                          DailyProgressFacetStyled.Title[/* make */ 0](
+                            /* array */ [rf[/* name */ 0]]
+                          )
+                        );
+                      }),
                     ],
                   ])
                 ),
@@ -154,80 +158,33 @@ function make() {
                     /* None */ 0,
                     /* None */ 0,
                     /* array */ [
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.BarContainer[/* make */ 0](
-                          /* Some */ [
-                            Curry._1(self[/* reduce */ 3], function($$event) {
-                              return /* MeasureMaxBarWidth */ Block.__(1, [
-                                $$event.nativeEvent.layout.width,
-                              ]);
-                            }),
-                          ],
-                          /* array */ [
-                            ReasonReact.element(
-                              /* None */ 0,
-                              /* None */ 0,
-                              DailyProgressFacetStyled.Bar[/* make */ 0](
-                                self[/* state */ 4][/* maxBarWidth */ 1] * 0.75,
-                                /* array */ []
-                              )
-                            ),
-                          ]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.BarContainer[/* make */ 0](
+                      workout.map(function(rf, i) {
+                        return ReasonReact.element(
+                          /* Some */ [Pervasives.string_of_int(i)],
                           /* None */ 0,
-                          /* array */ [
-                            ReasonReact.element(
-                              /* None */ 0,
-                              /* None */ 0,
-                              DailyProgressFacetStyled.Bar[/* make */ 0](
-                                self[/* state */ 4][/* maxBarWidth */ 1] * 0.75,
-                                /* array */ []
-                              )
-                            ),
-                          ]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.BarContainer[/* make */ 0](
-                          /* None */ 0,
-                          /* array */ [
-                            ReasonReact.element(
-                              /* None */ 0,
-                              /* None */ 0,
-                              DailyProgressFacetStyled.Bar[/* make */ 0](
-                                self[/* state */ 4][/* maxBarWidth */ 1] * 0.75,
-                                /* array */ []
-                              )
-                            ),
-                          ]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.BarContainer[/* make */ 0](
-                          /* None */ 0,
-                          /* array */ [
-                            ReasonReact.element(
-                              /* None */ 0,
-                              /* None */ 0,
-                              DailyProgressFacetStyled.Bar[/* make */ 0](
-                                self[/* state */ 4][/* maxBarWidth */ 1] * 0.75,
-                                /* array */ []
-                              )
-                            ),
-                          ]
-                        )
-                      ),
+                          DailyProgressFacetStyled.BarContainer[/* make */ 0](
+                            /* Some */ [
+                              Curry._1(self[/* reduce */ 3], function($$event) {
+                                return /* MeasureMaxBarWidth */ Block.__(1, [
+                                  $$event.nativeEvent.layout.width,
+                                ]);
+                              }),
+                            ],
+                            /* array */ [
+                              ReasonReact.element(
+                                /* None */ 0,
+                                /* None */ 0,
+                                DailyProgressFacetStyled.Bar[/* make */ 0](
+                                  self[/* state */ 4][/* maxBarWidth */ 1] *
+                                    (rf[/* amountCompleted */ 1] /
+                                      rf[/* max */ 2]),
+                                  /* array */ []
+                                )
+                              ),
+                            ]
+                          )
+                        );
+                      }),
                     ],
                   ])
                 ),
@@ -268,34 +225,32 @@ function make() {
                     /* None */ 0,
                     /* None */ 0,
                     /* array */ [
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.Amount[/* make */ 0](
-                          /* array */ ["75"]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.Amount[/* make */ 0](
-                          /* array */ ["75"]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.Amount[/* make */ 0](
-                          /* array */ ["75"]
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        DailyProgressFacetStyled.Amount[/* make */ 0](
-                          /* array */ ["7.5km"]
-                        )
-                      ),
+                      workout.map(function(rf, i) {
+                        var match = +(rf[/* name */ 0] === "running");
+                        var tmp;
+                        if (match !== 0) {
+                          var match$1 = +(rf[/* amountCompleted */ 1] > 0);
+                          tmp =
+                            match$1 !== 0
+                              ? Pervasives.string_of_float(
+                                  rf[/* amountCompleted */ 1]
+                                ) + "km"
+                              : Pervasives.string_of_int(
+                                  rf[/* amountCompleted */ 1] | 0
+                                ) + " km";
+                        } else {
+                          tmp = Pervasives.string_of_int(
+                            rf[/* amountCompleted */ 1] | 0
+                          );
+                        }
+                        return ReasonReact.element(
+                          /* Some */ [Pervasives.string_of_int(i)],
+                          /* None */ 0,
+                          DailyProgressFacetStyled.Amount[/* make */ 0](
+                            /* array */ [tmp]
+                          )
+                        );
+                      }),
                     ],
                   ])
                 ),
