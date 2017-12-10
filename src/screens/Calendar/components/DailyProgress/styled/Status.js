@@ -1,11 +1,10 @@
 // @flow
 import styled from "styled-components/native";
-import colors from "colors";
 
 export default styled.Text`
-  color: ${colors.seventyWhite};
+  color: white;
   text-align: center;
   background-color: transparent;
-  font-family: InterReg;
-  font-size: 14px;
+  font-family: InterMedium;
+  font-size: 24px;
 `;

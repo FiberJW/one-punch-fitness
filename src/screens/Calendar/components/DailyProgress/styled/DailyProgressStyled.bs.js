@@ -2,11 +2,19 @@
 "use strict";
 
 var Title = require("./Title");
+var Status = require("./Status");
 var Container = require("./Container");
 var ReasonReact = require("reason-react/src/reasonReact.js");
+var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 
-function make(children) {
-  return ReasonReact.wrapJsForReason(Container.default, {}, children);
+function make(onLayout, children) {
+  return ReasonReact.wrapJsForReason(
+    Container.default,
+    {
+      onLayout: Js_null_undefined.from_opt(onLayout),
+    },
+    children
+  );
 }
 
 var Container$1 = /* module */ [/* make */ make];
@@ -17,6 +25,13 @@ function make$1(children) {
 
 var Title$1 = /* module */ [/* make */ make$1];
 
+function make$2(children) {
+  return ReasonReact.wrapJsForReason(Status.default, {}, children);
+}
+
+var Status$1 = /* module */ [/* make */ make$2];
+
 exports.Container = Container$1;
 exports.Title = Title$1;
+exports.Status = Status$1;
 /* ./Title Not a pure module */
