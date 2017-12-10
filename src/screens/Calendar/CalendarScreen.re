@@ -2,15 +2,16 @@ open ReactNative;
 
 open NPMBindings.RNCalendars;
 
-[@bs.module "colors"] external colors : Js.t({..}) = "default";
-
 let component = ReasonReact.statelessComponent("CalendarScreen");
 
 let make = (_children) => {
   ...component,
   render: (_self) =>
     <ScrollView
-      contentContainerStyle=Style.(style([flex(1.), paddingVertical(16.), alignItems(`center)]))>
+      showsVerticalScrollIndicator=false
+      contentContainerStyle=Style.(
+                              style([flexGrow(1.), paddingVertical(16.), alignItems(`center)])
+                            )>
       <Calendar
         style=Style.(style([width(float(Dimensions.get(`window)##width - 32)), flex(0.)]))
       />

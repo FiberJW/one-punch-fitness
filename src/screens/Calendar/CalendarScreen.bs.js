@@ -41,7 +41,7 @@ function make() {
         /* Some */ [
           StyleRe.style(
             /* :: */ [
-              StyleRe.flex(1),
+              StyleRe.flexGrow(1),
               /* :: */ [
                 StyleRe.paddingVertical(16),
                 /* :: */ [
@@ -61,7 +61,7 @@ function make() {
         /* None */ 0,
         /* None */ 0,
         /* None */ 0,
-        /* None */ 0,
+        /* Some */ [/* false */ 0],
         /* None */ 0,
         /* None */ 0,
         /* None */ 0,

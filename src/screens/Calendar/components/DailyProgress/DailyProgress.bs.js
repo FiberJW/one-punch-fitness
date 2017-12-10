@@ -3,9 +3,11 @@
 
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
+var StyleRe = require("bs-react-native/src/styleRe.js");
+var ReactNative = require("bs-react-native/src/reactNative.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
-var DailyProgressFacet = require("./Facet/DailyProgressFacet.bs.js");
 var DailyProgressStyled = require("./styled/DailyProgressStyled.bs.js");
+var DailyProgressFacetStyled = require("./Facet/styled/DailyProgressFacetStyled.bs.js");
 
 var component = ReasonReact.reducerComponent("DailyProgress");
 
@@ -18,9 +20,9 @@ function make() {
       DailyProgressStyled.Container[/* make */ 0](
         /* Some */ [
           Curry._1(self[/* reduce */ 3], function($$event) {
-            return /* MeasureContainerWidth */ [
+            return /* MeasureContainerWidth */ Block.__(0, [
               $$event.nativeEvent.layout.width,
-            ];
+            ]);
           }),
         ],
         /* array */ [
@@ -41,37 +43,263 @@ function make() {
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            DailyProgressFacet.make(
-              "push-ups",
+            DailyProgressFacetStyled.Container[/* make */ 0](
               self[/* state */ 4][/* containerWidth */ 0],
-              /* array */ []
-            )
-          ),
-          ReasonReact.element(
-            /* None */ 0,
-            /* None */ 0,
-            DailyProgressFacet.make(
-              "sit-ups",
-              self[/* state */ 4][/* containerWidth */ 0],
-              /* array */ []
-            )
-          ),
-          ReasonReact.element(
-            /* None */ 0,
-            /* None */ 0,
-            DailyProgressFacet.make(
-              "squats",
-              self[/* state */ 4][/* containerWidth */ 0],
-              /* array */ []
-            )
-          ),
-          ReasonReact.element(
-            /* None */ 0,
-            /* None */ 0,
-            DailyProgressFacet.make(
-              "running",
-              self[/* state */ 4][/* containerWidth */ 0],
-              /* array */ []
+              /* array */ [
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  Curry.app(ReactNative.View[/* make */ 0], [
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* Some */ [
+                      StyleRe.style(
+                        /* :: */ [
+                          StyleRe.alignSelf(/* stretch */ -162316795),
+                          /* :: */ [
+                            StyleRe.justifyContent(
+                              /* spaceAround */ -485895757
+                            ),
+                            /* [] */ 0,
+                          ],
+                        ]
+                      ),
+                    ],
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* array */ [
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.Title[/* make */ 0](
+                          /* array */ ["push-ups"]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.Title[/* make */ 0](
+                          /* array */ ["sit-ups"]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.Title[/* make */ 0](
+                          /* array */ ["squats"]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.Title[/* make */ 0](
+                          /* array */ ["running"]
+                        )
+                      ),
+                    ],
+                  ])
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  Curry.app(ReactNative.View[/* make */ 0], [
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* Some */ [
+                      StyleRe.style(
+                        /* :: */ [
+                          StyleRe.alignSelf(/* stretch */ -162316795),
+                          /* :: */ [
+                            StyleRe.flex(1),
+                            /* :: */ [
+                              StyleRe.justifyContent(
+                                /* spaceAround */ -485895757
+                              ),
+                              /* [] */ 0,
+                            ],
+                          ],
+                        ]
+                      ),
+                    ],
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* array */ [
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.BarContainer[/* make */ 0](
+                          /* Some */ [
+                            Curry._1(self[/* reduce */ 3], function($$event) {
+                              return /* MeasureMaxBarWidth */ Block.__(1, [
+                                $$event.nativeEvent.layout.width,
+                              ]);
+                            }),
+                          ],
+                          /* array */ [
+                            ReasonReact.element(
+                              /* None */ 0,
+                              /* None */ 0,
+                              DailyProgressFacetStyled.Bar[/* make */ 0](
+                                self[/* state */ 4][/* maxBarWidth */ 1] * 0.75,
+                                /* array */ []
+                              )
+                            ),
+                          ]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.BarContainer[/* make */ 0](
+                          /* None */ 0,
+                          /* array */ [
+                            ReasonReact.element(
+                              /* None */ 0,
+                              /* None */ 0,
+                              DailyProgressFacetStyled.Bar[/* make */ 0](
+                                self[/* state */ 4][/* maxBarWidth */ 1] * 0.75,
+                                /* array */ []
+                              )
+                            ),
+                          ]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.BarContainer[/* make */ 0](
+                          /* None */ 0,
+                          /* array */ [
+                            ReasonReact.element(
+                              /* None */ 0,
+                              /* None */ 0,
+                              DailyProgressFacetStyled.Bar[/* make */ 0](
+                                self[/* state */ 4][/* maxBarWidth */ 1] * 0.75,
+                                /* array */ []
+                              )
+                            ),
+                          ]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.BarContainer[/* make */ 0](
+                          /* None */ 0,
+                          /* array */ [
+                            ReasonReact.element(
+                              /* None */ 0,
+                              /* None */ 0,
+                              DailyProgressFacetStyled.Bar[/* make */ 0](
+                                self[/* state */ 4][/* maxBarWidth */ 1] * 0.75,
+                                /* array */ []
+                              )
+                            ),
+                          ]
+                        )
+                      ),
+                    ],
+                  ])
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  Curry.app(ReactNative.View[/* make */ 0], [
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* Some */ [
+                      StyleRe.style(
+                        /* :: */ [
+                          StyleRe.alignSelf(/* stretch */ -162316795),
+                          /* :: */ [
+                            StyleRe.justifyContent(
+                              /* spaceAround */ -485895757
+                            ),
+                            /* [] */ 0,
+                          ],
+                        ]
+                      ),
+                    ],
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* array */ [
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.Amount[/* make */ 0](
+                          /* array */ ["75"]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.Amount[/* make */ 0](
+                          /* array */ ["75"]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.Amount[/* make */ 0](
+                          /* array */ ["75"]
+                        )
+                      ),
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        DailyProgressFacetStyled.Amount[/* make */ 0](
+                          /* array */ ["7.5km"]
+                        )
+                      ),
+                    ],
+                  ])
+                ),
+              ]
             )
           ),
         ]
@@ -79,12 +307,24 @@ function make() {
     );
   };
   newrecord[/* initialState */ 10] = function() {
-    return /* record */ [/* containerWidth */ 0];
+    return /* record */ [/* containerWidth */ 0, /* maxBarWidth */ 0];
   };
-  newrecord[/* reducer */ 12] = function(action, _) {
-    return /* Update */ Block.__(0, [
-      /* record */ [/* containerWidth */ action[0]],
-    ]);
+  newrecord[/* reducer */ 12] = function(action, state) {
+    if (action.tag) {
+      return /* Update */ Block.__(0, [
+        /* record */ [
+          /* containerWidth */ state[/* containerWidth */ 0],
+          /* maxBarWidth */ action[0],
+        ],
+      ]);
+    } else {
+      return /* Update */ Block.__(0, [
+        /* record */ [
+          /* containerWidth */ action[0],
+          /* maxBarWidth */ state[/* maxBarWidth */ 1],
+        ],
+      ]);
+    }
   };
   return newrecord;
 }

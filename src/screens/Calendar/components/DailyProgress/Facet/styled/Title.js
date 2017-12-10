@@ -3,9 +3,8 @@ import styled from "styled-components/native";
 
 export default styled.Text`
   color: white;
-  text-align: center;
+  text-align: left;
   background-color: transparent;
   font-family: InterMedium;
-  font-size: 24px;
-  margin-top: 8px;
+  font-size: 16px;
 `;
