@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { TabNavigator as tabNavigator } from "react-navigation";
 import HomeScreen from "../screens/Home";
-import CalendarScreen from "../screens/Calendar";
+import CalendarScreen from "../screens/Calendar/CalendarScreen.bs";
 import SettingsScreen from "../screens/Settings";
 import TabBar from "./components/TabBar";
 
@@ -21,7 +21,13 @@ export default class MainTab extends Component<Props, State> {
     const Tabs = tabNavigator(
       {
         Home: { screen: HomeScreen, path: "home" },
-        Calendar: { screen: CalendarScreen, path: "calendar" },
+        Calendar: {
+          screen: CalendarScreen,
+          path: "calendar",
+          navigationOptions: {
+            title: "calendar",
+          },
+        },
         Settings: { screen: SettingsScreen, path: "settings" },
       },
       {
