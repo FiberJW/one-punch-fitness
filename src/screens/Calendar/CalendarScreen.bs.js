@@ -3,8 +3,10 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var StyleRe = require("bs-react-native/src/styleRe.js");
-var ReactNative = require("bs-react-native/src/reactNative.js");
+var NPMBindings = require("../../config/NPMBindings.bs.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
+var DimensionsRe = require("bs-react-native/src/dimensionsRe.js");
+var ScrollViewRe = require("bs-react-native/src/components/scrollViewRe.js");
 
 var component = ReasonReact.statelessComponent("CalendarScreen");
 
@@ -14,7 +16,18 @@ function make() {
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
-      Curry.app(ReactNative.View[/* make */ 0], [
+      ScrollViewRe.ScrollView[/* make */ 2](
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
         /* None */ 0,
         /* None */ 0,
         /* None */ 0,
@@ -29,10 +42,10 @@ function make() {
             /* :: */ [
               StyleRe.flex(1),
               /* :: */ [
-                StyleRe.justifyContent(/* center */ 98248149),
+                StyleRe.paddingVertical(16),
                 /* :: */ [
                   StyleRe.alignItems(/* center */ 98248149),
-                  /* :: */ [StyleRe.backgroundColor("#db7093"), /* [] */ 0],
+                  /* [] */ 0,
                 ],
               ],
             ]
@@ -48,8 +61,66 @@ function make() {
         /* None */ 0,
         /* None */ 0,
         /* None */ 0,
-        /* array */ [],
-      ])
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0,
+        /* None */ 0
+      )(
+        /* array */ [
+          ReasonReact.element(
+            /* None */ 0,
+            /* None */ 0,
+            Curry.app(NPMBindings.RNCalendars[/* Calendar */ 0][/* make */ 0], [
+              /* None */ 0,
+              /* None */ 0,
+              /* None */ 0,
+              /* None */ 0,
+              /* None */ 0,
+              /* None */ 0,
+              /* None */ 0,
+              /* None */ 0,
+              /* None */ 0,
+              /* None */ 0,
+              /* Some */ [
+                StyleRe.style(
+                  /* :: */ [
+                    StyleRe.height(
+                      (DimensionsRe.get(/* window */ -762539024).width - 32) | 0
+                    ),
+                    /* :: */ [
+                      StyleRe.width(
+                        (DimensionsRe.get(/* window */ -762539024).width - 32) |
+                          0
+                      ),
+                      /* :: */ [StyleRe.flex(0), /* [] */ 0],
+                    ],
+                  ]
+                ),
+              ],
+              /* None */ 0,
+              /* array */ [],
+            ])
+          ),
+        ]
+      )
     );
   };
   return newrecord;
