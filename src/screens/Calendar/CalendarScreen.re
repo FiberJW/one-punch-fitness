@@ -12,14 +12,9 @@ let make = (_children) => {
     <ScrollView
       contentContainerStyle=Style.(style([flex(1.), paddingVertical(16.), alignItems(`center)]))>
       <Calendar
-        style=Style.(
-                style([
-                  height(float(Dimensions.get(`window)##width - 32)),
-                  width(float(Dimensions.get(`window)##width - 32)),
-                  flex(0.)
-                ])
-              )
+        style=Style.(style([width(float(Dimensions.get(`window)##width - 32)), flex(0.)]))
       />
+      <DailyProgress />
     </ScrollView>
 };
 

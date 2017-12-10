@@ -7,6 +7,7 @@ var NPMBindings = require("../../config/NPMBindings.bs.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
 var DimensionsRe = require("bs-react-native/src/dimensionsRe.js");
 var ScrollViewRe = require("bs-react-native/src/components/scrollViewRe.js");
+var DailyProgress = require("./components/DailyProgress/DailyProgress.bs.js");
 
 var component = ReasonReact.statelessComponent("CalendarScreen");
 
@@ -102,22 +103,21 @@ function make() {
               /* Some */ [
                 StyleRe.style(
                   /* :: */ [
-                    StyleRe.height(
+                    StyleRe.width(
                       (DimensionsRe.get(/* window */ -762539024).width - 32) | 0
                     ),
-                    /* :: */ [
-                      StyleRe.width(
-                        (DimensionsRe.get(/* window */ -762539024).width - 32) |
-                          0
-                      ),
-                      /* :: */ [StyleRe.flex(0), /* [] */ 0],
-                    ],
+                    /* :: */ [StyleRe.flex(0), /* [] */ 0],
                   ]
                 ),
               ],
               /* None */ 0,
               /* array */ [],
             ])
+          ),
+          ReasonReact.element(
+            /* None */ 0,
+            /* None */ 0,
+            DailyProgress.make(/* array */ [])
           ),
         ]
       )
