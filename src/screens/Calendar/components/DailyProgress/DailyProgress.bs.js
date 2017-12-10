@@ -33,10 +33,18 @@ function make() {
       ],
       /* record */ [
         /* name */ "running",
-        /* amountCompleted */ 0.3,
+        /* amountCompleted */ 2.3,
         /* max */ 10,
       ],
     ];
+    var totalComplete = [0];
+    var max = [0];
+    workout.forEach(function(rf) {
+      totalComplete[0] += rf[/* amountCompleted */ 1];
+      max[0] += rf[/* max */ 2];
+      return /* () */ 0;
+    });
+    var percComplete = totalComplete[0] / max[0] * 100;
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
@@ -60,7 +68,9 @@ function make() {
             /* None */ 0,
             /* None */ 0,
             DailyProgressStyled.Status[/* make */ 0](
-              /* array */ ["75% complete"]
+              /* array */ [
+                Pervasives.string_of_int(percComplete | 0) + "% complete",
+              ]
             )
           ),
           ReasonReact.element(

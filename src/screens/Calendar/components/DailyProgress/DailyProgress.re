@@ -32,12 +32,24 @@ let make = (_children) => {
       {name: "push-ups", amountCompleted: 75., max: 100.},
       {name: "sit-ups", amountCompleted: 75., max: 100.},
       {name: "squats", amountCompleted: 75., max: 100.},
-      {name: "running", amountCompleted: 0.3, max: 10.}
+      {name: "running", amountCompleted: 2.3, max: 10.}
     |];
+    let totalComplete = ref(0.);
+    let max = ref(0.);
+    Js.Array.forEach(
+      (rf) => {
+        totalComplete := totalComplete^ +. rf.amountCompleted;
+        max := max^ +. rf.max
+      },
+      workout
+    );
+    let percComplete = totalComplete^ /. max^ *. 100.;
     <Container
       onLayout=(self.reduce((event) => MeasureContainerWidth(event##nativeEvent##layout##width)))>
       <Title> (ReasonReact.stringToElement("today's workout")) </Title>
-      <Status> (ReasonReact.stringToElement("75% complete")) </Status>
+      <Status>
+        (ReasonReact.stringToElement(string_of_int(int_of_float(percComplete)) ++ "% complete"))
+      </Status>
       <DailyProgressFacetStyled.Container parentContainerWidth=self.state.containerWidth>
         <View style=Style.(style([alignSelf(`stretch), justifyContent(`spaceAround)]))>
           (
@@ -79,7 +91,7 @@ let make = (_children) => {
                   <DailyProgressFacetStyled.Amount key=(string_of_int(i))>
                     (
                       ReasonReact.stringToElement(
-                        rf.name == "running" ?
+                        rf.name === "running" ?
                           rf.amountCompleted > 0. ?
                             string_of_float(rf.amountCompleted) ++ "km" :
                             string_of_int(int_of_float(rf.amountCompleted)) ++ " km" :
