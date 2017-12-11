@@ -5,35 +5,139 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
-var DailyProgressStyled = require("./styled/DailyProgressStyled.bs.js");
+var Title = require("./styled/Title");
+var Status = require("./styled/Status");
+var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
+var Container = require("./styled/Container");
+var Bar = require("./styled/Stats/Bar");
+var Title$1 = require("./styled/Stats/Title");
+var Amount = require("./styled/Stats/Amount");
+var Column = require("./styled/Stats/Column");
+var Container$1 = require("./styled/Stats/Container");
+var BarContainer = require("./styled/Stats/BarContainer");
+
+function make(onLayout, children) {
+  return ReasonReact.wrapJsForReason(
+    Container.default,
+    {
+      onLayout: Js_null_undefined.from_opt(onLayout),
+    },
+    children
+  );
+}
+
+var Container$2 = /* module */ [/* make */ make];
+
+function make$1(children) {
+  return ReasonReact.wrapJsForReason(Title.default, {}, children);
+}
+
+var Title$2 = /* module */ [/* make */ make$1];
+
+function make$2(children) {
+  return ReasonReact.wrapJsForReason(Status.default, {}, children);
+}
+
+var Status$1 = /* module */ [/* make */ make$2];
+
+function make$3(parentContainerWidth, children) {
+  return ReasonReact.wrapJsForReason(
+    Container$1.default,
+    {
+      parentContainerWidth: parentContainerWidth,
+    },
+    children
+  );
+}
+
+var Container$3 = /* module */ [/* make */ make$3];
+
+function make$4(center, children) {
+  return ReasonReact.wrapJsForReason(
+    Column.default,
+    {
+      center: Js_null_undefined.from_opt(center),
+    },
+    children
+  );
+}
+
+var Column$1 = /* module */ [/* make */ make$4];
+
+function make$5(onLayout, children) {
+  return ReasonReact.wrapJsForReason(
+    BarContainer.default,
+    {
+      onLayout: Js_null_undefined.from_opt(onLayout),
+    },
+    children
+  );
+}
+
+var BarContainer$1 = /* module */ [/* make */ make$5];
+
+function make$6(width, children) {
+  return ReasonReact.wrapJsForReason(
+    Bar.default,
+    {
+      width: width,
+    },
+    children
+  );
+}
+
+var Bar$1 = /* module */ [/* make */ make$6];
+
+function make$7(children) {
+  return ReasonReact.wrapJsForReason(Title$1.default, {}, children);
+}
+
+var Title$3 = /* module */ [/* make */ make$7];
+
+function make$8(children) {
+  return ReasonReact.wrapJsForReason(Amount.default, {}, children);
+}
+
+var Amount$1 = /* module */ [/* make */ make$8];
+
+var Stats = /* module */ [
+  /* Container */ Container$3,
+  /* Column */ Column$1,
+  /* BarContainer */ BarContainer$1,
+  /* Bar */ Bar$1,
+  /* Title */ Title$3,
+  /* Amount */ Amount$1,
+];
+
+var Styled = /* module */ [
+  /* Container */ Container$2,
+  /* Title */ Title$2,
+  /* Status */ Status$1,
+  /* Stats */ Stats,
+];
 
 var component = ReasonReact.reducerComponent("DailyProgressFacet");
 
-function make(currentWorkout, parentContainerWidth, _) {
+function make$9(currentWorkout, parentContainerWidth, _) {
   var newrecord = component.slice();
   newrecord[/* render */ 9] = function(self) {
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
-      Curry._2(
-        DailyProgressStyled.Stats[/* Container */ 0][/* make */ 0],
+      make$3(
         parentContainerWidth,
         /* array */ [
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            Curry._2(
-              DailyProgressStyled.Stats[/* Column */ 1][/* make */ 0],
+            make$4(
               /* None */ 0,
               /* array */ [
                 currentWorkout.map(function(rf, i) {
                   return ReasonReact.element(
                     /* Some */ [Pervasives.string_of_int(i)],
                     /* None */ 0,
-                    Curry._1(
-                      DailyProgressStyled.Stats[/* Title */ 4][/* make */ 0],
-                      /* array */ [rf[/* name */ 0]]
-                    )
+                    make$7(/* array */ [rf[/* name */ 0]])
                   );
                 }),
               ]
@@ -42,17 +146,14 @@ function make(currentWorkout, parentContainerWidth, _) {
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            Curry._2(
-              DailyProgressStyled.Stats[/* Column */ 1][/* make */ 0],
+            make$4(
               /* Some */ [/* true */ 1],
               /* array */ [
                 currentWorkout.map(function(rf, i) {
                   return ReasonReact.element(
                     /* Some */ [Pervasives.string_of_int(i)],
                     /* None */ 0,
-                    Curry._2(
-                      DailyProgressStyled
-                        .Stats[/* BarContainer */ 2][/* make */ 0],
+                    make$5(
                       /* Some */ [
                         Curry._1(self[/* reduce */ 3], function($$event) {
                           return /* MeasureMaxBarWidth */ [
@@ -64,9 +165,7 @@ function make(currentWorkout, parentContainerWidth, _) {
                         ReasonReact.element(
                           /* None */ 0,
                           /* None */ 0,
-                          Curry._2(
-                            DailyProgressStyled
-                              .Stats[/* Bar */ 3][/* make */ 0],
+                          make$6(
                             self[/* state */ 4][/* maxBarWidth */ 0] *
                               (rf[/* amountCompleted */ 1] / rf[/* max */ 2]),
                             /* array */ []
@@ -82,8 +181,7 @@ function make(currentWorkout, parentContainerWidth, _) {
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            Curry._2(
-              DailyProgressStyled.Stats[/* Column */ 1][/* make */ 0],
+            make$4(
               /* None */ 0,
               /* array */ [
                 currentWorkout.map(function(rf, i) {
@@ -107,10 +205,7 @@ function make(currentWorkout, parentContainerWidth, _) {
                   return ReasonReact.element(
                     /* Some */ [Pervasives.string_of_int(i)],
                     /* None */ 0,
-                    Curry._1(
-                      DailyProgressStyled.Stats[/* Amount */ 5][/* make */ 0],
-                      /* array */ [tmp]
-                    )
+                    make$8(/* array */ [tmp])
                   );
                 }),
               ]
@@ -132,22 +227,22 @@ function make(currentWorkout, parentContainerWidth, _) {
 }
 
 var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
-  return make(
+  return make$9(
     jsProps.currentWorkout,
     jsProps.parentContainerWidth,
     /* array */ []
   );
 });
 
-var Stats = /* module */ [
+var Stats$1 = /* module */ [
   /* component */ component,
-  /* make */ make,
+  /* make */ make$9,
   /* default */ $$default,
 ];
 
 var component$1 = ReasonReact.reducerComponent("DailyProgress");
 
-function make$1() {
+function make$10() {
   var newrecord = component$1.slice();
   newrecord[/* render */ 9] = function(self) {
     var workout = /* array */ [
@@ -183,7 +278,7 @@ function make$1() {
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
-      DailyProgressStyled.Container[/* make */ 0](
+      make(
         /* Some */ [
           Curry._1(self[/* reduce */ 3], function($$event) {
             return /* MeasureContainerWidth */ Block.__(0, [
@@ -195,14 +290,12 @@ function make$1() {
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            DailyProgressStyled.Title[/* make */ 0](
-              /* array */ ["today's workout"]
-            )
+            make$1(/* array */ ["today's workout"])
           ),
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            DailyProgressStyled.Status[/* make */ 0](
+            make$2(
               /* array */ [
                 Pervasives.string_of_int(percComplete | 0) + "% complete",
               ]
@@ -211,7 +304,7 @@ function make$1() {
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            make(
+            make$9(
               workout,
               self[/* state */ 4][/* containerWidth */ 0],
               /* array */ []
@@ -245,12 +338,13 @@ function make$1() {
 }
 
 var $$default$1 = ReasonReact.wrapReasonForJs(component$1, function() {
-  return make$1(/* array */ []);
+  return make$10(/* array */ []);
 });
 
-exports.Stats = Stats;
+exports.Styled = Styled;
+exports.Stats = Stats$1;
 exports.component = component$1;
-exports.make = make$1;
+exports.make = make$10;
 exports.$$default = $$default$1;
 exports.default = $$default$1;
 exports.__esModule = true;
