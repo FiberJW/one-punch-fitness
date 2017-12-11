@@ -3,10 +3,11 @@
 ## todo
 
 * [x] implement info and workout cards
-* [x] design and implement workout screens
-* [x] design and implement info screen
-* [ ] design and implement calendar screen
-* [ ] design and implement settings screen
+* [x] scaffold workout screens
+* [x] scaffold info screen
+* [x] scaffold calendar screen
+* [ ] scaffold settings screen
+* [ ] implement logic in screens and components
 * [x] design data flow
 * [ ] implement state management
 * [ ] animations? (popup menus, modals, tabbar, progressbars, etc.)
