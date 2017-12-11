@@ -31,6 +31,12 @@ function make$2(onPress, activeOpacity, children) {
 
 var Touchable$1 = /* module */ [/* make */ make$2];
 
+var Styled = /* module */ [
+  /* Label */ Label$1,
+  /* Base */ Base$1,
+  /* Touchable */ Touchable$1,
+];
+
 var component = ReasonReact.statelessComponent("ActionButton");
 
 function make$3(onPress, label, _) {
@@ -67,9 +73,7 @@ var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
   return make$3(jsProps.onPress, jsProps.label, /* array */ []);
 });
 
-exports.Label = Label$1;
-exports.Base = Base$1;
-exports.Touchable = Touchable$1;
+exports.Styled = Styled;
 exports.component = component;
 exports.make = make$3;
 exports.$$default = $$default;
