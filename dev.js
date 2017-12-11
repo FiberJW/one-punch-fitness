@@ -46,13 +46,13 @@ const reasonBuildSysWatch = spawn("npm", ["run", "watch-reason"]);
 const expoServer = spawn("npm", ["run", "start-expo"]);
 
 reasonBuildSysWatch.stdout.on("data", data => {
-  bsbBox.pushLine(data.toString());
+  bsbBox.pushLine(chalk.white(data.toString()));
   bsbBox.setScrollPerc(100);
   screen.render();
 });
 
 reasonBuildSysWatch.stderr.on("data", data => {
-  bsbBox.pushLine(data.toString());
+  bsbBox.pushLine(chalk.hex("#DB4D3F")(data.toString()));
   bsbBox.setScrollPerc(100);
   screen.render();
 });

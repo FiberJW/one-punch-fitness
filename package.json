@@ -11,6 +11,7 @@
     "react-native":
       "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
     "react-native-animatable": "^1.2.4",
+    "react-native-calendars": "^1.15.0",
     "react-navigation": "^1.0.0-beta.19",
     "reason-react": "0.2.4",
     "styled-components": "^2.2.3"
