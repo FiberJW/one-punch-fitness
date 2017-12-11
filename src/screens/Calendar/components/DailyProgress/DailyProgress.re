@@ -1,6 +1,91 @@
 open DailyProgressStyled;
 
-open ReactNative;
+type routineStat = {
+  name: string,
+  amountCompleted: float,
+  max: float
+};
+
+module Stats = {
+  type action =
+    | MeasureMaxBarWidth(int);
+  type state = {maxBarWidth: int};
+  let component = ReasonReact.reducerComponent("DailyProgressFacet");
+  let make = (~currentWorkout, ~parentContainerWidth, _children) => {
+    ...component,
+    initialState: () => {maxBarWidth: 0},
+    reducer: (action, _state) =>
+      switch action {
+      | MeasureMaxBarWidth(width) => ReasonReact.Update({maxBarWidth: width})
+      },
+    render: (self) =>
+      <DailyProgressStyled.Stats.Container parentContainerWidth>
+        <DailyProgressStyled.Stats.Column>
+          (
+            ReasonReact.arrayToElement(
+              Js.Array.mapi(
+                (rf, i) =>
+                  <DailyProgressStyled.Stats.Title key=(string_of_int(i))>
+                    (ReasonReact.stringToElement(rf.name))
+                  </DailyProgressStyled.Stats.Title>,
+                currentWorkout
+              )
+            )
+          )
+        </DailyProgressStyled.Stats.Column>
+        <DailyProgressStyled.Stats.Column center=true>
+          (
+            ReasonReact.arrayToElement(
+              Js.Array.mapi(
+                (rf, i) =>
+                  <DailyProgressStyled.Stats.BarContainer
+                    key=(string_of_int(i))
+                    onLayout=(
+                      self.reduce((event) => MeasureMaxBarWidth(event##nativeEvent##layout##width))
+                    )>
+                    <DailyProgressStyled.Stats.Bar
+                      width=(float(self.state.maxBarWidth) *. (rf.amountCompleted /. rf.max))
+                    />
+                  </DailyProgressStyled.Stats.BarContainer>,
+                currentWorkout
+              )
+            )
+          )
+        </DailyProgressStyled.Stats.Column>
+        <DailyProgressStyled.Stats.Column>
+          (
+            ReasonReact.arrayToElement(
+              Js.Array.mapi(
+                (rf, i) =>
+                  <DailyProgressStyled.Stats.Amount key=(string_of_int(i))>
+                    (
+                      ReasonReact.stringToElement(
+                        rf.name === "running" ?
+                          rf.amountCompleted > 0. ?
+                            string_of_float(rf.amountCompleted) ++ "km" :
+                            string_of_int(int_of_float(rf.amountCompleted)) ++ " km" :
+                          string_of_int(int_of_float(rf.amountCompleted))
+                      )
+                    )
+                  </DailyProgressStyled.Stats.Amount>,
+                currentWorkout
+              )
+            )
+          )
+        </DailyProgressStyled.Stats.Column>
+      </DailyProgressStyled.Stats.Container>
+  };
+  let default =
+    ReasonReact.wrapReasonForJs(
+      ~component,
+      (jsProps) =>
+        make(
+          ~currentWorkout=jsProps##currentWorkout,
+          ~parentContainerWidth=jsProps##parentContainerWidth,
+          [||]
+        )
+    );
+};
 
 type action =
   | MeasureContainerWidth(int)
@@ -9,12 +94,6 @@ type action =
 type state = {
   containerWidth: int,
   maxBarWidth: int
-};
-
-type routineFacet = {
-  name: string,
-  amountCompleted: float,
-  max: float
 };
 
 let component = ReasonReact.reducerComponent("DailyProgress");
@@ -50,61 +129,7 @@ let make = (_children) => {
       <Status>
         (ReasonReact.stringToElement(string_of_int(int_of_float(percComplete)) ++ "% complete"))
       </Status>
-      <DailyProgressFacetStyled.Container parentContainerWidth=self.state.containerWidth>
-        <View style=Style.(style([alignSelf(`stretch), justifyContent(`spaceAround)]))>
-          (
-            ReasonReact.arrayToElement(
-              Js.Array.mapi(
-                (rf, i) =>
-                  <DailyProgressFacetStyled.Title key=(string_of_int(i))>
-                    (ReasonReact.stringToElement(rf.name))
-                  </DailyProgressFacetStyled.Title>,
-                workout
-              )
-            )
-          )
-        </View>
-        <View style=Style.(style([alignSelf(`stretch), flex(1.), justifyContent(`spaceAround)]))>
-          (
-            ReasonReact.arrayToElement(
-              Js.Array.mapi(
-                (rf, i) =>
-                  <DailyProgressFacetStyled.BarContainer
-                    key=(string_of_int(i))
-                    onLayout=(
-                      self.reduce((event) => MeasureMaxBarWidth(event##nativeEvent##layout##width))
-                    )>
-                    <DailyProgressFacetStyled.Bar
-                      width=(float(self.state.maxBarWidth) *. (rf.amountCompleted /. rf.max))
-                    />
-                  </DailyProgressFacetStyled.BarContainer>,
-                workout
-              )
-            )
-          )
-        </View>
-        <View style=Style.(style([alignSelf(`stretch), justifyContent(`spaceAround)]))>
-          (
-            ReasonReact.arrayToElement(
-              Js.Array.mapi(
-                (rf, i) =>
-                  <DailyProgressFacetStyled.Amount key=(string_of_int(i))>
-                    (
-                      ReasonReact.stringToElement(
-                        rf.name === "running" ?
-                          rf.amountCompleted > 0. ?
-                            string_of_float(rf.amountCompleted) ++ "km" :
-                            string_of_int(int_of_float(rf.amountCompleted)) ++ " km" :
-                          string_of_int(int_of_float(rf.amountCompleted))
-                      )
-                    )
-                  </DailyProgressFacetStyled.Amount>,
-                workout
-              )
-            )
-          )
-        </View>
-      </DailyProgressFacetStyled.Container>
+      <Stats currentWorkout=workout parentContainerWidth=self.state.containerWidth />
     </Container>
   }
 };
