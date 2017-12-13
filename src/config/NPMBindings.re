@@ -49,3 +49,32 @@ module Expo = {
       ReasonReact.wrapJsForReason(~reactClass=appLoading, ~props=Js.Obj.empty(), children);
   };
 };
+
+module DateTimePicker = {
+  [@bs.module "react-native-modal-datetime-picker"]
+  external dateTimePicker : ReasonReact.reactClass =
+    "default";
+  let make =
+      (
+        ~isVisible: bool=false,
+        ~onConfirm: option((Js.Date.t => unit))=?,
+        ~onCancel: option((unit => unit))=?,
+        ~mode: option(string)=?,
+        children
+      ) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=dateTimePicker,
+      ~props={
+        "isVisible": Js.Boolean.to_js_boolean(isVisible),
+        "onConfirm": Js.Nullable.from_opt(onConfirm),
+        "onCancel": Js.Nullable.from_opt(onCancel),
+        "mode": Js.Nullable.from_opt(mode)
+      },
+      children
+    );
+};
+
+module Moment = {
+  type t;
+  [@bs.module] external make : string => Js.t({..}) = "moment";
+};

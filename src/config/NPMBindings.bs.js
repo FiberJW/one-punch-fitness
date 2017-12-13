@@ -2,9 +2,11 @@
 "use strict";
 
 var Expo = require("expo");
+var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var ReactNativeCalendars = require("react-native-calendars");
+var ReactNativeModalDatetimePicker = require("react-native-modal-datetime-picker");
 
 function make(
   minDate,
@@ -55,6 +57,26 @@ var AppLoading = /* module */ [/* make */ make$1];
 
 var Expo$1 = /* module */ [/* Font */ Font, /* AppLoading */ AppLoading];
 
+function make$2($staropt$star, onConfirm, onCancel, mode, children) {
+  var isVisible = $staropt$star ? $staropt$star[0] : /* false */ 0;
+  return ReasonReact.wrapJsForReason(
+    ReactNativeModalDatetimePicker.default,
+    {
+      isVisible: Js_boolean.to_js_boolean(isVisible),
+      onConfirm: Js_null_undefined.from_opt(onConfirm),
+      onCancel: Js_null_undefined.from_opt(onCancel),
+      mode: Js_null_undefined.from_opt(mode),
+    },
+    children
+  );
+}
+
+var DateTimePicker = /* module */ [/* make */ make$2];
+
+var Moment = /* module */ [];
+
 exports.RNCalendars = RNCalendars;
 exports.Expo = Expo$1;
+exports.DateTimePicker = DateTimePicker;
+exports.Moment = Moment;
 /* expo Not a pure module */
