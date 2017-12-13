@@ -37,3 +37,15 @@ module RNCalendars = {
       );
   };
 };
+
+module Expo = {
+  module Font = {
+    [@bs.scope "Font"] [@bs.module "expo"] external loadAsync : Js.t({..}) => Js.Promise.t(unit) =
+      "loadAsync";
+  };
+  module AppLoading = {
+    [@bs.module "expo"] external appLoading : ReasonReact.reactClass = "AppLoading";
+    let make = (children) =>
+      ReasonReact.wrapJsForReason(~reactClass=appLoading, ~props=Js.Obj.empty(), children);
+  };
+};
