@@ -137,7 +137,7 @@ let make = (_children) => {
               ()
             )
         )
-        onCancel=((_) => ())
+        onCancel=(self.reduce(() => ToggleDatePicker))
         isVisible=self.state.datePickerVisible
       />
     </Styled.Container>
