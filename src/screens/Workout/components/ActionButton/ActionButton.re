@@ -23,7 +23,7 @@ module Styled = {
 let component = ReasonReact.statelessComponent("ActionButton");
 
 let make = (~onPress, ~label, _children) => {
-  ...component, /* spread the template's other defaults into here  */
+  ...component,
   render: (_self) =>
     <Styled.Touchable activeOpacity=0.75 onPress>
       <Styled.Base> <Styled.Label> label </Styled.Label> </Styled.Base>
