@@ -242,6 +242,7 @@ function make$8() {
                 },
               ],
               /* Some */ ["time"],
+              /* Some */ ["Pick a time for your workout reminder"],
               /* array */ []
             )
           ),
