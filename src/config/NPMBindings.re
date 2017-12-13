@@ -60,6 +60,7 @@ module DateTimePicker = {
         ~onConfirm: option((Js.Date.t => unit))=?,
         ~onCancel: option((unit => unit))=?,
         ~mode: option(string)=?,
+        ~titleIOS: option(string)=?,
         children
       ) =>
     ReasonReact.wrapJsForReason(
@@ -68,6 +69,7 @@ module DateTimePicker = {
         "isVisible": Js.Boolean.to_js_boolean(isVisible),
         "onConfirm": Js.Nullable.from_opt(onConfirm),
         "onCancel": Js.Nullable.from_opt(onCancel),
+        "titleIOS": Js.Nullable.from_opt(titleIOS),
         "mode": Js.Nullable.from_opt(mode)
       },
       children

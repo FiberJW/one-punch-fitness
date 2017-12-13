@@ -126,6 +126,7 @@ let make = (_children) => {
       )
       <DateTimePicker
         mode="time"
+        titleIOS="Pick a time for your workout reminder"
         onConfirm=(
           (d) =>
             self.reduce(

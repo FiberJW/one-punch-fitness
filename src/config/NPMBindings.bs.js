@@ -57,7 +57,7 @@ var AppLoading = /* module */ [/* make */ make$1];
 
 var Expo$1 = /* module */ [/* Font */ Font, /* AppLoading */ AppLoading];
 
-function make$2($staropt$star, onConfirm, onCancel, mode, children) {
+function make$2($staropt$star, onConfirm, onCancel, mode, titleIOS, children) {
   var isVisible = $staropt$star ? $staropt$star[0] : /* false */ 0;
   return ReasonReact.wrapJsForReason(
     ReactNativeModalDatetimePicker.default,
@@ -65,6 +65,7 @@ function make$2($staropt$star, onConfirm, onCancel, mode, children) {
       isVisible: Js_boolean.to_js_boolean(isVisible),
       onConfirm: Js_null_undefined.from_opt(onConfirm),
       onCancel: Js_null_undefined.from_opt(onCancel),
+      titleIOS: Js_null_undefined.from_opt(titleIOS),
       mode: Js_null_undefined.from_opt(mode),
     },
     children

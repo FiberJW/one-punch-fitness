@@ -6,10 +6,10 @@
 * [x] scaffold workout screens
 * [x] scaffold info screen
 * [x] scaffold calendar screen
-* [ ] scaffold settings screen
+* [x] scaffold settings screen
+* [ ] implement state management
 * [ ] implement logic in screens and components
 * [x] design data flow
-* [ ] implement state management
 * [ ] animations? (popup menus, modals, tabbar, progressbars, etc.)
 * [ ] local persistence
 * [ ] reminders
