@@ -22,4 +22,5 @@ export default {
   bRED: "#FF5252",
   twentyOnStart: "#61F0CC",
   blueLeftUsTooSoon: "#536DFE",
+  disabled: "#9E9E9E",
 };

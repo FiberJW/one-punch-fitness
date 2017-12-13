@@ -82,8 +82,8 @@ expoServer.on("close", code => {
 });
 
 screen.key(["escape", "q", "C-c"], function(ch, key) {
-  reasonBuildSysWatch.kill();
-  expoServer.kill();
+  reasonBuildSysWatch.kill("SIGINT");
+  expoServer.kill("SIGINT");
   return process.exit(0);
 });
 

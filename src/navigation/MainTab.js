@@ -1,10 +1,12 @@
 // @flow
 import React, { Component } from "react";
 import { TabNavigator as tabNavigator } from "react-navigation";
+import { Icons } from "Assets";
 import HomeScreen from "../screens/Home";
 import CalendarScreen from "../screens/Calendar/CalendarScreen.bs";
-import SettingsScreen from "../screens/Settings";
+import SettingsScreen from "../screens/Settings/SettingsScreen.bs";
 import TabBar from "./components/TabBar";
+import TabIcon from "./components/TabBar/styled/Icon";
 
 type Props = {
   navigation: {},
@@ -28,7 +30,26 @@ export default class MainTab extends Component<Props, State> {
             title: "calendar",
           },
         },
-        Settings: { screen: SettingsScreen, path: "settings" },
+        Settings: {
+          screen: SettingsScreen,
+          path: "settings",
+          navigationOptions: {
+            tabBarLabel: null,
+            tabBarIcon: ({
+              focused,
+              tintColor,
+            }: {
+              focused: boolean,
+              tintColor: string,
+            }) => (
+              <TabIcon
+                focused={focused}
+                tintColor={tintColor}
+                source={Icons.Settings}
+              />
+            ),
+          },
+        },
       },
       {
         tabBarPosition: "top",
