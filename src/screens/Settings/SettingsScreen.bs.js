@@ -237,9 +237,9 @@ function make$8() {
                 },
               ],
               /* Some */ [
-                function() {
-                  return /* () */ 0;
-                },
+                Curry._1(self[/* reduce */ 3], function() {
+                  return /* ToggleDatePicker */ 1;
+                }),
               ],
               /* Some */ ["time"],
               /* Some */ ["Pick a time for your workout reminder"],
