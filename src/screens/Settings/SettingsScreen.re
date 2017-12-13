@@ -1,5 +1,7 @@
 open ReactNative;
 
+open NPMBindings;
+
 [@bs.module "colors"] external colors : Js.t({..}) = "default";
 
 module Styled = {
@@ -51,7 +53,7 @@ module Option = {
     };
   };
   let component = ReasonReact.statelessComponent("Option");
-  let make = (~tint, ~label, ~onPress, ~render, children) => {
+  let make = (~tint, ~label, ~onPress, ~render, _children) => {
     ...component,
     render: (_self) =>
       <TouchableOpacity onPress activeOpacity=0.95>
@@ -63,19 +65,37 @@ module Option = {
   };
 };
 
-type state = {remindersActive: bool};
+type state = {
+  remindersActive: bool,
+  reminderTime: string,
+  datePickerVisible: bool
+};
 
 type action =
-  | ToggleReminders;
+  | ToggleReminders
+  | SetTime(string)
+  | ToggleDatePicker;
 
 let component = ReasonReact.reducerComponent("SettingsScreen");
 
 let make = (_children) => {
   ...component,
-  initialState: () => {remindersActive: false},
+  initialState: () => {
+    remindersActive: false,
+    datePickerVisible: false,
+    reminderTime: Js.Date.toUTCString(Js.Date.make())
+  },
   reducer: (action, state) =>
     switch action {
-    | ToggleReminders => ReasonReact.Update({remindersActive: ! state.remindersActive})
+    | ToggleReminders => ReasonReact.Update({...state, remindersActive: ! state.remindersActive})
+    | ToggleDatePicker =>
+      ReasonReact.Update({...state, datePickerVisible: ! state.datePickerVisible})
+    | SetTime(datestring) =>
+      ReasonReact.Update({
+        ...state,
+        datePickerVisible: ! state.datePickerVisible,
+        reminderTime: datestring
+      })
     },
   render: (self) =>
     <Styled.Container>
@@ -85,13 +105,39 @@ let make = (_children) => {
         onPress=(self.reduce(() => ToggleReminders))
         render=(() => <Switch value=self.state.remindersActive />)
       />
-      <Option
-        tint=colors##status
-        label="reminder time"
-        onPress=(() => ())
-        render=(
-          () => <Option.Styled.Text> (ReasonReact.stringToElement("12:05pm")) </Option.Styled.Text>
+      (
+        self.state.remindersActive ?
+          <Option
+            tint=colors##status
+            label="reminder time"
+            onPress=(self.reduce(() => ToggleDatePicker))
+            render=(
+              () =>
+                <Option.Styled.Text>
+                  (
+                    ReasonReact.stringToElement(
+                      Moment.make(self.state.reminderTime)##format("h:mmA")
+                    )
+                  )
+                </Option.Styled.Text>
+            )
+          /> :
+          ReasonReact.nullElement
+      )
+      <DateTimePicker
+        mode="time"
+        onConfirm=(
+          (d) =>
+            self.reduce(
+              () => {
+                Js.log(d);
+                SetTime(Js.Date.toUTCString(d))
+              },
+              ()
+            )
         )
+        onCancel=((_) => ())
+        isVisible=self.state.datePickerVisible
       />
     </Styled.Container>
 };

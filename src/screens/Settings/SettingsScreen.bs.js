@@ -4,6 +4,8 @@
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Colors = require("colors");
+var Moment = require("moment");
+var NPMBindings = require("../../config/NPMBindings.bs.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
 var Container = require("./styled/Container");
 var TouchableOpacityRe = require("bs-react-native/src/components/touchableOpacityRe.js");
@@ -162,6 +164,7 @@ function make$8() {
   var newrecord = component$2.slice();
   newrecord[/* render */ 9] = function(self) {
     var match = self[/* state */ 4][/* remindersActive */ 0];
+    var match$1 = self[/* state */ 4][/* remindersActive */ 0];
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
@@ -189,22 +192,56 @@ function make$8() {
               /* array */ []
             )
           ),
+          match$1 !== 0
+            ? ReasonReact.element(
+                /* None */ 0,
+                /* None */ 0,
+                make$7(
+                  Colors.default.status,
+                  "reminder time",
+                  Curry._1(self[/* reduce */ 3], function() {
+                    return /* ToggleDatePicker */ 1;
+                  }),
+                  function() {
+                    return ReasonReact.element(
+                      /* None */ 0,
+                      /* None */ 0,
+                      make$6(
+                        /* array */ [
+                          Moment(
+                            self[/* state */ 4][/* reminderTime */ 1]
+                          ).format("h:mmA"),
+                        ]
+                      )
+                    );
+                  },
+                  /* array */ []
+                )
+              )
+            : null,
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
-            make$7(
-              Colors.default.status,
-              "reminder time",
-              function() {
-                return /* () */ 0;
-              },
-              function() {
-                return ReasonReact.element(
-                  /* None */ 0,
-                  /* None */ 0,
-                  make$6(/* array */ ["12:05pm"])
-                );
-              },
+            NPMBindings.DateTimePicker[/* make */ 0](
+              /* Some */ [self[/* state */ 4][/* datePickerVisible */ 2]],
+              /* Some */ [
+                function(d) {
+                  return Curry._2(
+                    self[/* reduce */ 3],
+                    function() {
+                      console.log(d);
+                      return /* SetTime */ [d.toUTCString()];
+                    },
+                    /* () */ 0
+                  );
+                },
+              ],
+              /* Some */ [
+                function() {
+                  return /* () */ 0;
+                },
+              ],
+              /* Some */ ["time"],
               /* array */ []
             )
           ),
@@ -213,12 +250,40 @@ function make$8() {
     );
   };
   newrecord[/* initialState */ 10] = function() {
-    return /* record */ [/* remindersActive : false */ 0];
+    return /* record */ [
+      /* remindersActive : false */ 0,
+      /* reminderTime */ new Date().toUTCString(),
+      /* datePickerVisible : false */ 0,
+    ];
   };
-  newrecord[/* reducer */ 12] = function(_, state) {
-    return /* Update */ Block.__(0, [
-      /* record */ [/* remindersActive */ 1 - state[/* remindersActive */ 0]],
-    ]);
+  newrecord[/* reducer */ 12] = function(action, state) {
+    if (typeof action === "number") {
+      if (action !== 0) {
+        return /* Update */ Block.__(0, [
+          /* record */ [
+            /* remindersActive */ state[/* remindersActive */ 0],
+            /* reminderTime */ state[/* reminderTime */ 1],
+            /* datePickerVisible */ 1 - state[/* datePickerVisible */ 2],
+          ],
+        ]);
+      } else {
+        return /* Update */ Block.__(0, [
+          /* record */ [
+            /* remindersActive */ 1 - state[/* remindersActive */ 0],
+            /* reminderTime */ state[/* reminderTime */ 1],
+            /* datePickerVisible */ state[/* datePickerVisible */ 2],
+          ],
+        ]);
+      }
+    } else {
+      return /* Update */ Block.__(0, [
+        /* record */ [
+          /* remindersActive */ state[/* remindersActive */ 0],
+          /* reminderTime */ action[0],
+          /* datePickerVisible */ 1 - state[/* datePickerVisible */ 2],
+        ],
+      ]);
+    }
   };
   return newrecord;
 }
