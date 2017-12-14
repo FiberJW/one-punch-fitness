@@ -4,7 +4,7 @@
     "description": "An empty new project",
     "slug": "one-punch-fitness",
     "privacy": "public",
-    "sdkVersion": "23.0.0",
+    "sdkVersion": "24.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -24,6 +24,7 @@
     },
     "android": {
       "icon": "./assets/android-icon.png"
-    }
+    },
+    "assetBundlePatterns": ["assets/icons/*", "assets/illustrations/*"]
   }
 }
