@@ -6,7 +6,7 @@ import { Illustrations } from "Assets";
 import Container from "./styled/Container";
 import CoverImage from "./styled/CoverImage";
 import Header from "./styled/Header";
-import IntensityButton from "./IntensityButton";
+import IntensityButton from "./IntensityButton/IntensityButton.bs";
 import ImageGradient from "./styled/ImageGradient";
 import LevelLabel from "./styled/LevelLabel";
 import RoutineContainer from "./styled/RoutineContainer";
