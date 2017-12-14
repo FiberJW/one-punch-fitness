@@ -12,7 +12,7 @@ import Image from "./components/styled/Image";
 import Progress from "./components/styled/Progress";
 import SetType from "./components/styled/SetType";
 import SetReps from "./components/styled/SetReps";
-import SessionControl from "./components/SessionControl";
+import SessionControl from "./components/SessionControl/SessionControl.bs";
 import SessionControlGroup from "./components/SessionControl/styled/Group";
 
 type Props = *;
