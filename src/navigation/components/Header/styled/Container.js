@@ -2,7 +2,7 @@
 import { Platform } from "react-native";
 import { Constants } from "expo";
 import styled from "styled-components/native";
-import colors from "colors";
+import colors from "ReColor";
 
 export default styled.View`
   padding-top: ${Platform.OS !== "ios" ? Constants.statusBarHeight : 0};

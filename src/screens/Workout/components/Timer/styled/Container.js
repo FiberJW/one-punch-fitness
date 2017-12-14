@@ -1,7 +1,7 @@
 // @flow
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
-import colors from "colors";
+import colors from "ReColor";
 
 export default styled.View`
   width: ${Dimensions.get("window").width * 0.6};

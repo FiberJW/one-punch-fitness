@@ -1,6 +1,6 @@
 // @flow
 import styled from "styled-components/native";
-import colors from "colors";
+import colors from "ReColor";
 
 export default styled.View`
   height: 32px;

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { View } from "react-native";
-import colors from "colors";
+import colors from "ReColor";
 import { Illustrations } from "Assets";
 import Container from "./styled/Container";
 import CoverImage from "./styled/CoverImage";

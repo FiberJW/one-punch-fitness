@@ -3,7 +3,7 @@
 
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
-var Colors = require("colors");
+var Colors = require("../../config/Colors.bs.js");
 var Moment = require("moment");
 var NPMBindings = require("../../config/NPMBindings.bs.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
@@ -174,7 +174,7 @@ function make$8() {
             /* None */ 0,
             /* None */ 0,
             make$7(
-              match !== 0 ? Colors.default.start : Colors.default.disabled,
+              match !== 0 ? Colors.start : Colors.disabled,
               "reminders",
               Curry._1(self[/* reduce */ 3], function() {
                 return /* ToggleReminders */ 0;
@@ -197,7 +197,7 @@ function make$8() {
                 /* None */ 0,
                 /* None */ 0,
                 make$7(
-                  Colors.default.status,
+                  Colors.status,
                   "reminder time",
                   Curry._1(self[/* reduce */ 3], function() {
                     return /* ToggleDatePicker */ 1;
