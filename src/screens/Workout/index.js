@@ -2,7 +2,7 @@
 import React from "react";
 import ReducerComponent from "ReducerComponent";
 import { ScrollView } from "react-native";
-import colors from "colors";
+import colors from "ReColor";
 import { Illustrations } from "Assets";
 import Container from "./components/styled/Container";
 import Background from "./components/styled/Background";

@@ -2,8 +2,6 @@ open ReactNative;
 
 open NPMBindings;
 
-[@bs.module "colors"] external colors : Js.t({..}) = "default";
-
 module Styled = {
   module Container = {
     [@bs.module "./styled/Container"] external container : ReasonReact.reactClass = "default";
@@ -100,7 +98,7 @@ let make = (_children) => {
   render: (self) =>
     <Styled.Container>
       <Option
-        tint=(self.state.remindersActive ? colors##start : colors##disabled)
+        tint=(self.state.remindersActive ? Colors.start : Colors.disabled)
         label="reminders"
         onPress=(self.reduce(() => ToggleReminders))
         render=(() => <Switch value=self.state.remindersActive />)
@@ -108,7 +106,7 @@ let make = (_children) => {
       (
         self.state.remindersActive ?
           <Option
-            tint=colors##status
+            tint=Colors.status
             label="reminder time"
             onPress=(self.reduce(() => ToggleDatePicker))
             render=(
