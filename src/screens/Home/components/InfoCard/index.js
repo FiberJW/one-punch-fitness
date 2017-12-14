@@ -11,7 +11,7 @@ import CoverImage from "./styled/CoverImage";
 import Title from "./styled/Title";
 import ButtonTouchable from "./styled/ButtonTouchable";
 import OverflowButton from "./OverflowButton/OverflowButton.bs";
-import PopupMenu from "./PopupMenu";
+import PopupMenu from "./PopupMenu/PopupMenu.bs";
 
 type Props = {
   navigation: {

@@ -2,10 +2,12 @@
 "use strict";
 
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
+var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
-var Base = require("./styled/Base");
-var Label = require("./styled/Label");
+var Container = require("./styled/Container");
 var TouchableOpacityRe = require("bs-react-native/src/components/touchableOpacityRe.js");
+var Base = require("./styled/Option/Base");
+var Label = require("./styled/Option/Label");
 
 function make(children) {
   return ReasonReact.wrapJsForReason(Label.default, {}, children);
@@ -80,10 +82,58 @@ var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
   return make$2(jsProps.last, jsProps.action, /* array */ []);
 });
 
-exports.Styled = Styled;
-exports.component = component;
-exports.make = make$2;
-exports.$$default = $$default;
-exports.default = $$default;
+var Option = /* module */ [
+  /* Styled */ Styled,
+  /* component */ component,
+  /* make */ make$2,
+  /* default */ $$default,
+];
+
+function make$3(children) {
+  return ReasonReact.wrapJsForReason(Container.default, {}, children);
+}
+
+var Container$1 = /* module */ [/* make */ make$3];
+
+var Styled$1 = /* module */ [/* Container */ Container$1];
+
+var component$1 = ReasonReact.statelessComponent("PopupMenu");
+
+function make$4(actions, _) {
+  var newrecord = component$1.slice();
+  newrecord[/* render */ 9] = function() {
+    return ReasonReact.element(
+      /* None */ 0,
+      /* None */ 0,
+      make$3(
+        /* array */ [
+          actions.map(function(action, i) {
+            return ReasonReact.element(
+              /* Some */ [Pervasives.string_of_int(i)],
+              /* None */ 0,
+              make$2(
+                +(i === ((actions.length - 1) | 0)),
+                action,
+                /* array */ []
+              )
+            );
+          }),
+        ]
+      )
+    );
+  };
+  return newrecord;
+}
+
+var $$default$1 = ReasonReact.wrapReasonForJs(component$1, function(jsProps) {
+  return make$4(jsProps.actions, /* array */ []);
+});
+
+exports.Option = Option;
+exports.Styled = Styled$1;
+exports.component = component$1;
+exports.make = make$4;
+exports.$$default = $$default$1;
+exports.default = $$default$1;
 exports.__esModule = true;
 /* component Not a pure module */
