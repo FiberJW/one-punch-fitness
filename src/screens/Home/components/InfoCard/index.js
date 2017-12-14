@@ -10,7 +10,7 @@ import Description from "./styled/Description";
 import CoverImage from "./styled/CoverImage";
 import Title from "./styled/Title";
 import ButtonTouchable from "./styled/ButtonTouchable";
-import OverflowButton from "./OverflowButton";
+import OverflowButton from "./OverflowButton/OverflowButton.bs";
 import PopupMenu from "./PopupMenu";
 
 type Props = {
