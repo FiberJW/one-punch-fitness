@@ -7,7 +7,7 @@ import { Illustrations } from "Assets";
 import Container from "./components/styled/Container";
 import Background from "./components/styled/Background";
 import ActionButton from "./components/ActionButton/ActionButton.bs";
-import Timer from "./components/Timer";
+import Timer from "./components/Timer/Timer.bs";
 import Image from "./components/styled/Image";
 import Progress from "./components/styled/Progress";
 import SetType from "./components/styled/SetType";
