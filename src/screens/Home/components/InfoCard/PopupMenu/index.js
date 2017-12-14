@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import Option from "./Option";
+import Option from "./Option/PopupMenuOption.bs";
 import Container from "./styled/Container";
 
 type Props = {
