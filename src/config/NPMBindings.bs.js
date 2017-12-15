@@ -6,6 +6,7 @@ var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var ReasonReact = require("reason-react/src/reasonReact.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var ReactNativeCalendars = require("react-native-calendars");
+var ReactNativeAnimatable = require("react-native-animatable");
 var ReactNativeModalDatetimePicker = require("react-native-modal-datetime-picker");
 
 function make(
@@ -76,8 +77,23 @@ var DateTimePicker = /* module */ [/* make */ make$2];
 
 var Moment = /* module */ [];
 
+function make$3(easing, children) {
+  return ReasonReact.wrapJsForReason(
+    ReactNativeAnimatable.View,
+    {
+      easing: easing,
+    },
+    children
+  );
+}
+
+var View = /* module */ [/* make */ make$3];
+
+var RNAnimatable = /* module */ [/* View */ View];
+
 exports.RNCalendars = RNCalendars;
 exports.Expo = Expo$1;
 exports.DateTimePicker = DateTimePicker;
 exports.Moment = Moment;
+exports.RNAnimatable = RNAnimatable;
 /* expo Not a pure module */
