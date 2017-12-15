@@ -11,7 +11,7 @@ import ImageGradient from "./styled/ImageGradient";
 import LevelLabel from "./styled/LevelLabel";
 import RoutineContainer from "./styled/RoutineContainer";
 import RoutineFacet from "./RoutineFacet";
-import StartButton from "./StartButton";
+import StartButton from "./StartButton/WorkoutCardStartButton.bs";
 
 type Props = {
   navigation: {
@@ -20,13 +20,11 @@ type Props = {
 };
 
 type State = {
-  menuOpen: boolean,
   level: number,
 };
 
 export default class WorkoutCard extends Component<Props, State> {
   state = {
-    menuOpen: false,
     level: 0,
   };
 
