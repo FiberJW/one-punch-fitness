@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import InfoCard from "./components/InfoCard";
+import InfoCard from "./components/InfoCard/InfoCard.bs";
 import Container from "./components/styled/Container";
 import SectionLabel from "./components/styled/SectionLabel";
 import WorkoutCard from "./components/WorkoutCard";

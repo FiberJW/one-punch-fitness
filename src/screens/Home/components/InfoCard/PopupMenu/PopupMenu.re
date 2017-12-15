@@ -22,7 +22,9 @@ module Option = {
     ...component,
     render: (_self) =>
       <TouchableOpacity activeOpacity=0.8 onPress=action##onPress>
-        <Styled.Base last> <Styled.Label> action##title </Styled.Label> </Styled.Base>
+        <Styled.Base last>
+          <Styled.Label> (ReasonReact.stringToElement(action##title)) </Styled.Label>
+        </Styled.Base>
       </TouchableOpacity>
   };
   let default =
