@@ -11,7 +11,7 @@
 * [ ] implement logic in screens and components
 * [x] design data flow
 * [ ] animations? (popup menus, modals, tabbar, progressbars, etc.)
-* [ ] local persistence
-* [ ] reminders
+* [x] local persistence
+* [x] reminders
 * [ ] persisting in-workout states
 * [ ] archiving infocards
