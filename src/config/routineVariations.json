@@ -14,15 +14,15 @@
     },
     "run": {
       "distance": 10,
-      "unit": "km"
+      "units": "km"
     },
     "rest": {
       "amount": 30,
-      "unit": "sec"
+      "units": "sec"
     },
     "transition": {
       "amount": 60,
-      "unit": "sec"
+      "units": "sec"
     }
   },
   {
@@ -40,15 +40,15 @@
     },
     "run": {
       "distance": 10,
-      "unit": "km"
+      "units": "km"
     },
     "rest": {
       "amount": 30,
-      "unit": "sec"
+      "units": "sec"
     },
     "transition": {
       "amount": 60,
-      "unit": "sec"
+      "units": "sec"
     }
   },
   {
@@ -66,15 +66,15 @@
     },
     "run": {
       "distance": 10,
-      "unit": "km"
+      "units": "km"
     },
     "rest": {
       "amount": 30,
-      "unit": "sec"
+      "units": "sec"
     },
     "transition": {
       "amount": 60,
-      "unit": "sec"
+      "units": "sec"
     }
   },
   {
@@ -92,15 +92,15 @@
     },
     "run": {
       "distance": 10,
-      "unit": "km"
+      "units": "km"
     },
     "rest": {
       "amount": 60,
-      "unit": "sec"
+      "units": "sec"
     },
     "transition": {
       "amount": 120,
-      "unit": "sec"
+      "units": "sec"
     }
   },
   {
@@ -118,15 +118,15 @@
     },
     "run": {
       "distance": 10,
-      "unit": "km"
+      "units": "km"
     },
     "rest": {
       "amount": 120,
-      "unit": "sec"
+      "units": "sec"
     },
     "transition": {
       "amount": 180,
-      "unit": "sec"
+      "units": "sec"
     }
   }
 ]
