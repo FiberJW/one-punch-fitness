@@ -48,6 +48,30 @@ module Expo = {
     let make = (children) =>
       ReasonReact.wrapJsForReason(~reactClass=appLoading, ~props=Js.Obj.empty(), children);
   };
+  module Permissions = {
+    [@bs.scope "Permissions"] [@bs.module "expo"] external notifications : string =
+      "NOTIFICATIONS";
+    [@bs.scope "Permissions"] [@bs.module "expo"]
+    external ask : string => Js.Promise.t({. "expires": string, "status": string}) =
+      "askAsync";
+    [@bs.scope "Permissions"] [@bs.module "expo"]
+    external get : string => Js.Promise.t({. "expires": string, "status": string}) =
+      "getAsync";
+  };
+  module Notifications = {
+    type localNotification = {. "title": string, "body": string};
+    type schedulingOptions = {. "time": float, "repeat": string};
+    [@bs.scope "Notifications"] [@bs.module "expo"]
+    external scheduleLocalNotificationAsync :
+      (localNotification, schedulingOptions) => Js.Promise.t(string) =
+      "scheduleLocalNotificationAsync";
+    [@bs.scope "Notifications"] [@bs.module "expo"]
+    external cancelScheduledNotificationAsync : string => Js.Promise.t(unit) =
+      "cancelScheduledNotificationAsync";
+    [@bs.scope "Notifications"] [@bs.module "expo"]
+    external cancelAllScheduledNotificationsAsync : unit => Js.Promise.t(unit) =
+      "cancelAllScheduledNotificationsAsync";
+  };
 };
 
 module DateTimePicker = {
