@@ -10,8 +10,9 @@ import IntensityButton from "./IntensityButton/IntensityButton.bs";
 import ImageGradient from "./styled/ImageGradient";
 import LevelLabel from "./styled/LevelLabel";
 import RoutineContainer from "./styled/RoutineContainer";
-import RoutineFacet from "./RoutineFacet";
+import RoutineFacet from "./RoutineFacet/RoutineFacet.bs";
 import StartButton from "./StartButton/WorkoutCardStartButton.bs";
+import routines from "../../../../config/routineVariations.json";
 
 type Props = {
   navigation: {
@@ -46,7 +47,7 @@ export default class WorkoutCard extends Component<Props, State> {
             }}
           />
           <IntensityButton
-            disabled={this.state.level === 5}
+            disabled={this.state.level === 4}
             action="increment"
             onPress={() => {
               this.setState(prevState => ({
@@ -58,23 +59,37 @@ export default class WorkoutCard extends Component<Props, State> {
         </Header>
         <RoutineContainer>
           <View>
-            <RoutineFacet type="active" sets={10} reps={10} name="push-ups" />
-            <RoutineFacet type="active" sets={10} reps={10} name="sit-ups" />
-            <RoutineFacet type="active" sets={10} reps={10} name="squats" />
-            <RoutineFacet type="active" sets={10} reps={"km"} name="run" />
+            <RoutineFacet
+              sets={routines[this.state.level]["push-ups"].sets}
+              reps={routines[this.state.level]["push-ups"].reps}
+              name="push-ups"
+            />
+            <RoutineFacet
+              sets={routines[this.state.level]["sit-ups"].sets}
+              reps={routines[this.state.level]["sit-ups"].reps}
+              name="sit-ups"
+            />
+            <RoutineFacet
+              sets={routines[this.state.level]["squats"].sets}
+              reps={routines[this.state.level]["squats"].reps}
+              name="squats"
+            />
+            <RoutineFacet
+              distance={routines[this.state.level]["run"].distance}
+              units={routines[this.state.level]["run"].units}
+              name="run"
+            />
           </View>
           <View>
             <RoutineFacet
-              type="rest"
-              sets={"sec"}
-              reps={30}
-              name="rest intervals"
+              amount={routines[this.state.level]["rest"].amount}
+              units={routines[this.state.level]["rest"].units}
+              name="rest"
             />
             <RoutineFacet
-              type="rest"
-              sets={"min"}
-              reps={1}
-              name="transition period"
+              amount={routines[this.state.level]["transition"].amount}
+              units={routines[this.state.level]["transition"].units}
+              name="transition"
             />
           </View>
         </RoutineContainer>
