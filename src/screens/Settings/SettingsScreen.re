@@ -66,13 +66,27 @@ module Option = {
 type state = {
   remindersActive: bool,
   reminderTime: string,
+  timeSet: bool,
   datePickerVisible: bool
 };
 
 type action =
+  | Rehydrate(state)
   | ToggleReminders
   | SetTime(string)
+  | UnsetNotification
   | ToggleDatePicker;
+
+let serialize = (state) =>
+  Json.Encode.(
+    object_([
+      ("remindersActive", Js.Json.boolean(Js.Boolean.to_js_boolean(state.remindersActive))),
+      ("datePickerVisible", Js.Json.boolean(Js.Boolean.to_js_boolean(state.datePickerVisible))),
+      ("timeSet", Js.Json.boolean(Js.Boolean.to_js_boolean(state.timeSet))),
+      ("reminderTime", Js.Json.string(state.reminderTime))
+    ])
+    |> Js.Json.stringify
+  );
 
 let component = ReasonReact.reducerComponent("SettingsScreen");
 
@@ -81,32 +95,114 @@ let make = (_children) => {
   initialState: () => {
     remindersActive: false,
     datePickerVisible: false,
-    reminderTime: Js.Date.toUTCString(Js.Date.make())
+    reminderTime: Js.Date.toUTCString(Js.Date.make()),
+    timeSet: false
   },
   reducer: (action, state) =>
     switch action {
     | ToggleReminders => ReasonReact.Update({...state, remindersActive: ! state.remindersActive})
+    | Rehydrate(s) => ReasonReact.Update(s)
+    | UnsetNotification => ReasonReact.Update({...state, timeSet: false})
     | ToggleDatePicker =>
       ReasonReact.Update({...state, datePickerVisible: ! state.datePickerVisible})
     | SetTime(datestring) =>
       ReasonReact.Update({
         ...state,
         datePickerVisible: ! state.datePickerVisible,
-        reminderTime: datestring
+        reminderTime: datestring,
+        timeSet: true
       })
     },
+  didUpdate: ({newSelf}) => {
+    let stateAsJson = serialize(newSelf.state);
+    Js.log(stateAsJson);
+    AsyncStorage.setItem(
+      "SettingsScreen.state",
+      stateAsJson,
+      ~callback=
+        (e) =>
+          switch e {
+          | None => ()
+          | Some(err) => Js.log(err)
+          },
+      ()
+    )
+    |> ignore
+  },
+  didMount: (self) => {
+    Js.Promise.(
+      AsyncStorage.getItem("SettingsScreen.state", ())
+      |> then_(
+           (json) =>
+             (
+               switch json {
+               | None => ()
+               | Some(s) =>
+                 let parsedJson = Js.Json.parseExn(s);
+                 let state =
+                   Json.Decode.{
+                     remindersActive: parsedJson |> field("remindersActive", bool),
+                     reminderTime: parsedJson |> field("reminderTime", string),
+                     datePickerVisible: parsedJson |> field("datePickerVisible", bool),
+                     timeSet: parsedJson |> field("timeSet", bool)
+                   };
+                 self.reduce(() => Rehydrate(state), ());
+                 ()
+               }
+             )
+             |> resolve
+         )
+      |> ignore
+    );
+    ReasonReact.NoUpdate
+  },
   render: (self) =>
     <Styled.Container>
       <Option
         tint=(self.state.remindersActive ? Colors.start : Colors.disabled)
         label="reminders"
-        onPress=(self.reduce(() => ToggleReminders))
+        onPress=(
+          () =>
+            if (self.state.remindersActive) {
+              Js.Promise.(
+                Expo.Notifications.cancelAllScheduledNotificationsAsync()
+                |> then_(
+                     () =>
+                       {
+                         self.reduce(() => UnsetNotification, ());
+                         self.reduce(() => ToggleReminders, ())
+                       }
+                       |> resolve
+                   )
+                |> ignore
+              )
+            } else {
+              Js.Promise.(
+                Expo.Permissions.ask(Expo.Permissions.notifications)
+                |> then_(
+                     (res) =>
+                       (
+                         if (res##status === "granted") {
+                           self.reduce(() => ToggleReminders, ())
+                         } else {
+                           AlertRe.alert(
+                             ~title="Hey! You might want to enable notifications for my app, they are good.",
+                             ()
+                           )
+                         }
+                       )
+                       |> resolve
+                   )
+                |> ignore
+              )
+            }
+        )
         render=(() => <Switch value=self.state.remindersActive />)
       />
       (
         self.state.remindersActive ?
           <Option
-            tint=Colors.status
+            tint=(self.state.timeSet ? Colors.status : Colors.disabled)
             label="reminder time"
             onPress=(self.reduce(() => ToggleDatePicker))
             render=(
@@ -127,12 +223,35 @@ let make = (_children) => {
         titleIOS="Pick a time for your workout reminder"
         onConfirm=(
           (d) =>
-            self.reduce(
-              () => {
-                Js.log(d);
-                SetTime(Js.Date.toUTCString(d))
-              },
-              ()
+            Js.Promise.(
+              Expo.Notifications.cancelAllScheduledNotificationsAsync()
+              |> then_(
+                   () =>
+                     {
+                       self.reduce(() => UnsetNotification, ());
+                       Expo.Notifications.scheduleLocalNotificationAsync(
+                         {"title": "One Punch Fitness", "body": "move forward."},
+                         {
+                           "time":
+                             Js.Date.getTime(
+                               Moment.make(Js.Date.toUTCString(d))##add(0, "days")##toDate()
+                             ),
+                           "repeat": "day"
+                         }
+                       )
+                       |> then_(
+                            (_localNotificationId) =>
+                              {
+                                self.reduce(() => UnsetNotification, ());
+                                self.reduce(() => SetTime(Js.Date.toUTCString(d)), ())
+                              }
+                              |> resolve
+                          )
+                       |> ignore
+                     }
+                     |> resolve
+                 )
+              |> ignore
             )
         )
         onCancel=(self.reduce(() => ToggleDatePicker))
