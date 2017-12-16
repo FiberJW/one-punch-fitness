@@ -1,5 +1,5 @@
 module Option = {
-  open ReactNative;
+  open BsReactNative;
   module Styled = {
     module Label = {
       [@bs.module "./styled/Option/Label"] external label : ReasonReact.reactClass = "default";

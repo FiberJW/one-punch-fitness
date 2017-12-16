@@ -13,7 +13,7 @@ module RNCalendars = {
           ~firstDay: option(int)=?,
           ~hideDayNames: option(Js.boolean)=?,
           ~markedDates: option({.})=?,
-          ~style: option(ReactNative.Style.t)=?,
+          ~style: option(BsReactNative.Style.t)=?,
           ~markingType: option(string)=?,
           children
         ) =>

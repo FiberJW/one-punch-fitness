@@ -2,7 +2,7 @@
 "use strict";
 
 var Assets = require("Assets");
-var ReasonReact = require("reason-react/src/reasonReact.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Title = require("./styled/Title");
 var Container = require("./styled/Container");
 var HeroImage = require("./styled/HeroImage");

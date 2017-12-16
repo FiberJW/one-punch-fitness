@@ -4,7 +4,7 @@
   "dependencies": {
     "bs-json": "^0.2.4",
     "bs-platform": "^2.1.0",
-    "bs-react-native": "^0.3.0",
+    "bs-react-native": "^0.5.0",
     "chalk": "^2.3.0",
     "expo": "^24.0.0",
     "flow-bin": "0.56.0",
@@ -16,7 +16,7 @@
     "react-native-calendars": "^1.15.0",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-navigation": "^1.0.0-beta.21",
-    "reason-react": "0.2.4",
+    "reason-react": "0.3.0",
     "styled-components": "^2.2.3"
   },
   "name": "one-punch-fitness",

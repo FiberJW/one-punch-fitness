@@ -1,4 +1,4 @@
-open ReactNative;
+open BsReactNative;
 
 open NPMBindings.RNCalendars;
 
@@ -10,10 +10,10 @@ let make = (_children) => {
     <ScrollView
       showsVerticalScrollIndicator=false
       contentContainerStyle=Style.(
-                              style([flexGrow(1.), paddingVertical(16.), alignItems(`center)])
+                              style([flexGrow(1.), paddingVertical(Pt(16.)), alignItems(Center)])
                             )>
       <Calendar
-        style=Style.(style([width(float(Dimensions.get(`window)##width - 32)), flex(0.)]))
+        style=Style.(style([width(Pt(float(Dimensions.get(`window)##width - 32))), flex(0.)]))
       />
       <DailyProgress />
     </ScrollView>

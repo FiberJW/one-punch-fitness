@@ -4,7 +4,7 @@
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
-var ReasonReact = require("reason-react/src/reasonReact.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Title = require("./styled/Title");
 var Status = require("./styled/Status");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
@@ -155,7 +155,7 @@ function make$9(currentWorkout, parentContainerWidth, _) {
                     /* None */ 0,
                     make$5(
                       /* Some */ [
-                        Curry._1(self[/* reduce */ 3], function($$event) {
+                        Curry._1(self[/* reduce */ 1], function($$event) {
                           return /* MeasureMaxBarWidth */ [
                             $$event.nativeEvent.layout.width,
                           ];
@@ -166,7 +166,7 @@ function make$9(currentWorkout, parentContainerWidth, _) {
                           /* None */ 0,
                           /* None */ 0,
                           make$6(
-                            self[/* state */ 4][/* maxBarWidth */ 0] *
+                            self[/* state */ 2][/* maxBarWidth */ 0] *
                               (rf[/* amountCompleted */ 1] / rf[/* max */ 2]),
                             /* array */ []
                           )
@@ -280,7 +280,7 @@ function make$10() {
       /* None */ 0,
       make(
         /* Some */ [
-          Curry._1(self[/* reduce */ 3], function($$event) {
+          Curry._1(self[/* reduce */ 1], function($$event) {
             return /* MeasureContainerWidth */ Block.__(0, [
               $$event.nativeEvent.layout.width,
             ]);
@@ -306,7 +306,7 @@ function make$10() {
             /* None */ 0,
             make$9(
               workout,
-              self[/* state */ 4][/* containerWidth */ 0],
+              self[/* state */ 2][/* containerWidth */ 0],
               /* array */ []
             )
           ),
