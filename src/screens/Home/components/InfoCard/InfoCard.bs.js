@@ -8,17 +8,17 @@ var Colors = require("../../../../config/Colors.bs.js");
 var PopupMenu = require("./PopupMenu/PopupMenu.bs.js");
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var NPMBindings = require("../../../../config/NPMBindings.bs.js");
-var ReactNative = require("bs-react-native/src/reactNative.js");
-var ReasonReact = require("reason-react/src/reasonReact.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Title = require("./styled/Title");
 var OverflowButton = require("./OverflowButton/OverflowButton.bs.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var Container = require("./styled/Container");
-var TouchableOpacityRe = require("bs-react-native/src/components/touchableOpacityRe.js");
+var View$BsReactNative = require("bs-react-native/src/components/view.js");
 var CoverImage = require("./styled/CoverImage");
 var Description = require("./styled/Description");
 var ImageGradient = require("./styled/ImageGradient");
 var ButtonTouchable = require("./styled/ButtonTouchable");
+var TouchableOpacity$BsReactNative = require("bs-react-native/src/components/touchableOpacity.js");
 
 function make(children) {
   return ReasonReact.wrapJsForReason(Container.default, {}, children);
@@ -87,8 +87,8 @@ var Styled = /* module */ [
 ];
 
 function setPopupAnimatedViewRef(theRef, param) {
-  param[/* state */ 4][/* popupAnimatedViewRef */ 1][0] =
-    theRef === null ? /* None */ 0 : [theRef];
+  param[/* state */ 2][/* popupAnimatedViewRef */ 1][0] =
+    theRef == null ? /* None */ 0 : [theRef];
   return /* () */ 0;
 }
 
@@ -97,14 +97,15 @@ var component = ReasonReact.reducerComponent("InfoCard");
 function make$6(navigation, title, description, _) {
   var newrecord = component.slice();
   newrecord[/* render */ 9] = function(self) {
-    var match = self[/* state */ 4][/* menuOpen */ 0];
-    var match$1 = self[/* state */ 4][/* menuOpen */ 0];
-    var match$2 = self[/* state */ 4][/* menuOpen */ 0];
-    var match$3 = self[/* state */ 4][/* menuOpen */ 0];
+    var match = self[/* state */ 2][/* menuOpen */ 0];
+    var match$1 = self[/* state */ 2][/* menuOpen */ 0];
+    var match$2 = self[/* state */ 2][/* menuOpen */ 0];
+    var match$3 = self[/* state */ 2][/* menuOpen */ 0];
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
-      TouchableOpacityRe.make(
+      TouchableOpacity$BsReactNative.make(
+        /* None */ 0,
         /* None */ 0,
         /* None */ 0,
         /* None */ 0,
@@ -119,13 +120,13 @@ function make$6(navigation, title, description, _) {
           match !== 0
             ? function() {
                 var match =
-                  self[/* state */ 4][/* popupAnimatedViewRef */ 1][0];
+                  self[/* state */ 2][/* popupAnimatedViewRef */ 1][0];
                 if (match) {
                   var r = match[0];
                   r.slideOutRight(80).then(function() {
                     return Promise.resolve(
                       (Curry._2(
-                        self[/* reduce */ 3],
+                        self[/* reduce */ 1],
                         function() {
                           return /* ToggleMenu */ 0;
                         },
@@ -159,7 +160,7 @@ function make$6(navigation, title, description, _) {
                 ReasonReact.element(
                   /* None */ 0,
                   /* None */ 0,
-                  Curry.app(ReactNative.View[/* make */ 0], [
+                  View$BsReactNative.make(
                     /* None */ 0,
                     /* None */ 0,
                     /* None */ 0,
@@ -179,7 +180,8 @@ function make$6(navigation, title, description, _) {
                     /* None */ 0,
                     /* None */ 0,
                     /* None */ 0,
-                    /* None */ 0,
+                    /* None */ 0
+                  )(
                     /* array */ [
                       ReasonReact.element(
                         /* None */ 0,
@@ -204,13 +206,13 @@ function make$6(navigation, title, description, _) {
                         make$5(
                           function() {
                             var match =
-                              self[/* state */ 4][/* popupAnimatedViewRef */ 1][0];
+                              self[/* state */ 2][/* popupAnimatedViewRef */ 1][0];
                             if (match) {
                               var r = match[0];
                               r.slideOutUp(150).then(function() {
                                 return Promise.resolve(
                                   (Curry._2(
-                                    self[/* reduce */ 3],
+                                    self[/* reduce */ 1],
                                     function() {
                                       return /* ToggleMenu */ 0;
                                     },
@@ -225,7 +227,7 @@ function make$6(navigation, title, description, _) {
                             }
                           },
                           match$2 !== 0 ? 1 : 0.8,
-                          self[/* state */ 4][/* menuOpen */ 0],
+                          self[/* state */ 2][/* menuOpen */ 0],
                           /* array */ [
                             ReasonReact.element(
                               /* None */ 0,
@@ -275,8 +277,8 @@ function make$6(navigation, title, description, _) {
                         /* None */ 0,
                         make$4(/* array */ [title])
                       ),
-                    ],
-                  ])
+                    ]
+                  )
                 ),
                 ReasonReact.element(
                   /* None */ 0,

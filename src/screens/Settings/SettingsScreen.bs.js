@@ -6,20 +6,20 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Colors = require("../../config/Colors.bs.js");
 var Moment = require("moment");
-var AlertRe = require("bs-react-native/src/alertRe.js");
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var Json_decode = require("bs-json/src/Json_decode.js");
 var Json_encode = require("bs-json/src/Json_encode.js");
 var NPMBindings = require("../../config/NPMBindings.bs.js");
-var ReasonReact = require("reason-react/src/reasonReact.js");
-var AsyncStorageRe = require("bs-react-native/src/asyncStorageRe.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Container = require("./styled/Container");
-var TouchableOpacityRe = require("bs-react-native/src/components/touchableOpacityRe.js");
+var Alert$BsReactNative = require("bs-react-native/src/alert.js");
 var Text = require("./styled/Option/Text");
 var Knob = require("./styled/Switch/Knob");
 var Label = require("./styled/Option/Label");
 var Container$1 = require("./styled/Option/Container");
 var Container$2 = require("./styled/Switch/Container");
+var AsyncStorage$BsReactNative = require("bs-react-native/src/asyncStorage.js");
+var TouchableOpacity$BsReactNative = require("bs-react-native/src/components/touchableOpacity.js");
 
 function make(children) {
   return ReasonReact.wrapJsForReason(Container.default, {}, children);
@@ -116,7 +116,8 @@ function make$7(tint, label, onPress, render, _) {
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
-      TouchableOpacityRe.make(
+      TouchableOpacity$BsReactNative.make(
+        /* None */ 0,
         /* None */ 0,
         /* None */ 0,
         /* None */ 0,
@@ -191,7 +192,7 @@ function persist(state) {
       ]
     )
   );
-  AsyncStorageRe.setItem(
+  AsyncStorage$BsReactNative.setItem(
     "SettingsScreen.state",
     stateAsJson,
     /* Some */ [
@@ -210,46 +211,48 @@ function persist(state) {
 }
 
 function hydrate(self) {
-  AsyncStorageRe.getItem("SettingsScreen.state", /* None */ 0, /* () */ 0).then(
-    function(json) {
-      var tmp;
-      if (json) {
-        var parsedJson = JSON.parse(json[0]);
-        var state_000 = /* remindersActive */ Json_decode.field(
-          "remindersActive",
-          Json_decode.bool,
-          parsedJson
-        );
-        var state_001 = /* reminderTime */ Json_decode.field(
-          "reminderTime",
-          Json_decode.string,
-          parsedJson
-        );
-        var state_002 = /* timeSet */ Json_decode.field(
-          "timeSet",
-          Json_decode.bool,
-          parsedJson
-        );
-        var state_003 = /* datePickerVisible */ Json_decode.field(
-          "datePickerVisible",
-          Json_decode.bool,
-          parsedJson
-        );
-        var state = /* record */ [state_000, state_001, state_002, state_003];
-        Curry._2(
-          self[/* reduce */ 3],
-          function() {
-            return /* Rehydrate */ Block.__(0, [state]);
-          },
-          /* () */ 0
-        );
-        tmp = /* () */ 0;
-      } else {
-        tmp = /* () */ 0;
-      }
-      return Promise.resolve(tmp);
+  AsyncStorage$BsReactNative.getItem(
+    "SettingsScreen.state",
+    /* None */ 0,
+    /* () */ 0
+  ).then(function(json) {
+    var tmp;
+    if (json) {
+      var parsedJson = JSON.parse(json[0]);
+      var state_000 = /* remindersActive */ Json_decode.field(
+        "remindersActive",
+        Json_decode.bool,
+        parsedJson
+      );
+      var state_001 = /* reminderTime */ Json_decode.field(
+        "reminderTime",
+        Json_decode.string,
+        parsedJson
+      );
+      var state_002 = /* timeSet */ Json_decode.field(
+        "timeSet",
+        Json_decode.bool,
+        parsedJson
+      );
+      var state_003 = /* datePickerVisible */ Json_decode.field(
+        "datePickerVisible",
+        Json_decode.bool,
+        parsedJson
+      );
+      var state = /* record */ [state_000, state_001, state_002, state_003];
+      Curry._2(
+        self[/* reduce */ 1],
+        function() {
+          return /* Rehydrate */ Block.__(0, [state]);
+        },
+        /* () */ 0
+      );
+      tmp = /* () */ 0;
+    } else {
+      tmp = /* () */ 0;
     }
-  );
+    return Promise.resolve(tmp);
+  });
   return /* NoUpdate */ 0;
 }
 
@@ -257,7 +260,7 @@ function cancelNotifications(self, callback) {
   Expo.Notifications.cancelAllScheduledNotificationsAsync().then(function() {
     return Promise.resolve(
       (Curry._2(
-        self[/* reduce */ 3],
+        self[/* reduce */ 1],
         function() {
           return /* UnsetNotification */ 1;
         },
@@ -275,21 +278,21 @@ function make$8() {
   var newrecord = component$2.slice();
   newrecord[/* didMount */ 4] = hydrate;
   newrecord[/* didUpdate */ 5] = function(param) {
-    return persist(param[/* newSelf */ 1][/* state */ 4]);
+    return persist(param[/* newSelf */ 1][/* state */ 2]);
   };
   newrecord[/* render */ 9] = function(self) {
-    var match = self[/* state */ 4][/* remindersActive */ 0];
-    var match$1 = self[/* state */ 4][/* remindersActive */ 0];
+    var match = self[/* state */ 2][/* remindersActive */ 0];
+    var match$1 = self[/* state */ 2][/* remindersActive */ 0];
     var tmp;
     if (match$1 !== 0) {
-      var match$2 = self[/* state */ 4][/* timeSet */ 2];
+      var match$2 = self[/* state */ 2][/* timeSet */ 2];
       tmp = ReasonReact.element(
         /* None */ 0,
         /* None */ 0,
         make$7(
           match$2 !== 0 ? Colors.status : Colors.disabled,
           "reminder time",
-          Curry._1(self[/* reduce */ 3], function() {
+          Curry._1(self[/* reduce */ 1], function() {
             return /* ToggleDatePicker */ 2;
           }),
           function() {
@@ -298,7 +301,7 @@ function make$8() {
               /* None */ 0,
               make$6(
                 /* array */ [
-                  Moment(self[/* state */ 4][/* reminderTime */ 1]).format(
+                  Moment(self[/* state */ 2][/* reminderTime */ 1]).format(
                     "h:mmA"
                   ),
                 ]
@@ -323,10 +326,10 @@ function make$8() {
               match !== 0 ? Colors.start : Colors.disabled,
               "reminders",
               function() {
-                if (self[/* state */ 4][/* remindersActive */ 0]) {
+                if (self[/* state */ 2][/* remindersActive */ 0]) {
                   return cancelNotifications(
                     self,
-                    Curry._1(self[/* reduce */ 3], function() {
+                    Curry._1(self[/* reduce */ 1], function() {
                       return /* ToggleReminders */ 0;
                     })
                   );
@@ -337,13 +340,13 @@ function make$8() {
                     return Promise.resolve(
                       res.status === "granted"
                         ? Curry._2(
-                            self[/* reduce */ 3],
+                            self[/* reduce */ 1],
                             function() {
                               return /* ToggleReminders */ 0;
                             },
                             /* () */ 0
                           )
-                        : AlertRe.alert(
+                        : Alert$BsReactNative.alert(
                             "Hey! You might want to enable notifications for my app, they are good.",
                             /* None */ 0,
                             /* None */ 0,
@@ -361,7 +364,7 @@ function make$8() {
                   /* None */ 0,
                   /* None */ 0,
                   make$3(
-                    self[/* state */ 4][/* remindersActive */ 0],
+                    self[/* state */ 2][/* remindersActive */ 0],
                     /* array */ []
                   )
                 );
@@ -374,7 +377,7 @@ function make$8() {
             /* None */ 0,
             /* None */ 0,
             NPMBindings.DateTimePicker[/* make */ 0](
-              /* Some */ [self[/* state */ 4][/* datePickerVisible */ 3]],
+              /* Some */ [self[/* state */ 2][/* datePickerVisible */ 3]],
               /* Some */ [
                 function(d) {
                   return cancelNotifications(self, function() {
@@ -403,7 +406,7 @@ function make$8() {
                     ).then(function() {
                       return Promise.resolve(
                         Curry._2(
-                          self[/* reduce */ 3],
+                          self[/* reduce */ 1],
                           function() {
                             return /* SetTime */ Block.__(1, [d.toUTCString()]);
                           },
@@ -416,7 +419,7 @@ function make$8() {
                 },
               ],
               /* Some */ [
-                Curry._1(self[/* reduce */ 3], function() {
+                Curry._1(self[/* reduce */ 1], function() {
                   return /* ToggleDatePicker */ 2;
                 }),
               ],

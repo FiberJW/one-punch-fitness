@@ -3,11 +3,11 @@
 
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
-var ReasonReact = require("reason-react/src/reasonReact.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Container = require("./styled/Container");
-var TouchableOpacityRe = require("bs-react-native/src/components/touchableOpacityRe.js");
 var Base = require("./styled/Option/Base");
 var Label = require("./styled/Option/Label");
+var TouchableOpacity$BsReactNative = require("bs-react-native/src/components/touchableOpacity.js");
 
 function make(children) {
   return ReasonReact.wrapJsForReason(Label.default, {}, children);
@@ -37,7 +37,8 @@ function make$2(last, action, _) {
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
-      TouchableOpacityRe.make(
+      TouchableOpacity$BsReactNative.make(
+        /* None */ 0,
         /* None */ 0,
         /* None */ 0,
         /* None */ 0,

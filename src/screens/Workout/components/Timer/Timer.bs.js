@@ -2,7 +2,7 @@
 "use strict";
 
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
-var ReasonReact = require("reason-react/src/reasonReact.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Time = require("./styled/Time");
 var Container = require("./styled/Container");
 
