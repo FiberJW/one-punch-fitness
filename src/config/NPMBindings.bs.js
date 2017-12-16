@@ -56,7 +56,16 @@ function make$1(children) {
 
 var AppLoading = /* module */ [/* make */ make$1];
 
-var Expo$1 = /* module */ [/* Font */ Font, /* AppLoading */ AppLoading];
+var Permissions = /* module */ [];
+
+var Notifications = /* module */ [];
+
+var Expo$1 = /* module */ [
+  /* Font */ Font,
+  /* AppLoading */ AppLoading,
+  /* Permissions */ Permissions,
+  /* Notifications */ Notifications,
+];
 
 function make$2($staropt$star, onConfirm, onCancel, mode, titleIOS, children) {
   var isVisible = $staropt$star ? $staropt$star[0] : /* false */ 0;
