@@ -3,7 +3,7 @@
 
 var Expo = require("expo");
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
-var ReasonReact = require("reason-react/src/reasonReact.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var ReactNativeCalendars = require("react-native-calendars");
 var ReactNativeAnimatable = require("react-native-animatable");

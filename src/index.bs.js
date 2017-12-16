@@ -6,7 +6,7 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Assets = require("Assets");
 var NPMBindings = require("./config/NPMBindings.bs.js");
-var ReasonReact = require("reason-react/src/reasonReact.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var MainStack = require("./navigation/MainStack");
 var Container = require("./components/styled/Container");
 
@@ -32,7 +32,7 @@ function make$2() {
     Expo.Font.loadAsync(Assets.Fonts).then(function() {
       return Promise.resolve(
         Curry._2(
-          self[/* reduce */ 3],
+          self[/* reduce */ 1],
           function() {
             return /* FontsLoaded */ 0;
           },
@@ -43,7 +43,7 @@ function make$2() {
     return /* NoUpdate */ 0;
   };
   newrecord[/* render */ 9] = function(self) {
-    var match = self[/* state */ 4][/* fontsLoaded */ 0];
+    var match = self[/* state */ 2][/* fontsLoaded */ 0];
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,

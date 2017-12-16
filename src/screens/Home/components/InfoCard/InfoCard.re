@@ -1,4 +1,4 @@
-open ReactNative;
+open BsReactNative;
 
 open NPMBindings;
 
@@ -63,7 +63,7 @@ type action =
   | ToggleMenu;
 
 let setPopupAnimatedViewRef = (theRef, {ReasonReact.state}) =>
-  state.popupAnimatedViewRef := Js.Null.to_opt(theRef);
+  state.popupAnimatedViewRef := Js.Nullable.to_opt(theRef);
 
 let component = ReasonReact.reducerComponent("InfoCard");
 

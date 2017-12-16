@@ -1,4 +1,4 @@
-open ReactNative;
+open BsReactNative;
 
 open NPMBindings;
 
@@ -189,7 +189,7 @@ let make = (_children) => {
                          if (res##status === "granted") {
                            self.reduce(() => ToggleReminders, ())
                          } else {
-                           AlertRe.alert(
+                           Alert.alert(
                              ~title="Hey! You might want to enable notifications for my app, they are good.",
                              ()
                            )

@@ -3,7 +3,7 @@
 
 var Assets = require("Assets");
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
-var ReasonReact = require("reason-react/src/reasonReact.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Base = require("./styled/Base");
 var Icon = require("./styled/Icon");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
