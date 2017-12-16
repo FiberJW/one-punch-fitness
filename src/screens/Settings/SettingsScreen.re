@@ -77,15 +77,71 @@ type action =
   | UnsetNotification
   | ToggleDatePicker;
 
-let serialize = (state) =>
-  Json.Encode.(
-    object_([
-      ("remindersActive", Js.Json.boolean(Js.Boolean.to_js_boolean(state.remindersActive))),
-      ("datePickerVisible", Js.Json.boolean(Js.Boolean.to_js_boolean(state.datePickerVisible))),
-      ("timeSet", Js.Json.boolean(Js.Boolean.to_js_boolean(state.timeSet))),
-      ("reminderTime", Js.Json.string(state.reminderTime))
-    ])
-    |> Js.Json.stringify
+let persist = (state) => {
+  let stateAsJson =
+    Json.Encode.(
+      object_([
+        ("remindersActive", Js.Json.boolean(Js.Boolean.to_js_boolean(state.remindersActive))),
+        ("datePickerVisible", Js.Json.boolean(Js.Boolean.to_js_boolean(state.datePickerVisible))),
+        ("timeSet", Js.Json.boolean(Js.Boolean.to_js_boolean(state.timeSet))),
+        ("reminderTime", Js.Json.string(state.reminderTime))
+      ])
+      |> Js.Json.stringify
+    );
+  AsyncStorage.setItem(
+    "SettingsScreen.state",
+    stateAsJson,
+    ~callback=
+      (e) =>
+        switch e {
+        | None => ()
+        | Some(err) => Js.log(err)
+        },
+    ()
+  )
+  |> ignore
+};
+
+let hydrate = (self) => {
+  Js.Promise.(
+    AsyncStorage.getItem("SettingsScreen.state", ())
+    |> then_(
+         (json) =>
+           (
+             switch json {
+             | None => ()
+             | Some(s) =>
+               let parsedJson = Js.Json.parseExn(s);
+               let state =
+                 Json.Decode.{
+                   remindersActive: parsedJson |> field("remindersActive", bool),
+                   reminderTime: parsedJson |> field("reminderTime", string),
+                   datePickerVisible: parsedJson |> field("datePickerVisible", bool),
+                   timeSet: parsedJson |> field("timeSet", bool)
+                 };
+               self.ReasonReact.reduce(() => Rehydrate(state), ());
+               ()
+             }
+           )
+           |> resolve
+       )
+    |> ignore
+  );
+  ReasonReact.NoUpdate
+};
+
+let cancelNotifications = (self, callback) =>
+  Js.Promise.(
+    Expo.Notifications.cancelAllScheduledNotificationsAsync()
+    |> then_(
+         () =>
+           {
+             self.ReasonReact.reduce(() => UnsetNotification, ());
+             callback()
+           }
+           |> resolve
+       )
+    |> ignore
   );
 
 let component = ReasonReact.reducerComponent("SettingsScreen");
@@ -113,49 +169,8 @@ let make = (_children) => {
         timeSet: true
       })
     },
-  didUpdate: ({newSelf}) => {
-    let stateAsJson = serialize(newSelf.state);
-    Js.log(stateAsJson);
-    AsyncStorage.setItem(
-      "SettingsScreen.state",
-      stateAsJson,
-      ~callback=
-        (e) =>
-          switch e {
-          | None => ()
-          | Some(err) => Js.log(err)
-          },
-      ()
-    )
-    |> ignore
-  },
-  didMount: (self) => {
-    Js.Promise.(
-      AsyncStorage.getItem("SettingsScreen.state", ())
-      |> then_(
-           (json) =>
-             (
-               switch json {
-               | None => ()
-               | Some(s) =>
-                 let parsedJson = Js.Json.parseExn(s);
-                 let state =
-                   Json.Decode.{
-                     remindersActive: parsedJson |> field("remindersActive", bool),
-                     reminderTime: parsedJson |> field("reminderTime", string),
-                     datePickerVisible: parsedJson |> field("datePickerVisible", bool),
-                     timeSet: parsedJson |> field("timeSet", bool)
-                   };
-                 self.reduce(() => Rehydrate(state), ());
-                 ()
-               }
-             )
-             |> resolve
-         )
-      |> ignore
-    );
-    ReasonReact.NoUpdate
-  },
+  didUpdate: ({newSelf}) => persist(newSelf.state),
+  didMount: (self) => hydrate(self),
   render: (self) =>
     <Styled.Container>
       <Option
@@ -164,18 +179,7 @@ let make = (_children) => {
         onPress=(
           () =>
             if (self.state.remindersActive) {
-              Js.Promise.(
-                Expo.Notifications.cancelAllScheduledNotificationsAsync()
-                |> then_(
-                     () =>
-                       {
-                         self.reduce(() => UnsetNotification, ());
-                         self.reduce(() => ToggleReminders, ())
-                       }
-                       |> resolve
-                   )
-                |> ignore
-              )
+              cancelNotifications(self, self.reduce(() => ToggleReminders))
             } else {
               Js.Promise.(
                 Expo.Permissions.ask(Expo.Permissions.notifications)
@@ -223,35 +227,29 @@ let make = (_children) => {
         titleIOS="Pick a time for your workout reminder"
         onConfirm=(
           (d) =>
-            Js.Promise.(
-              Expo.Notifications.cancelAllScheduledNotificationsAsync()
-              |> then_(
-                   () =>
-                     {
-                       self.reduce(() => UnsetNotification, ());
-                       Expo.Notifications.scheduleLocalNotificationAsync(
-                         {"title": "One Punch Fitness", "body": "move forward."},
-                         {
-                           "time":
-                             Js.Date.getTime(
-                               Moment.make(Js.Date.toUTCString(d))##add(0, "days")##toDate()
-                             ),
-                           "repeat": "day"
-                         }
-                       )
-                       |> then_(
-                            (_localNotificationId) =>
-                              {
-                                self.reduce(() => UnsetNotification, ());
-                                self.reduce(() => SetTime(Js.Date.toUTCString(d)), ())
-                              }
-                              |> resolve
-                          )
-                       |> ignore
-                     }
-                     |> resolve
-                 )
-              |> ignore
+            cancelNotifications(
+              self,
+              () =>
+                Js.Promise.(
+                  Expo.Notifications.scheduleLocalNotificationAsync(
+                    {"title": "One Punch Fitness", "body": "move forward."},
+                    {
+                      "time":
+                        Js.Date.getTime(Moment.make(Js.Date.toUTCString(d))##toDate())
+                        < Js.Date.now() ?
+                          Js.Date.getTime(
+                            Moment.make(Js.Date.toUTCString(d))##add(1, "days")##toDate()
+                          ) :
+                          Js.Date.getTime(Moment.make(Js.Date.toUTCString(d))##toDate()),
+                      "repeat": "day"
+                    }
+                  )
+                  |> then_(
+                       (_localNotificationId) =>
+                         self.reduce(() => SetTime(Js.Date.toUTCString(d)), ()) |> resolve
+                     )
+                  |> ignore
+                )
             )
         )
         onCancel=(self.reduce(() => ToggleDatePicker))
