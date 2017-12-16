@@ -164,8 +164,8 @@ var Option = /* module */ [
   /* make */ make$7,
 ];
 
-function serialize(state) {
-  return JSON.stringify(
+function persist(state) {
+  var stateAsJson = JSON.stringify(
     Json_encode.object_(
       /* :: */ [
         /* tuple */ [
@@ -191,18 +191,27 @@ function serialize(state) {
       ]
     )
   );
+  AsyncStorageRe.setItem(
+    "SettingsScreen.state",
+    stateAsJson,
+    /* Some */ [
+      function(e) {
+        if (e) {
+          console.log(e[0]);
+          return /* () */ 0;
+        } else {
+          return /* () */ 0;
+        }
+      },
+    ],
+    /* () */ 0
+  );
+  return /* () */ 0;
 }
 
-var component$2 = ReasonReact.reducerComponent("SettingsScreen");
-
-function make$8() {
-  var newrecord = component$2.slice();
-  newrecord[/* didMount */ 4] = function(self) {
-    AsyncStorageRe.getItem(
-      "SettingsScreen.state",
-      /* None */ 0,
-      /* () */ 0
-    ).then(function(json) {
+function hydrate(self) {
+  AsyncStorageRe.getItem("SettingsScreen.state", /* None */ 0, /* () */ 0).then(
+    function(json) {
       var tmp;
       if (json) {
         var parsedJson = JSON.parse(json[0]);
@@ -239,28 +248,34 @@ function make$8() {
         tmp = /* () */ 0;
       }
       return Promise.resolve(tmp);
-    });
-    return /* NoUpdate */ 0;
-  };
-  newrecord[/* didUpdate */ 5] = function(param) {
-    var stateAsJson = serialize(param[/* newSelf */ 1][/* state */ 4]);
-    console.log(stateAsJson);
-    AsyncStorageRe.setItem(
-      "SettingsScreen.state",
-      stateAsJson,
-      /* Some */ [
-        function(e) {
-          if (e) {
-            console.log(e[0]);
-            return /* () */ 0;
-          } else {
-            return /* () */ 0;
-          }
+    }
+  );
+  return /* NoUpdate */ 0;
+}
+
+function cancelNotifications(self, callback) {
+  Expo.Notifications.cancelAllScheduledNotificationsAsync().then(function() {
+    return Promise.resolve(
+      (Curry._2(
+        self[/* reduce */ 3],
+        function() {
+          return /* UnsetNotification */ 1;
         },
-      ],
-      /* () */ 0
+        /* () */ 0
+      ),
+      Curry._1(callback, /* () */ 0))
     );
-    return /* () */ 0;
+  });
+  return /* () */ 0;
+}
+
+var component$2 = ReasonReact.reducerComponent("SettingsScreen");
+
+function make$8() {
+  var newrecord = component$2.slice();
+  newrecord[/* didMount */ 4] = hydrate;
+  newrecord[/* didUpdate */ 5] = function(param) {
+    return persist(param[/* newSelf */ 1][/* state */ 4]);
   };
   newrecord[/* render */ 9] = function(self) {
     var match = self[/* state */ 4][/* remindersActive */ 0];
@@ -309,27 +324,12 @@ function make$8() {
               "reminders",
               function() {
                 if (self[/* state */ 4][/* remindersActive */ 0]) {
-                  Expo.Notifications.cancelAllScheduledNotificationsAsync().then(
-                    function() {
-                      return Promise.resolve(
-                        (Curry._2(
-                          self[/* reduce */ 3],
-                          function() {
-                            return /* UnsetNotification */ 1;
-                          },
-                          /* () */ 0
-                        ),
-                        Curry._2(
-                          self[/* reduce */ 3],
-                          function() {
-                            return /* ToggleReminders */ 0;
-                          },
-                          /* () */ 0
-                        ))
-                      );
-                    }
+                  return cancelNotifications(
+                    self,
+                    Curry._1(self[/* reduce */ 3], function() {
+                      return /* ToggleReminders */ 0;
+                    })
                   );
-                  return /* () */ 0;
                 } else {
                   Expo.Permissions.askAsync(
                     Expo.Permissions.NOTIFICATIONS
@@ -377,53 +377,42 @@ function make$8() {
               /* Some */ [self[/* state */ 4][/* datePickerVisible */ 3]],
               /* Some */ [
                 function(d) {
-                  Expo.Notifications.cancelAllScheduledNotificationsAsync().then(
-                    function() {
+                  return cancelNotifications(self, function() {
+                    var match = +(
+                      Moment(d.toUTCString())
+                        .toDate()
+                        .getTime() < Date.now()
+                    );
+                    Expo.Notifications.scheduleLocalNotificationAsync(
+                      {
+                        title: "One Punch Fitness",
+                        body: "move forward.",
+                      },
+                      {
+                        time:
+                          match !== 0
+                            ? Moment(d.toUTCString())
+                                .add(1, "days")
+                                .toDate()
+                                .getTime()
+                            : Moment(d.toUTCString())
+                                .toDate()
+                                .getTime(),
+                        repeat: "day",
+                      }
+                    ).then(function() {
                       return Promise.resolve(
-                        (Curry._2(
+                        Curry._2(
                           self[/* reduce */ 3],
                           function() {
-                            return /* UnsetNotification */ 1;
+                            return /* SetTime */ Block.__(1, [d.toUTCString()]);
                           },
                           /* () */ 0
-                        ),
-                        Expo.Notifications.scheduleLocalNotificationAsync(
-                          {
-                            title: "One Punch Fitness",
-                            body: "move forward.",
-                          },
-                          {
-                            time: Moment(d.toUTCString())
-                              .add(0, "days")
-                              .toDate()
-                              .getTime(),
-                            repeat: "day",
-                          }
-                        ).then(function() {
-                          return Promise.resolve(
-                            (Curry._2(
-                              self[/* reduce */ 3],
-                              function() {
-                                return /* UnsetNotification */ 1;
-                              },
-                              /* () */ 0
-                            ),
-                            Curry._2(
-                              self[/* reduce */ 3],
-                              function() {
-                                return /* SetTime */ Block.__(1, [
-                                  d.toUTCString(),
-                                ]);
-                              },
-                              /* () */ 0
-                            ))
-                          );
-                        }),
-                        /* () */ 0)
+                        )
                       );
-                    }
-                  );
-                  return /* () */ 0;
+                    });
+                    return /* () */ 0;
+                  });
                 },
               ],
               /* Some */ [
@@ -502,7 +491,9 @@ var $$default = ReasonReact.wrapReasonForJs(component$2, function() {
 exports.Styled = Styled;
 exports.Switch = Switch;
 exports.Option = Option;
-exports.serialize = serialize;
+exports.persist = persist;
+exports.hydrate = hydrate;
+exports.cancelNotifications = cancelNotifications;
 exports.component = component$2;
 exports.make = make$8;
 exports.$$default = $$default;
