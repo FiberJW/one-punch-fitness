@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { TabNavigator as tabNavigator } from "react-navigation";
 import { Icons } from "Assets";
-import HomeScreen from "../screens/Home";
+import HomeScreen from "../screens/Home/HomeScreen.bs";
 import CalendarScreen from "../screens/Calendar/CalendarScreen.bs";
 import SettingsScreen from "../screens/Settings/SettingsScreen.bs";
 import TabBar from "./components/TabBar";
