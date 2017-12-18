@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from "react";
 import { TabNavigator as tabNavigator } from "react-navigation";
-import { Icons } from "Assets";
+import { Feather } from "@expo/vector-icons";
+import colors from "ReColor";
 import HomeScreen from "../screens/Home/HomeScreen.bs";
 import CalendarScreen from "../screens/Calendar/CalendarScreen.bs";
 import SettingsScreen from "../screens/Settings/SettingsScreen.bs";
 import TabBar from "./components/TabBar";
-import TabIcon from "./components/TabBar/styled/Icon";
 
 type Props = {
   navigation: {},
@@ -42,10 +42,10 @@ export default class MainTab extends Component<Props, State> {
               focused: boolean,
               tintColor: string,
             }) => (
-              <TabIcon
-                focused={focused}
-                tintColor={tintColor}
-                source={Icons.Settings}
+              <Feather
+                color={focused ? tintColor : colors.halfWhite}
+                name="settings"
+                size={24}
               />
             ),
           },

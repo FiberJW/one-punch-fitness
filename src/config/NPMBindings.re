@@ -74,6 +74,18 @@ module Expo = {
   };
 };
 
+module VectorIcons = {
+  module Feather = {
+    [@bs.module "@expo/vector-icons"] external feather : ReasonReact.reactClass = "Feather";
+    let make = (~name: string, ~size: int, ~color: string, children) =>
+      ReasonReact.wrapJsForReason(
+        ~reactClass=feather,
+        ~props={"name": name, "size": size, "color": color},
+        children
+      );
+  };
+};
+
 module DateTimePicker = {
   [@bs.module "react-native-modal-datetime-picker"]
   external dateTimePicker : ReasonReact.reactClass =

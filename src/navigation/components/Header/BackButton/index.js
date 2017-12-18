@@ -2,9 +2,8 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import { Icons } from "Assets";
+import { Feather } from "@expo/vector-icons";
 import Container from "./styled/Container";
-import Icon from "./styled/Icon";
 
 type Props = {
   navigation: {
@@ -15,7 +14,7 @@ type Props = {
 export default (props: Props) => (
   <TouchableOpacity onPress={() => props.navigation.goBack()}>
     <Container>
-      <Icon resizeMode="contain" source={Icons.ChevronLeft} />
+      <Feather name="chevron-left" color="white" size={16} />
     </Container>
   </TouchableOpacity>
 );

@@ -1,3 +1,5 @@
+open NPMBindings;
+
 module Styled = {
   module Touchable = {
     [@bs.module "./styled/Touchable"] external touchable : ReasonReact.reactClass = "default";
@@ -22,22 +24,7 @@ module Styled = {
         children
       );
   };
-  module Icon = {
-    [@bs.module "./styled/Icon"] external icon : ReasonReact.reactClass = "default";
-    let make = (~source=?, ~resizeMode=?, ~disabled, children) =>
-      ReasonReact.wrapJsForReason(
-        ~reactClass=icon,
-        ~props={
-          "disabled": Js.Boolean.to_js_boolean(disabled),
-          "source": Js.Nullable.from_opt(source),
-          "resizeMode": Js.Nullable.from_opt(resizeMode)
-        },
-        children
-      );
-  };
 };
-
-[@bs.module "Assets"] external icons : Js.t({..}) = "Icons";
 
 let component = ReasonReact.statelessComponent("IntensityButton");
 
@@ -47,10 +34,10 @@ let make = (~onPress, ~action, ~disabled, _children) => {
     <Styled.Touchable
       disabled left=(action === "decrement") right=(action === "increment") onPress>
       <Styled.Base disabled>
-        <Styled.Icon
-          disabled
-          source=(action === "decrement" ? icons##arrowLeft : icons##arrowRight)
-          resizeMode="contain"
+        <VectorIcons.Feather
+          name=(action === "decrement" ? "arrow-left" : "arrow-right")
+          color="white"
+          size=18
         />
       </Styled.Base>
     </Styled.Touchable>
