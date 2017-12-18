@@ -150,14 +150,12 @@ let make = (_children) => {
                       <SessionControl
                         color=Colors.blueLeftUsTooSoon
                         onPress=(
-                                  if (self.state.status === `paused) {
-                                    self.reduce(() => ResumeTimer)
-                                  } else if (self.state.status === `stopped) {
-                                    self.reduce(() => StartTimer(Some(startTimer(self))))
-                                  } else {
-                                    self.reduce(() => PauseTimer)
-                                  }
-                                )
+                          switch self.state.status {
+                          | `paused => self.reduce(() => ResumeTimer)
+                          | `stopped => self.reduce(() => StartTimer(Some(startTimer(self))))
+                          | `active => self.reduce(() => PauseTimer)
+                          }
+                        )
                         label=(
                           switch self.state.status {
                           | `active => "PAUSE"
@@ -169,13 +167,15 @@ let make = (_children) => {
                       <SessionControl
                         color=Colors.bRED
                         onPress=(
-                          () => {
-                            switch self.state.timerHandle {
-                            | Some(h) => clearInterval(h)
-                            | None => ()
-                            };
-                            self.reduce(() => StopTimer(None), ())
-                          }
+                          self.reduce(
+                            () => {
+                              switch self.state.timerHandle {
+                              | Some(h) => clearInterval(h)
+                              | None => ()
+                              };
+                              StopTimer(None)
+                            }
+                          )
                         )
                         label="STOP"
                       />
@@ -187,18 +187,19 @@ let make = (_children) => {
           )
           <ActionButton
             onPress=(
-              () => {
-                if (self.state.inSession) {
-                  switch self.state.timerHandle {
-                  | Some(h) => clearInterval(h)
-                  | None => ()
+              self.reduce(
+                () => {
+                  if (self.state.inSession) {
+                    switch self.state.timerHandle {
+                    | Some(h) => clearInterval(h)
+                    | None => self.reduce(() => StopTimer(None), ())
+                    }
+                  } else {
+                    self.reduce(() => StartTimer(Some(startTimer(self))), ())
                   };
-                  self.reduce(() => StopTimer(None), ())
-                } else {
-                  self.reduce(() => StartTimer(Some(startTimer(self))), ())
-                };
-                self.reduce(() => ToggleSession, ())
-              }
+                  ToggleSession
+                }
+              )
             )
             label=(self.state.inSession ? "COMPLETE" : "GO")
           />
