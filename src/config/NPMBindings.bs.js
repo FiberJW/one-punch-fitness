@@ -5,6 +5,7 @@ var Expo = require("expo");
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
+var VectorIcons = require("@expo/vector-icons");
 var ReactNativeCalendars = require("react-native-calendars");
 var ReactNativeAnimatable = require("react-native-animatable");
 var ReactNativeModalDatetimePicker = require("react-native-modal-datetime-picker");
@@ -67,7 +68,23 @@ var Expo$1 = /* module */ [
   /* Notifications */ Notifications,
 ];
 
-function make$2($staropt$star, onConfirm, onCancel, mode, titleIOS, children) {
+function make$2(name, size, color, children) {
+  return ReasonReact.wrapJsForReason(
+    VectorIcons.Feather,
+    {
+      name: name,
+      size: size,
+      color: color,
+    },
+    children
+  );
+}
+
+var Feather = /* module */ [/* make */ make$2];
+
+var VectorIcons$1 = /* module */ [/* Feather */ Feather];
+
+function make$3($staropt$star, onConfirm, onCancel, mode, titleIOS, children) {
   var isVisible = $staropt$star ? $staropt$star[0] : /* false */ 0;
   return ReasonReact.wrapJsForReason(
     ReactNativeModalDatetimePicker.default,
@@ -82,11 +99,11 @@ function make$2($staropt$star, onConfirm, onCancel, mode, titleIOS, children) {
   );
 }
 
-var DateTimePicker = /* module */ [/* make */ make$2];
+var DateTimePicker = /* module */ [/* make */ make$3];
 
 var Moment = /* module */ [];
 
-function make$3(easing, children) {
+function make$4(easing, children) {
   return ReasonReact.wrapJsForReason(
     ReactNativeAnimatable.View,
     {
@@ -96,12 +113,13 @@ function make$3(easing, children) {
   );
 }
 
-var View = /* module */ [/* make */ make$3];
+var View = /* module */ [/* make */ make$4];
 
 var RNAnimatable = /* module */ [/* View */ View];
 
 exports.RNCalendars = RNCalendars;
 exports.Expo = Expo$1;
+exports.VectorIcons = VectorIcons$1;
 exports.DateTimePicker = DateTimePicker;
 exports.Moment = Moment;
 exports.RNAnimatable = RNAnimatable;

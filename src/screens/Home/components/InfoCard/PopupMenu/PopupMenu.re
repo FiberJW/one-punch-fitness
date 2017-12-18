@@ -16,7 +16,6 @@ module Option = {
         );
     };
   };
-  [@bs.module "Assets"] external icons : Js.t({..}) = "Icons";
   let component = ReasonReact.statelessComponent("PopupMenuOption");
   let make = (~last, ~action, _children) => {
     ...component,

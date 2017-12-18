@@ -2,6 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "dependencies": {
+    "@expo/vector-icons": "^6.2.1",
     "bs-json": "^0.2.4",
     "bs-platform": "^2.1.0",
     "bs-react-native": "^0.5.0",
