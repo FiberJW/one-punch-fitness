@@ -190,13 +190,13 @@ function make$6(navigation, _) {
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).pushUps.sets,
+                            )[/* pushUps */ 0][/* sets */ 0],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).pushUps.reps,
+                            )[/* pushUps */ 0][/* reps */ 1],
                           ],
                           /* None */ 0,
                           /* None */ 0,
@@ -213,13 +213,13 @@ function make$6(navigation, _) {
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).sitUps.sets,
+                            )[/* sitUps */ 1][/* sets */ 0],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).sitUps.reps,
+                            )[/* sitUps */ 1][/* reps */ 1],
                           ],
                           /* None */ 0,
                           /* None */ 0,
@@ -236,13 +236,13 @@ function make$6(navigation, _) {
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).squats.sets,
+                            )[/* squats */ 2][/* sets */ 0],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).squats.reps,
+                            )[/* squats */ 2][/* reps */ 1],
                           ],
                           /* None */ 0,
                           /* None */ 0,
@@ -261,13 +261,13 @@ function make$6(navigation, _) {
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).run.distance,
+                            )[/* run */ 3][/* distance */ 0],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).run.units,
+                            )[/* run */ 3][/* units */ 1],
                           ],
                           /* None */ 0,
                           /* array */ []
@@ -314,13 +314,13 @@ function make$6(navigation, _) {
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).rest.units,
+                            )[/* rest */ 4][/* units */ 1],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).rest.amount,
+                            )[/* rest */ 4][/* amount */ 0],
                           ],
                           /* array */ []
                         )
@@ -337,13 +337,13 @@ function make$6(navigation, _) {
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).transition.units,
+                            )[/* transition */ 5][/* units */ 1],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
                               self[/* state */ 2][/* level */ 0]
-                            ).transition.amount,
+                            )[/* transition */ 5][/* amount */ 0],
                           ],
                           /* array */ []
                         )
