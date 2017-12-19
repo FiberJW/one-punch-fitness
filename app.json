@@ -25,6 +25,6 @@
     "android": {
       "icon": "./assets/android-icon.png"
     },
-    "assetBundlePatterns": ["assets/icons/*", "assets/illustrations/*"]
+    "assetBundlePatterns": ["assets/illustrations/*"]
   }
 }

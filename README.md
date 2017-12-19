@@ -9,7 +9,7 @@
 * [x] scaffold settings screen
 * [ ] implement state management
 * [ ] implement logic in screens and components
-* [x] design data flow
+* [ ] gather and include all necessary illustrations
 * [ ] animations? (popup menus, modals, tabbar, progressbars, etc.)
 * [x] local persistence
 * [x] reminders
