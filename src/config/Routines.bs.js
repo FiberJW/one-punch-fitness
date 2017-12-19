@@ -2,136 +2,46 @@
 "use strict";
 
 var variations = /* array */ [
-  {
-    pushUps: {
-      sets: 10,
-      reps: 10,
-    },
-    sitUps: {
-      sets: 10,
-      reps: 10,
-    },
-    squats: {
-      sets: 10,
-      reps: 10,
-    },
-    run: {
-      distance: 10,
-      units: "km",
-    },
-    rest: {
-      amount: 30,
-      units: "sec",
-    },
-    transition: {
-      amount: 60,
-      units: "sec",
-    },
-  },
-  {
-    pushUps: {
-      sets: 5,
-      reps: 20,
-    },
-    sitUps: {
-      sets: 5,
-      reps: 20,
-    },
-    squats: {
-      sets: 5,
-      reps: 20,
-    },
-    run: {
-      distance: 10,
-      units: "km",
-    },
-    rest: {
-      amount: 30,
-      units: "sec",
-    },
-    transition: {
-      amount: 60,
-      units: "sec",
-    },
-  },
-  {
-    pushUps: {
-      sets: 4,
-      reps: 25,
-    },
-    sitUps: {
-      sets: 4,
-      reps: 25,
-    },
-    squats: {
-      sets: 4,
-      reps: 25,
-    },
-    run: {
-      distance: 10,
-      units: "km",
-    },
-    rest: {
-      amount: 30,
-      units: "sec",
-    },
-    transition: {
-      amount: 60,
-      units: "sec",
-    },
-  },
-  {
-    pushUps: {
-      sets: 2,
-      reps: 50,
-    },
-    sitUps: {
-      sets: 2,
-      reps: 50,
-    },
-    squats: {
-      sets: 2,
-      reps: 50,
-    },
-    run: {
-      distance: 10,
-      units: "km",
-    },
-    rest: {
-      amount: 60,
-      units: "sec",
-    },
-    transition: {
-      amount: 120,
-      units: "sec",
-    },
-  },
-  {
-    pushUps: {
-      sets: 1,
-      reps: 100,
-    },
-    sitUps: {
-      sets: 1,
-      reps: 100,
-    },
-    squats: {
-      sets: 1,
-      reps: 100,
-    },
-    run: {
-      distance: 10,
-      units: "km",
-    },
-    rest: {
-      amount: 120,
-      units: "sec",
-    },
-    transition: {
-      amount: 180,
-      units: "sec",
-    },
-  },
+  /* record */ [
+    /* pushUps : record */ [/* sets */ 10, /* reps */ 10],
+    /* sitUps : record */ [/* sets */ 10, /* reps */ 10],
+    /* squats : record */ [/* sets */ 10, /* reps */ 10],
+    /* run : record */ [/* distance */ 10, /* units */ "km"],
+    /* rest : record */ [/* amount */ 30, /* units */ "sec"],
+    /* transition : record */ [/* amount */ 60, /* units */ "sec"],
+  ],
+  /* record */ [
+    /* pushUps : record */ [/* sets */ 5, /* reps */ 20],
+    /* sitUps : record */ [/* sets */ 5, /* reps */ 20],
+    /* squats : record */ [/* sets */ 5, /* reps */ 20],
+    /* run : record */ [/* distance */ 10, /* units */ "km"],
+    /* rest : record */ [/* amount */ 30, /* units */ "sec"],
+    /* transition : record */ [/* amount */ 60, /* units */ "sec"],
+  ],
+  /* record */ [
+    /* pushUps : record */ [/* sets */ 4, /* reps */ 25],
+    /* sitUps : record */ [/* sets */ 4, /* reps */ 25],
+    /* squats : record */ [/* sets */ 4, /* reps */ 25],
+    /* run : record */ [/* distance */ 10, /* units */ "km"],
+    /* rest : record */ [/* amount */ 30, /* units */ "sec"],
+    /* transition : record */ [/* amount */ 60, /* units */ "sec"],
+  ],
+  /* record */ [
+    /* pushUps : record */ [/* sets */ 2, /* reps */ 50],
+    /* sitUps : record */ [/* sets */ 2, /* reps */ 50],
+    /* squats : record */ [/* sets */ 2, /* reps */ 50],
+    /* run : record */ [/* distance */ 10, /* units */ "km"],
+    /* rest : record */ [/* amount */ 60, /* units */ "sec"],
+    /* transition : record */ [/* amount */ 120, /* units */ "sec"],
+  ],
+  /* record */ [
+    /* pushUps : record */ [/* sets */ 1, /* reps */ 100],
+    /* sitUps : record */ [/* sets */ 1, /* reps */ 100],
+    /* squats : record */ [/* sets */ 1, /* reps */ 100],
+    /* run : record */ [/* distance */ 10, /* units */ "km"],
+    /* rest : record */ [/* amount */ 120, /* units */ "sec"],
+    /* transition : record */ [/* amount */ 180, /* units */ "sec"],
+  ],
 ];
 
 exports.variations = variations;

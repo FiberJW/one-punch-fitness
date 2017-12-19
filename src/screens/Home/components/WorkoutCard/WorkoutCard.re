@@ -82,35 +82,35 @@ let make = (~navigation, _children) => {
       <Styled.RoutineContainer>
         <View>
           <RoutineFacet
-            sets=Routines.variations[self.state.level]##pushUps##sets
-            reps=Routines.variations[self.state.level]##pushUps##reps
+            sets=Routines.variations[self.state.level].pushUps.sets
+            reps=Routines.variations[self.state.level].pushUps.reps
             name="push-ups"
           />
           <RoutineFacet
-            sets=Routines.variations[self.state.level]##sitUps##sets
-            reps=Routines.variations[self.state.level]##sitUps##reps
+            sets=Routines.variations[self.state.level].sitUps.sets
+            reps=Routines.variations[self.state.level].sitUps.reps
             name="sit-ups"
           />
           <RoutineFacet
-            sets=Routines.variations[self.state.level]##squats##sets
-            reps=Routines.variations[self.state.level]##squats##reps
+            sets=Routines.variations[self.state.level].squats.sets
+            reps=Routines.variations[self.state.level].squats.reps
             name="squats"
           />
           <RoutineFacet
-            distance=Routines.variations[self.state.level]##run##distance
-            units=Routines.variations[self.state.level]##run##units
+            distance=Routines.variations[self.state.level].run.distance
+            units=Routines.variations[self.state.level].run.units
             name="run"
           />
         </View>
         <View>
           <RoutineFacet
-            amount=Routines.variations[self.state.level]##rest##amount
-            units=Routines.variations[self.state.level]##rest##units
+            amount=Routines.variations[self.state.level].rest.amount
+            units=Routines.variations[self.state.level].rest.units
             name="rest"
           />
           <RoutineFacet
-            amount=Routines.variations[self.state.level]##transition##amount
-            units=Routines.variations[self.state.level]##transition##units
+            amount=Routines.variations[self.state.level].transition.amount
+            units=Routines.variations[self.state.level].transition.units
             name="transition"
           />
         </View>
