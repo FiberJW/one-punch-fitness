@@ -47,8 +47,50 @@ module Styled = {
 type state = {level: int};
 
 type action =
+  | Rehydrate(state)
   | IncrementLevel
   | DecrementLevel;
+
+let persist = (state) => {
+  let stateAsJson =
+    Json.Encode.(
+      object_([("level", Js.Json.number(float_of_int(state.level)))]) |> Js.Json.stringify
+    );
+  AsyncStorage.setItem(
+    "workout",
+    stateAsJson,
+    ~callback=
+      (e) =>
+        switch e {
+        | None => ()
+        | Some(err) => Js.log(err)
+        },
+    ()
+  )
+  |> ignore
+};
+
+let hydrate = (self) => {
+  Js.Promise.(
+    AsyncStorage.getItem("workout", ())
+    |> then_(
+         (json) =>
+           (
+             switch json {
+             | None => ()
+             | Some(s) =>
+               let parsedJson = Js.Json.parseExn(s);
+               let state = Json.Decode.{level: parsedJson |> field("level", int)};
+               self.ReasonReact.reduce(() => Rehydrate(state), ());
+               ()
+             }
+           )
+           |> resolve
+       )
+    |> ignore
+  );
+  ReasonReact.NoUpdate
+};
 
 let component = ReasonReact.reducerComponent("WorkoutCard");
 
@@ -59,7 +101,10 @@ let make = (~navigation, _children) => {
     switch action {
     | IncrementLevel => ReasonReact.Update({level: state.level + 1})
     | DecrementLevel => ReasonReact.Update({level: state.level - 1})
+    | Rehydrate(s) => ReasonReact.Update(s)
     },
+  didUpdate: ({newSelf}) => persist(newSelf.state),
+  didMount: (self) => hydrate(self),
   render: (self) =>
     <Styled.Container>
       <Styled.Header>

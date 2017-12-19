@@ -8,6 +8,8 @@ var Colors = require("../../../../config/Colors.bs.js");
 var Routines = require("../../../../config/Routines.bs.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
+var Json_decode = require("bs-json/src/Json_decode.js");
+var Json_encode = require("bs-json/src/Json_encode.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var RoutineFacet = require("./RoutineFacet/RoutineFacet.bs.js");
 var Header = require("./styled/Header");
@@ -20,6 +22,7 @@ var LevelLabel = require("./styled/LevelLabel");
 var ImageGradient = require("./styled/ImageGradient");
 var WorkoutCardStartButton = require("./StartButton/WorkoutCardStartButton.bs.js");
 var RoutineContainer = require("./styled/RoutineContainer");
+var AsyncStorage$BsReactNative = require("bs-react-native/src/asyncStorage.js");
 
 function make(children) {
   return ReasonReact.wrapJsForReason(Container.default, {}, children);
@@ -79,10 +82,64 @@ var Styled = /* module */ [
   /* ImageGradient */ ImageGradient$1,
 ];
 
+function persist(state) {
+  var stateAsJson = JSON.stringify(
+    Json_encode.object_(
+      /* :: */ [/* tuple */ ["level", state[/* level */ 0]], /* [] */ 0]
+    )
+  );
+  AsyncStorage$BsReactNative.setItem(
+    "workout",
+    stateAsJson,
+    /* Some */ [
+      function(e) {
+        if (e) {
+          console.log(e[0]);
+          return /* () */ 0;
+        } else {
+          return /* () */ 0;
+        }
+      },
+    ],
+    /* () */ 0
+  );
+  return /* () */ 0;
+}
+
+function hydrate(self) {
+  AsyncStorage$BsReactNative.getItem("workout", /* None */ 0, /* () */ 0).then(
+    function(json) {
+      var tmp;
+      if (json) {
+        var parsedJson = JSON.parse(json[0]);
+        var state = /* record */ [
+          /* level */ Json_decode.field("level", Json_decode.$$int, parsedJson),
+        ];
+        Curry._2(
+          self[/* reduce */ 1],
+          function() {
+            return /* Rehydrate */ [state];
+          },
+          /* () */ 0
+        );
+        tmp = /* () */ 0;
+      } else {
+        tmp = /* () */ 0;
+      }
+      return Promise.resolve(tmp);
+    }
+  );
+  return /* NoUpdate */ 0;
+}
+
 var component = ReasonReact.reducerComponent("WorkoutCard");
 
 function make$6(navigation, _) {
   var newrecord = component.slice();
+  newrecord[/* didMount */ 4] = hydrate;
+  newrecord[/* didUpdate */ 5] = function(param) {
+    return persist(param[/* newSelf */ 1][/* state */ 2]);
+  };
   newrecord[/* render */ 9] = function(self) {
     return ReasonReact.element(
       /* None */ 0,
@@ -401,14 +458,18 @@ function make$6(navigation, _) {
     return /* record */ [/* level */ 0];
   };
   newrecord[/* reducer */ 12] = function(action, state) {
-    if (action !== 0) {
-      return /* Update */ Block.__(0, [
-        /* record */ [/* level */ (state[/* level */ 0] - 1) | 0],
-      ]);
+    if (typeof action === "number") {
+      if (action !== 0) {
+        return /* Update */ Block.__(0, [
+          /* record */ [/* level */ (state[/* level */ 0] - 1) | 0],
+        ]);
+      } else {
+        return /* Update */ Block.__(0, [
+          /* record */ [/* level */ (state[/* level */ 0] + 1) | 0],
+        ]);
+      }
     } else {
-      return /* Update */ Block.__(0, [
-        /* record */ [/* level */ (state[/* level */ 0] + 1) | 0],
-      ]);
+      return /* Update */ Block.__(0, [action[0]]);
     }
   };
   return newrecord;
@@ -419,6 +480,8 @@ var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
 });
 
 exports.Styled = Styled;
+exports.persist = persist;
+exports.hydrate = hydrate;
 exports.component = component;
 exports.make = make$6;
 exports.$$default = $$default;

@@ -193,7 +193,7 @@ function persist(state) {
     )
   );
   AsyncStorage$BsReactNative.setItem(
-    "SettingsScreen.state",
+    "settings",
     stateAsJson,
     /* Some */ [
       function(e) {
@@ -211,48 +211,46 @@ function persist(state) {
 }
 
 function hydrate(self) {
-  AsyncStorage$BsReactNative.getItem(
-    "SettingsScreen.state",
-    /* None */ 0,
-    /* () */ 0
-  ).then(function(json) {
-    var tmp;
-    if (json) {
-      var parsedJson = JSON.parse(json[0]);
-      var state_000 = /* remindersActive */ Json_decode.field(
-        "remindersActive",
-        Json_decode.bool,
-        parsedJson
-      );
-      var state_001 = /* reminderTime */ Json_decode.field(
-        "reminderTime",
-        Json_decode.string,
-        parsedJson
-      );
-      var state_002 = /* timeSet */ Json_decode.field(
-        "timeSet",
-        Json_decode.bool,
-        parsedJson
-      );
-      var state_003 = /* datePickerVisible */ Json_decode.field(
-        "datePickerVisible",
-        Json_decode.bool,
-        parsedJson
-      );
-      var state = /* record */ [state_000, state_001, state_002, state_003];
-      Curry._2(
-        self[/* reduce */ 1],
-        function() {
-          return /* Rehydrate */ Block.__(0, [state]);
-        },
-        /* () */ 0
-      );
-      tmp = /* () */ 0;
-    } else {
-      tmp = /* () */ 0;
+  AsyncStorage$BsReactNative.getItem("settings", /* None */ 0, /* () */ 0).then(
+    function(json) {
+      var tmp;
+      if (json) {
+        var parsedJson = JSON.parse(json[0]);
+        var state_000 = /* remindersActive */ Json_decode.field(
+          "remindersActive",
+          Json_decode.bool,
+          parsedJson
+        );
+        var state_001 = /* reminderTime */ Json_decode.field(
+          "reminderTime",
+          Json_decode.string,
+          parsedJson
+        );
+        var state_002 = /* timeSet */ Json_decode.field(
+          "timeSet",
+          Json_decode.bool,
+          parsedJson
+        );
+        var state_003 = /* datePickerVisible */ Json_decode.field(
+          "datePickerVisible",
+          Json_decode.bool,
+          parsedJson
+        );
+        var state = /* record */ [state_000, state_001, state_002, state_003];
+        Curry._2(
+          self[/* reduce */ 1],
+          function() {
+            return /* Rehydrate */ Block.__(0, [state]);
+          },
+          /* () */ 0
+        );
+        tmp = /* () */ 0;
+      } else {
+        tmp = /* () */ 0;
+      }
+      return Promise.resolve(tmp);
     }
-    return Promise.resolve(tmp);
-  });
+  );
   return /* NoUpdate */ 0;
 }
 
@@ -347,7 +345,7 @@ function make$8() {
                             /* () */ 0
                           )
                         : Alert$BsReactNative.alert(
-                            "Hey! You might want to enable notifications for my app, they are good.",
+                            "Hey! If you want to remember to change yourself everyday, enable notifications!",
                             /* None */ 0,
                             /* None */ 0,
                             /* None */ 0,

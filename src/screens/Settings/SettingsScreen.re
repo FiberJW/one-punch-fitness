@@ -89,7 +89,7 @@ let persist = (state) => {
       |> Js.Json.stringify
     );
   AsyncStorage.setItem(
-    "SettingsScreen.state",
+    "settings",
     stateAsJson,
     ~callback=
       (e) =>
@@ -104,7 +104,7 @@ let persist = (state) => {
 
 let hydrate = (self) => {
   Js.Promise.(
-    AsyncStorage.getItem("SettingsScreen.state", ())
+    AsyncStorage.getItem("settings", ())
     |> then_(
          (json) =>
            (
@@ -190,7 +190,7 @@ let make = (_children) => {
                            self.reduce(() => ToggleReminders, ())
                          } else {
                            Alert.alert(
-                             ~title="Hey! You might want to enable notifications for my app, they are good.",
+                             ~title="Hey! If you want to remember to change yourself everyday, enable notifications!",
                              ()
                            )
                          }
