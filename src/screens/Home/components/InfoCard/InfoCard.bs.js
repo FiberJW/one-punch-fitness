@@ -141,7 +141,7 @@ function make$6(navigation, title, description, _) {
                 }
               }
             : function() {
-                return navigation.navigate("Info");
+                return navigation.navigate("Info", {});
               },
         ],
         /* None */ 0,

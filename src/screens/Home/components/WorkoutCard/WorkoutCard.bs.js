@@ -141,6 +141,29 @@ function make$6(navigation, _) {
     return persist(param[/* newSelf */ 1][/* state */ 2]);
   };
   newrecord[/* render */ 9] = function(self) {
+    var match = self[/* state */ 2][/* level */ 0];
+    var tmp;
+    if (match > 4 || match < 0) {
+      tmp = Assets.Illustrations.workoutLevel1;
+    } else {
+      switch (match) {
+        case 0:
+          tmp = Assets.Illustrations.workoutLevel1;
+          break;
+        case 1:
+          tmp = Assets.Illustrations.workoutLevel2;
+          break;
+        case 2:
+          tmp = Assets.Illustrations.workoutLevel3;
+          break;
+        case 3:
+          tmp = Assets.Illustrations.workoutLevel4;
+          break;
+        case 4:
+          tmp = Assets.Illustrations.workoutLevel5;
+          break;
+      }
+    }
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
@@ -154,11 +177,7 @@ function make$6(navigation, _) {
                 ReasonReact.element(
                   /* None */ 0,
                   /* None */ 0,
-                  make$4(
-                    /* Some */ [Assets.Illustrations.saitamaLevel0],
-                    /* Some */ ["cover"],
-                    /* array */ []
-                  )
+                  make$4(/* Some */ [tmp], /* Some */ ["cover"], /* array */ [])
                 ),
                 ReasonReact.element(
                   /* None */ 0,
@@ -442,7 +461,9 @@ function make$6(navigation, _) {
                   /* None */ 0,
                   WorkoutCardStartButton.make(
                     function() {
-                      return navigation.navigate("Workout");
+                      return navigation.navigate("Workout", {
+                        level: self[/* state */ 2][/* level */ 0],
+                      });
                     },
                     /* array */ []
                   )

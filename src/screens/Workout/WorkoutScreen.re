@@ -91,7 +91,7 @@ let startTimer = (self) => setInterval(self.ReasonReact.reduce(() => Tick), 1000
 
 let component = ReasonReact.reducerComponent("WorkoutScreen");
 
-let make = (_children) => {
+let make = (~navigation, _children) => {
   ...component,
   initialState: () => {inSession: false, status: `active, timeUsed: 0, timerHandle: None},
   reducer: (action, state) =>
@@ -115,6 +115,7 @@ let make = (_children) => {
     | None => ()
     },
   render: (self) => {
+    Js.log("zero-based-level " ++ navigation##state##params##level);
     let layout = self.state.inSession ? sessionLayout : transitionLayout;
     <Styled.Background>
       <ScrollView
@@ -209,4 +210,8 @@ let make = (_children) => {
   }
 };
 
-let default = ReasonReact.wrapReasonForJs(~component, (_jsProps) => make([||]));
+let default =
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    (jsProps) => make(~navigation=jsProps##navigation, [||])
+  );

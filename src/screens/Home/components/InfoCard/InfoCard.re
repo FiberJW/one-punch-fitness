@@ -97,7 +97,7 @@ let make = (~navigation, ~title, ~description, _children) => {
               )
             | None => ()
             } :
-          (() => navigation##navigate("Info"))
+          (() => navigation##navigate("Info", Js.Obj.empty()))
       )>
       <Styled.Container>
         <View>
