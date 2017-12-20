@@ -59,7 +59,7 @@ module Styled = {
   };
 };
 
-type statusType = [ | `active | `paused | `stopped];
+type timerStatusType = [ | `active | `paused | `stopped];
 
 type widgets =
   | Image
@@ -72,11 +72,20 @@ let transitionLayout = [|Image, Progress, SetInfo|];
 
 let sessionLayout = [|SetInfo, Timer, Progress, SessionControls|];
 
+type exercise =
+  | PushUps
+  | SitUps
+  | Squats
+  | Running;
+
+let workoutOrder = [|PushUps, SitUps, Squats, Running|];
+
 type state = {
   inSession: bool,
   timeUsed: int,
   timerHandle: option(int),
-  status: statusType
+  status: timerStatusType,
+  currentExercise: exercise
 };
 
 type action =
@@ -93,7 +102,13 @@ let component = ReasonReact.reducerComponent("WorkoutScreen");
 
 let make = (~navigation, _children) => {
   ...component,
-  initialState: () => {inSession: false, status: `active, timeUsed: 0, timerHandle: None},
+  initialState: () => {
+    inSession: false,
+    status: `active,
+    timeUsed: 0,
+    timerHandle: None,
+    currentExercise: PushUps
+  },
   reducer: (action, state) =>
     switch action {
     | Tick =>
@@ -115,7 +130,7 @@ let make = (~navigation, _children) => {
     | None => ()
     },
   render: (self) => {
-    Js.log("zero-based-level " ++ navigation##state##params##level);
+    Js.log("zero-based-level " ++ string_of_int(navigation##state##params##level));
     let layout = self.state.inSession ? sessionLayout : transitionLayout;
     <Styled.Background>
       <ScrollView
@@ -132,19 +147,52 @@ let make = (~navigation, _children) => {
                     <Styled.Image
                       key=(string_of_int(i))
                       resizeMode="cover"
-                      source=illustrations##workoutPrep
+                      source=(
+                        switch self.state.currentExercise {
+                        | PushUps => illustrations##pushups
+                        | SitUps => illustrations##situps
+                        | Squats => illustrations##squats
+                        | Running => illustrations##run
+                        }
+                      )
                     />
                   | Timer => <Timer key=(string_of_int(i)) time=self.state.timeUsed />
                   | Progress =>
                     <Styled.Progress key=(string_of_int(i))>
-                      (ReasonReact.stringToElement("set 1 of 10"))
+                      (
+                        ReasonReact.stringToElement(
+                          "set 1 of "
+                          ++ string_of_int(
+                               Routines.variations[navigation##state##params##level].sitUps.sets
+                             )
+                          ++ ""
+                        )
+                      )
                     </Styled.Progress>
                   | SetInfo =>
                     <Styled.SetType key=(string_of_int(i))>
                       <Styled.SetReps>
-                        (ReasonReact.stringToElement(string_of_int(10)))
+                        (
+                          ReasonReact.stringToElement(
+                            string_of_int(
+                              Routines.variations[navigation##state##params##level].sitUps.reps
+                            )
+                          )
+                        )
                       </Styled.SetReps>
-                      (ReasonReact.stringToElement(" push-ups"))
+                      (
+                        ReasonReact.stringToElement(
+                          " "
+                          ++ (
+                            switch self.state.currentExercise {
+                            | PushUps => "push-ups"
+                            | SitUps => "sit-ups"
+                            | Squats => "squats"
+                            | Running => "run"
+                            }
+                          )
+                        )
+                      )
                     </Styled.SetType>
                   | SessionControls =>
                     <Styled.SessionControlGroup key=(string_of_int(i))>
