@@ -108,7 +108,19 @@ let make = (~navigation, _children) => {
   render: (self) =>
     <Styled.Container>
       <Styled.Header>
-        <Styled.CoverImage source=illustrations##saitamaLevel0 resizeMode="cover" />
+        <Styled.CoverImage
+          source=(
+            switch self.state.level {
+            | 0 => illustrations##workoutLevel1
+            | 1 => illustrations##workoutLevel2
+            | 2 => illustrations##workoutLevel3
+            | 3 => illustrations##workoutLevel4
+            | 4 => illustrations##workoutLevel5
+            | _ => illustrations##workoutLevel1
+            }
+          )
+          resizeMode="cover"
+        />
         <Styled.ImageGradient colors=[|"rgba(0,0,0,0)", Colors.spotiBlack|] />
         <Styled.LevelLabel>
           (ReasonReact.stringToElement("level " ++ string_of_int(self.state.level + 1)))
@@ -160,7 +172,11 @@ let make = (~navigation, _children) => {
           />
         </View>
       </Styled.RoutineContainer>
-      <View> <WorkoutCardStartButton onPress=(() => navigation##navigate("Workout")) /> </View>
+      <View>
+        <WorkoutCardStartButton
+          onPress=(() => navigation##navigate("Workout", {"level": self.state.level}))
+        />
+      </View>
     </Styled.Container>
 };
 

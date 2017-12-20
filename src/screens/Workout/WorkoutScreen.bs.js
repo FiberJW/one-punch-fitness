@@ -104,7 +104,7 @@ function startTimer(self) {
 
 var component = ReasonReact.reducerComponent("WorkoutScreen");
 
-function make$7() {
+function make$7(navigation, _) {
   var newrecord = component.slice();
   newrecord[/* willUnmount */ 6] = function(self) {
     var match = self[/* state */ 2][/* timerHandle */ 2];
@@ -116,6 +116,7 @@ function make$7() {
     }
   };
   newrecord[/* render */ 9] = function(self) {
+    console.log("zero-based-level " + navigation.state.params.level);
     var match = self[/* state */ 2][/* inSession */ 0];
     var layout = match !== 0 ? sessionLayout : transitionLayout;
     var match$1 = self[/* state */ 2][/* inSession */ 0];
@@ -441,8 +442,8 @@ function make$7() {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, function() {
-  return make$7(/* array */ []);
+var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
+  return make$7(jsProps.navigation, /* array */ []);
 });
 
 exports.Styled = Styled;
