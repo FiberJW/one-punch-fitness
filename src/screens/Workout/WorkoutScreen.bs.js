@@ -7,6 +7,8 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Timer = require("./components/Timer/Timer.bs.js");
 var Assets = require("Assets");
 var Colors = require("../../config/Colors.bs.js");
+var Routines = require("../../config/Routines.bs.js");
+var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var ActionButton = require("./components/ActionButton/ActionButton.bs.js");
@@ -93,6 +95,13 @@ var sessionLayout = /* int array */ [
   /* SessionControls */ 3,
 ];
 
+var workoutOrder = /* int array */ [
+  /* PushUps */ 0,
+  /* SitUps */ 1,
+  /* Squats */ 2,
+  /* Running */ 3,
+];
+
 function startTimer(self) {
   return setInterval(
     Curry._1(self[/* reduce */ 1], function() {
@@ -116,7 +125,10 @@ function make$7(navigation, _) {
     }
   };
   newrecord[/* render */ 9] = function(self) {
-    console.log("zero-based-level " + navigation.state.params.level);
+    console.log(
+      "zero-based-level " +
+        Pervasives.string_of_int(navigation.state.params.level)
+    );
     var match = self[/* state */ 2][/* inSession */ 0];
     var layout = match !== 0 ? sessionLayout : transitionLayout;
     var match$1 = self[/* state */ 2][/* inSession */ 0];
@@ -196,22 +208,63 @@ function make$7(navigation, _) {
                       $$Array.mapi(function(i, it) {
                         switch (it) {
                           case 0:
+                            var match =
+                              self[/* state */ 2][/* currentExercise */ 4];
+                            var tmp;
+                            switch (match) {
+                              case 0:
+                                tmp = Assets.Illustrations.pushups;
+                                break;
+                              case 1:
+                                tmp = Assets.Illustrations.situps;
+                                break;
+                              case 2:
+                                tmp = Assets.Illustrations.squats;
+                                break;
+                              case 3:
+                                tmp = Assets.Illustrations.run;
+                                break;
+                            }
                             return ReasonReact.element(
                               /* Some */ [Pervasives.string_of_int(i)],
                               /* None */ 0,
-                              make$6(
-                                Assets.Illustrations.workoutPrep,
-                                "cover",
-                                /* array */ []
-                              )
+                              make$6(tmp, "cover", /* array */ [])
                             );
                           case 1:
                             return ReasonReact.element(
                               /* Some */ [Pervasives.string_of_int(i)],
                               /* None */ 0,
-                              make$2(/* array */ ["set 1 of 10"])
+                              make$2(
+                                /* array */ [
+                                  "set 1 of " +
+                                    (Pervasives.string_of_int(
+                                      Caml_array.caml_array_get(
+                                        Routines.variations,
+                                        navigation.state.params.level
+                                      )[/* sitUps */ 1][/* sets */ 0]
+                                    ) +
+                                      ""),
+                                ]
+                              )
                             );
                           case 2:
+                            var match$1 =
+                              self[/* state */ 2][/* currentExercise */ 4];
+                            var tmp$1;
+                            switch (match$1) {
+                              case 0:
+                                tmp$1 = "push-ups";
+                                break;
+                              case 1:
+                                tmp$1 = "sit-ups";
+                                break;
+                              case 2:
+                                tmp$1 = "squats";
+                                break;
+                              case 3:
+                                tmp$1 = "run";
+                                break;
+                            }
                             return ReasonReact.element(
                               /* Some */ [Pervasives.string_of_int(i)],
                               /* None */ 0,
@@ -221,16 +274,23 @@ function make$7(navigation, _) {
                                     /* None */ 0,
                                     /* None */ 0,
                                     make$4(
-                                      /* array */ [Pervasives.string_of_int(10)]
+                                      /* array */ [
+                                        Pervasives.string_of_int(
+                                          Caml_array.caml_array_get(
+                                            Routines.variations,
+                                            navigation.state.params.level
+                                          )[/* sitUps */ 1][/* reps */ 1]
+                                        ),
+                                      ]
                                     )
                                   ),
-                                  " push-ups",
+                                  " " + tmp$1,
                                 ]
                               )
                             );
                           case 3:
-                            var match = self[/* state */ 2][/* status */ 3];
-                            var match$1 = self[/* state */ 2][/* status */ 3];
+                            var match$2 = self[/* state */ 2][/* status */ 3];
+                            var match$3 = self[/* state */ 2][/* status */ 3];
                             return ReasonReact.element(
                               /* Some */ [Pervasives.string_of_int(i)],
                               /* None */ 0,
@@ -240,8 +300,8 @@ function make$7(navigation, _) {
                                     /* None */ 0,
                                     /* None */ 0,
                                     SessionControl.make(
-                                      match !== -276545362
-                                        ? match >= 373703110
+                                      match$2 !== -276545362
+                                        ? match$2 >= 373703110
                                           ? Curry._1(
                                               self[/* reduce */ 1],
                                               function() {
@@ -267,8 +327,8 @@ function make$7(navigation, _) {
                                               return /* ResumeTimer */ 3;
                                             }
                                           ),
-                                      match$1 !== -276545362
-                                        ? match$1 >= 373703110
+                                      match$3 !== -276545362
+                                        ? match$3 >= 373703110
                                           ? "PAUSE"
                                           : "START"
                                         : "RESUME",
@@ -366,6 +426,7 @@ function make$7(navigation, _) {
       /* timeUsed */ 0,
       /* timerHandle : None */ 0,
       /* status : active */ 373703110,
+      /* currentExercise : PushUps */ 0,
     ];
   };
   newrecord[/* reducer */ 12] = function(action, state) {
@@ -379,6 +440,7 @@ function make$7(navigation, _) {
                 /* timeUsed */ (state[/* timeUsed */ 1] + 1) | 0,
                 /* timerHandle */ state[/* timerHandle */ 2],
                 /* status */ state[/* status */ 3],
+                /* currentExercise */ state[/* currentExercise */ 4],
               ],
             ]);
           } else {
@@ -388,6 +450,7 @@ function make$7(navigation, _) {
                 /* timeUsed */ state[/* timeUsed */ 1],
                 /* timerHandle */ state[/* timerHandle */ 2],
                 /* status */ state[/* status */ 3],
+                /* currentExercise */ state[/* currentExercise */ 4],
               ],
             ]);
           }
@@ -398,6 +461,7 @@ function make$7(navigation, _) {
               /* timeUsed */ state[/* timeUsed */ 1],
               /* timerHandle */ state[/* timerHandle */ 2],
               /* status */ state[/* status */ 3],
+              /* currentExercise */ state[/* currentExercise */ 4],
             ],
           ]);
         case 2:
@@ -407,6 +471,7 @@ function make$7(navigation, _) {
               /* timeUsed */ state[/* timeUsed */ 1],
               /* timerHandle */ state[/* timerHandle */ 2],
               /* status : paused */ -276545362,
+              /* currentExercise */ state[/* currentExercise */ 4],
             ],
           ]);
         case 3:
@@ -416,6 +481,7 @@ function make$7(navigation, _) {
               /* timeUsed */ state[/* timeUsed */ 1],
               /* timerHandle */ state[/* timerHandle */ 2],
               /* status : active */ 373703110,
+              /* currentExercise */ state[/* currentExercise */ 4],
             ],
           ]);
       }
@@ -426,6 +492,7 @@ function make$7(navigation, _) {
           /* timeUsed */ state[/* timeUsed */ 1],
           /* timerHandle */ action[0],
           /* status : stopped */ -1016999411,
+          /* currentExercise */ state[/* currentExercise */ 4],
         ],
       ]);
     } else {
@@ -435,6 +502,7 @@ function make$7(navigation, _) {
           /* timeUsed */ 0,
           /* timerHandle */ action[0],
           /* status : active */ 373703110,
+          /* currentExercise */ state[/* currentExercise */ 4],
         ],
       ]);
     }
@@ -449,6 +517,7 @@ var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
 exports.Styled = Styled;
 exports.transitionLayout = transitionLayout;
 exports.sessionLayout = sessionLayout;
+exports.workoutOrder = workoutOrder;
 exports.startTimer = startTimer;
 exports.component = component;
 exports.make = make$7;

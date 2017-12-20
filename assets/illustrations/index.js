@@ -11,4 +11,8 @@ export default {
   workoutLevel5: require("./level-5.png"),
   workoutPrep: require("./prep.png"),
   theSecretSauce: require("./saitamas-secret.png"),
+  pushups: require("./pushups.png"),
+  situps: require("./situps.png"),
+  squats: require("./squats.png"),
+  run: require("./pushups.png"),
 };
