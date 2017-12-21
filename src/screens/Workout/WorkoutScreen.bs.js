@@ -116,7 +116,7 @@ var component = ReasonReact.reducerComponent("WorkoutScreen");
 function make$7(navigation, _) {
   var newrecord = component.slice();
   newrecord[/* willUnmount */ 6] = function(self) {
-    var match = self[/* state */ 2][/* timerHandle */ 2];
+    var match = self[/* state */ 2][/* timer */ 0][/* handle */ 1];
     if (match) {
       clearInterval(match[0]);
       return /* () */ 0;
@@ -129,9 +129,9 @@ function make$7(navigation, _) {
       "zero-based-level " +
         Pervasives.string_of_int(navigation.state.params.level)
     );
-    var match = self[/* state */ 2][/* inSession */ 0];
+    var match = self[/* state */ 2][/* inSession */ 1];
     var layout = match !== 0 ? sessionLayout : transitionLayout;
-    var match$1 = self[/* state */ 2][/* inSession */ 0];
+    var match$1 = self[/* state */ 2][/* inSession */ 1];
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
@@ -209,7 +209,7 @@ function make$7(navigation, _) {
                         switch (it) {
                           case 0:
                             var match =
-                              self[/* state */ 2][/* currentExercise */ 4];
+                              self[/* state */ 2][/* currentExercise */ 2];
                             var tmp;
                             switch (match) {
                               case 0:
@@ -249,7 +249,7 @@ function make$7(navigation, _) {
                             );
                           case 2:
                             var match$1 =
-                              self[/* state */ 2][/* currentExercise */ 4];
+                              self[/* state */ 2][/* currentExercise */ 2];
                             var tmp$1;
                             switch (match$1) {
                               case 0:
@@ -289,8 +289,10 @@ function make$7(navigation, _) {
                               )
                             );
                           case 3:
-                            var match$2 = self[/* state */ 2][/* status */ 3];
-                            var match$3 = self[/* state */ 2][/* status */ 3];
+                            var match$2 =
+                              self[/* state */ 2][/* timer */ 0][/* status */ 2];
+                            var match$3 =
+                              self[/* state */ 2][/* timer */ 0][/* status */ 2];
                             return ReasonReact.element(
                               /* Some */ [Pervasives.string_of_int(i)],
                               /* None */ 0,
@@ -344,7 +346,7 @@ function make$7(navigation, _) {
                                         self[/* reduce */ 1],
                                         function() {
                                           var match =
-                                            self[/* state */ 2][/* timerHandle */ 2];
+                                            self[/* state */ 2][/* timer */ 0][/* handle */ 1];
                                           if (match) {
                                             clearInterval(match[0]);
                                           }
@@ -366,7 +368,7 @@ function make$7(navigation, _) {
                               /* Some */ [Pervasives.string_of_int(i)],
                               /* None */ 0,
                               Timer.make(
-                                self[/* state */ 2][/* timeUsed */ 1],
+                                self[/* state */ 2][/* timer */ 0][/* timeUsed */ 0],
                                 /* array */ []
                               )
                             );
@@ -377,9 +379,9 @@ function make$7(navigation, _) {
                         /* None */ 0,
                         ActionButton.make(
                           Curry._1(self[/* reduce */ 1], function() {
-                            if (self[/* state */ 2][/* inSession */ 0]) {
+                            if (self[/* state */ 2][/* inSession */ 1]) {
                               var match =
-                                self[/* state */ 2][/* timerHandle */ 2];
+                                self[/* state */ 2][/* timer */ 0][/* handle */ 1];
                               if (match) {
                                 clearInterval(match[0]);
                               } else {
@@ -422,10 +424,12 @@ function make$7(navigation, _) {
   };
   newrecord[/* initialState */ 10] = function() {
     return /* record */ [
+      /* timer : record */ [
+        /* timeUsed */ 0,
+        /* handle : None */ 0,
+        /* status : active */ 373703110,
+      ],
       /* inSession : false */ 0,
-      /* timeUsed */ 0,
-      /* timerHandle : None */ 0,
-      /* status : active */ 373703110,
       /* currentExercise : PushUps */ 0,
     ];
   };
@@ -433,76 +437,84 @@ function make$7(navigation, _) {
     if (typeof action === "number") {
       switch (action) {
         case 0:
-          if (state[/* status */ 3] !== /* paused */ -276545362) {
+          if (
+            state[/* timer */ 0][/* status */ 2] !== /* paused */ -276545362
+          ) {
+            var init = state[/* timer */ 0];
             return /* Update */ Block.__(0, [
               /* record */ [
-                /* inSession */ state[/* inSession */ 0],
-                /* timeUsed */ (state[/* timeUsed */ 1] + 1) | 0,
-                /* timerHandle */ state[/* timerHandle */ 2],
-                /* status */ state[/* status */ 3],
-                /* currentExercise */ state[/* currentExercise */ 4],
+                /* timer : record */ [
+                  /* timeUsed */ (state[/* timer */ 0][/* timeUsed */ 0] + 1) |
+                    0,
+                  /* handle */ init[/* handle */ 1],
+                  /* status */ init[/* status */ 2],
+                ],
+                /* inSession */ state[/* inSession */ 1],
+                /* currentExercise */ state[/* currentExercise */ 2],
               ],
             ]);
           } else {
-            return /* Update */ Block.__(0, [
-              /* record */ [
-                /* inSession */ state[/* inSession */ 0],
-                /* timeUsed */ state[/* timeUsed */ 1],
-                /* timerHandle */ state[/* timerHandle */ 2],
-                /* status */ state[/* status */ 3],
-                /* currentExercise */ state[/* currentExercise */ 4],
-              ],
-            ]);
+            return /* NoUpdate */ 0;
           }
+          break;
         case 1:
           return /* Update */ Block.__(0, [
             /* record */ [
-              /* inSession */ 1 - state[/* inSession */ 0],
-              /* timeUsed */ state[/* timeUsed */ 1],
-              /* timerHandle */ state[/* timerHandle */ 2],
-              /* status */ state[/* status */ 3],
-              /* currentExercise */ state[/* currentExercise */ 4],
+              /* timer */ state[/* timer */ 0],
+              /* inSession */ 1 - state[/* inSession */ 1],
+              /* currentExercise */ state[/* currentExercise */ 2],
             ],
           ]);
         case 2:
+          var init$1 = state[/* timer */ 0];
           return /* Update */ Block.__(0, [
             /* record */ [
-              /* inSession */ state[/* inSession */ 0],
-              /* timeUsed */ state[/* timeUsed */ 1],
-              /* timerHandle */ state[/* timerHandle */ 2],
-              /* status : paused */ -276545362,
-              /* currentExercise */ state[/* currentExercise */ 4],
+              /* timer : record */ [
+                /* timeUsed */ init$1[/* timeUsed */ 0],
+                /* handle */ init$1[/* handle */ 1],
+                /* status : paused */ -276545362,
+              ],
+              /* inSession */ state[/* inSession */ 1],
+              /* currentExercise */ state[/* currentExercise */ 2],
             ],
           ]);
         case 3:
+          var init$2 = state[/* timer */ 0];
           return /* Update */ Block.__(0, [
             /* record */ [
-              /* inSession */ state[/* inSession */ 0],
-              /* timeUsed */ state[/* timeUsed */ 1],
-              /* timerHandle */ state[/* timerHandle */ 2],
-              /* status : active */ 373703110,
-              /* currentExercise */ state[/* currentExercise */ 4],
+              /* timer : record */ [
+                /* timeUsed */ init$2[/* timeUsed */ 0],
+                /* handle */ init$2[/* handle */ 1],
+                /* status : active */ 373703110,
+              ],
+              /* inSession */ state[/* inSession */ 1],
+              /* currentExercise */ state[/* currentExercise */ 2],
             ],
           ]);
       }
     } else if (action.tag) {
+      var init$3 = state[/* timer */ 0];
       return /* Update */ Block.__(0, [
         /* record */ [
-          /* inSession */ state[/* inSession */ 0],
-          /* timeUsed */ state[/* timeUsed */ 1],
-          /* timerHandle */ action[0],
-          /* status : stopped */ -1016999411,
-          /* currentExercise */ state[/* currentExercise */ 4],
+          /* timer : record */ [
+            /* timeUsed */ init$3[/* timeUsed */ 0],
+            /* handle */ action[0],
+            /* status : stopped */ -1016999411,
+          ],
+          /* inSession */ state[/* inSession */ 1],
+          /* currentExercise */ state[/* currentExercise */ 2],
         ],
       ]);
     } else {
       return /* Update */ Block.__(0, [
         /* record */ [
-          /* inSession */ state[/* inSession */ 0],
-          /* timeUsed */ 0,
-          /* timerHandle */ action[0],
-          /* status : active */ 373703110,
-          /* currentExercise */ state[/* currentExercise */ 4],
+          /* timer : record */ [
+            /* timeUsed */ 0,
+            /* handle */ action[0],
+            /* status : active */ 373703110,
+          ],
+          /* inSession */ state[/* inSession */ 1],
+          /* currentExercise */ state[/* currentExercise */ 2],
         ],
       ]);
     }
