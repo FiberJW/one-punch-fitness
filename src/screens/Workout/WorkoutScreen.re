@@ -1,5 +1,7 @@
 open BsReactNative;
 
+open NPMBindings;
+
 [@bs.val] external setInterval : (unit => unit, int) => int = "setInterval";
 
 [@bs.val] external clearInterval : int => unit = "clearInterval";
@@ -111,10 +113,15 @@ let make = (~navigation, _children) => {
     inSession: false,
     currentExercise: PushUps
   },
+  didMount: (_self) => {
+    Js.log("zero-based-level " ++ string_of_int(navigation##state##params##level));
+    ReasonReact.NoUpdate
+  },
   reducer: (action, state) =>
     switch action {
     | Tick =>
       if (state.timer.status !== `paused) {
+        let _ = Stores.workout##toggleBool();
         ReasonReact.Update({...state, timer: {...state.timer, timeUsed: state.timer.timeUsed + 1}})
       } else {
         ReasonReact.NoUpdate
@@ -133,7 +140,7 @@ let make = (~navigation, _children) => {
     | None => ()
     },
   render: (self) => {
-    Js.log("zero-based-level " ++ string_of_int(navigation##state##params##level));
+    Js.log(Stores.workout##bool);
     let layout = self.state.inSession ? sessionLayout : transitionLayout;
     <Styled.Background>
       <ScrollView
@@ -262,7 +269,9 @@ let make = (~navigation, _children) => {
 };
 
 let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    (jsProps) => make(~navigation=jsProps##navigation, [||])
+  MobX.React.observer(
+    ReasonReact.wrapReasonForJs(
+      ~component,
+      (jsProps) => make(~navigation=jsProps##navigation, [||])
+    )
   );
