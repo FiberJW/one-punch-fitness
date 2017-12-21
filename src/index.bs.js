@@ -78,9 +78,12 @@ function make$2() {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, function() {
-  return make$2(/* array */ []);
-});
+var $$default = Curry._1(
+  NPMBindings.MobX[/* React */ 0][/* observer */ 1],
+  ReasonReact.wrapReasonForJs(component, function() {
+    return make$2(/* array */ []);
+  })
+);
 
 exports.Styled = Styled;
 exports.MainStack = MainStack$1;

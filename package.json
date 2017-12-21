@@ -9,6 +9,8 @@
     "chalk": "^2.3.0",
     "expo": "^24.0.0",
     "flow-bin": "0.56.0",
+    "mobx": "^3.4.1",
+    "mobx-react": "^4.3.5",
     "moment": "^2.19.4",
     "react": "16.0.0",
     "react-native":

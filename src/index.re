@@ -1,4 +1,4 @@
-open NPMBindings.Expo;
+open NPMBindings;
 
 [@bs.module "Assets"] external fonts : Js.t({..}) = "Fonts";
 
@@ -33,14 +33,15 @@ let make = (_children) => {
     },
   didMount: (self) =>
     Js.Promise.(
-      Font.loadAsync(fonts)
+      Expo.Font.loadAsync(fonts)
       |> then_(() => self.reduce(() => FontsLoaded, ()) |> resolve)
       |> ((_) => ReasonReact.NoUpdate)
     ),
   render: (self) =>
     <Styled.Container>
-      (self.state.fontsLoaded ? <MainStack /> : <AppLoading />)
+      (self.state.fontsLoaded ? <MainStack /> : <Expo.AppLoading />)
     </Styled.Container>
 };
 
-let default = ReasonReact.wrapReasonForJs(~component, (_jsProps) => make([||]));
+let default =
+  MobX.React.observer(ReasonReact.wrapReasonForJs(~component, (_jsProps) => make([||])));
