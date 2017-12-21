@@ -7,9 +7,11 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Timer = require("./components/Timer/Timer.bs.js");
 var Assets = require("Assets");
 var Colors = require("../../config/Colors.bs.js");
+var Stores = require("../../state/Stores.bs.js");
 var Routines = require("../../config/Routines.bs.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
+var NPMBindings = require("../../config/NPMBindings.bs.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var ActionButton = require("./components/ActionButton/ActionButton.bs.js");
 var SessionControl = require("./components/SessionControl/SessionControl.bs.js");
@@ -115,6 +117,13 @@ var component = ReasonReact.reducerComponent("WorkoutScreen");
 
 function make$7(navigation, _) {
   var newrecord = component.slice();
+  newrecord[/* didMount */ 4] = function() {
+    console.log(
+      "zero-based-level " +
+        Pervasives.string_of_int(navigation.state.params.level)
+    );
+    return /* NoUpdate */ 0;
+  };
   newrecord[/* willUnmount */ 6] = function(self) {
     var match = self[/* state */ 2][/* timer */ 0][/* handle */ 1];
     if (match) {
@@ -125,10 +134,7 @@ function make$7(navigation, _) {
     }
   };
   newrecord[/* render */ 9] = function(self) {
-    console.log(
-      "zero-based-level " +
-        Pervasives.string_of_int(navigation.state.params.level)
-    );
+    console.log(Stores.workout.bool);
     var match = self[/* state */ 2][/* inSession */ 1];
     var layout = match !== 0 ? sessionLayout : transitionLayout;
     var match$1 = self[/* state */ 2][/* inSession */ 1];
@@ -440,6 +446,7 @@ function make$7(navigation, _) {
           if (
             state[/* timer */ 0][/* status */ 2] !== /* paused */ -276545362
           ) {
+            Stores.workout.toggleBool();
             var init = state[/* timer */ 0];
             return /* Update */ Block.__(0, [
               /* record */ [
@@ -522,9 +529,12 @@ function make$7(navigation, _) {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
-  return make$7(jsProps.navigation, /* array */ []);
-});
+var $$default = Curry._1(
+  NPMBindings.MobX[/* React */ 0][/* observer */ 1],
+  ReasonReact.wrapReasonForJs(component, function(jsProps) {
+    return make$7(jsProps.navigation, /* array */ []);
+  })
+);
 
 exports.Styled = Styled;
 exports.transitionLayout = transitionLayout;
