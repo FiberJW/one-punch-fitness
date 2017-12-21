@@ -80,11 +80,15 @@ type exercise =
 
 let workoutOrder = [|PushUps, SitUps, Squats, Running|];
 
-type state = {
-  inSession: bool,
+type timerState = {
   timeUsed: int,
-  timerHandle: option(int),
-  status: timerStatusType,
+  handle: option(int),
+  status: timerStatusType
+};
+
+type state = {
+  timer: timerState,
+  inSession: bool,
   currentExercise: exercise
 };
 
@@ -103,29 +107,28 @@ let component = ReasonReact.reducerComponent("WorkoutScreen");
 let make = (~navigation, _children) => {
   ...component,
   initialState: () => {
+    timer: {status: `active, timeUsed: 0, handle: None},
     inSession: false,
-    status: `active,
-    timeUsed: 0,
-    timerHandle: None,
     currentExercise: PushUps
   },
   reducer: (action, state) =>
     switch action {
     | Tick =>
-      if (state.status !== `paused) {
-        ReasonReact.Update({...state, timeUsed: state.timeUsed + 1})
+      if (state.timer.status !== `paused) {
+        ReasonReact.Update({...state, timer: {...state.timer, timeUsed: state.timer.timeUsed + 1}})
       } else {
-        ReasonReact.Update({...state, timeUsed: state.timeUsed})
+        ReasonReact.NoUpdate
       }
     | ToggleSession => ReasonReact.Update({...state, inSession: ! state.inSession})
-    | StartTimer(timerHandle) =>
-      ReasonReact.Update({...state, timerHandle, timeUsed: 0, status: `active})
-    | StopTimer(timerHandle) => ReasonReact.Update({...state, timerHandle, status: `stopped})
-    | PauseTimer => ReasonReact.Update({...state, status: `paused})
-    | ResumeTimer => ReasonReact.Update({...state, status: `active})
+    | StartTimer(handle) =>
+      ReasonReact.Update({...state, timer: {handle, timeUsed: 0, status: `active}})
+    | StopTimer(handle) =>
+      ReasonReact.Update({...state, timer: {...state.timer, handle, status: `stopped}})
+    | PauseTimer => ReasonReact.Update({...state, timer: {...state.timer, status: `paused}})
+    | ResumeTimer => ReasonReact.Update({...state, timer: {...state.timer, status: `active}})
     },
   willUnmount: (self) =>
-    switch self.state.timerHandle {
+    switch self.state.timer.handle {
     | Some(h) => clearInterval(h)
     | None => ()
     },
@@ -156,7 +159,7 @@ let make = (~navigation, _children) => {
                         }
                       )
                     />
-                  | Timer => <Timer key=(string_of_int(i)) time=self.state.timeUsed />
+                  | Timer => <Timer key=(string_of_int(i)) time=self.state.timer.timeUsed />
                   | Progress =>
                     <Styled.Progress key=(string_of_int(i))>
                       (
@@ -199,14 +202,14 @@ let make = (~navigation, _children) => {
                       <SessionControl
                         color=Colors.blueLeftUsTooSoon
                         onPress=(
-                          switch self.state.status {
+                          switch self.state.timer.status {
                           | `paused => self.reduce(() => ResumeTimer)
                           | `stopped => self.reduce(() => StartTimer(Some(startTimer(self))))
                           | `active => self.reduce(() => PauseTimer)
                           }
                         )
                         label=(
-                          switch self.state.status {
+                          switch self.state.timer.status {
                           | `active => "PAUSE"
                           | `paused => "RESUME"
                           | `stopped => "START"
@@ -218,7 +221,7 @@ let make = (~navigation, _children) => {
                         onPress=(
                           self.reduce(
                             () => {
-                              switch self.state.timerHandle {
+                              switch self.state.timer.handle {
                               | Some(h) => clearInterval(h)
                               | None => ()
                               };
@@ -239,7 +242,7 @@ let make = (~navigation, _children) => {
               self.reduce(
                 () => {
                   if (self.state.inSession) {
-                    switch self.state.timerHandle {
+                    switch self.state.timer.handle {
                     | Some(h) => clearInterval(h)
                     | None => self.reduce(() => StopTimer(None), ())
                     }
