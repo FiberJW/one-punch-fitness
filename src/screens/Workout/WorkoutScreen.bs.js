@@ -115,16 +115,15 @@ function startTimer(self) {
 
 var component = ReasonReact.reducerComponent("WorkoutScreenBase");
 
-function make$7(reductiveState, dispatch, _) {
+function make$7(reductiveState, _, _$1) {
   var newrecord = component.slice();
   newrecord[/* didMount */ 4] = function() {
     console.log(
       "zero-based-level " +
         Pervasives.string_of_int(
-          reductiveState[/* currentWorkout */ 1][/* level */ 1]
+          reductiveState[/* currentWorkout */ 0][/* level */ 0]
         )
     );
-    Curry._1(dispatch, /* Initialize */ 0);
     return /* NoUpdate */ 0;
   };
   newrecord[/* willUnmount */ 6] = function(self) {
@@ -137,7 +136,6 @@ function make$7(reductiveState, dispatch, _) {
     }
   };
   newrecord[/* render */ 9] = function(self) {
-    console.log(reductiveState[/* initialized */ 0]);
     var match = self[/* state */ 2][/* inSession */ 1];
     var layout = match !== 0 ? sessionLayout : transitionLayout;
     var match$1 = self[/* state */ 2][/* inSession */ 1];
@@ -249,7 +247,7 @@ function make$7(reductiveState, dispatch, _) {
                                     (Pervasives.string_of_int(
                                       Caml_array.caml_array_get(
                                         Routines.variations,
-                                        reductiveState[/* currentWorkout */ 1][/* level */ 1]
+                                        reductiveState[/* currentWorkout */ 0][/* level */ 0]
                                       )[/* sitUps */ 1][/* sets */ 0]
                                     ) +
                                       ""),
@@ -287,7 +285,7 @@ function make$7(reductiveState, dispatch, _) {
                                         Pervasives.string_of_int(
                                           Caml_array.caml_array_get(
                                             Routines.variations,
-                                            reductiveState[/* currentWorkout */ 1][/* level */ 1]
+                                            reductiveState[/* currentWorkout */ 0][/* level */ 0]
                                           )[/* sitUps */ 1][/* reps */ 1]
                                         ),
                                       ]

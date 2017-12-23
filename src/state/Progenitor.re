@@ -1,24 +1,75 @@
-type workout = {
-  date: string,
-  level: int
+open BsReactNative;
+
+type workout = {level: int};
+
+type state = {currentWorkout: workout};
+
+module Encode = {
+  let workout = (w) => Json.Encode.(object_([("level", Js.Json.number(float_of_int(w.level)))]));
+  let state = (s) => Json.Encode.(object_([("currentWorkout", workout(s.currentWorkout))]));
 };
 
-type appState = {
-  initialized: bool,
-  currentWorkout: workout
+module Decode = {
+  let workout = (json) => Json.Decode.{level: json |> field("level", int)};
+  let state = (json) => Json.Decode.{currentWorkout: json |> field("currentWorkout", workout)};
 };
 
 type action =
-  | Initialize;
+  | Rehydrate(state)
+  | IncrementLevel
+  | DecrementLevel;
 
-let reducer = (state: appState, action: action) =>
+let reducer = (state: state, action: action) =>
   switch action {
-  | Initialize => {...state, initialized: true}
+  | Rehydrate(state) => state
+  | IncrementLevel => {currentWorkout: {level: state.currentWorkout.level + 1}}
+  | DecrementLevel => {currentWorkout: {level: state.currentWorkout.level - 1}}
   };
+
+let persist = (store, next, action) => {
+  let returnValue = next(action);
+  let stateAsJson = Encode.state(Reductive.Store.getState(store)) |> Js.Json.stringify;
+  AsyncStorage.setItem(
+    "@state",
+    stateAsJson,
+    ~callback=
+      (e) =>
+        switch e {
+        | None => ()
+        | Some(err) => Js.log(err)
+        },
+    ()
+  )
+  |> ignore;
+  returnValue
+};
 
 let store =
   Reductive.Store.create(
     ~reducer,
-    ~preloadedState={initialized: false, currentWorkout: {date: "", level: 0}},
+    ~preloadedState={currentWorkout: {level: 0}},
+    ~enhancer=persist,
     ()
   );
+
+let dispatch = Reductive.Store.dispatch(store);
+
+let hydrate = () =>
+  Js.Promise.(
+    AsyncStorage.getItem("@state", ())
+    |> then_(
+         (json) =>
+           (
+             switch json {
+             | None => ()
+             | Some(s) =>
+               let state = Js.Json.parseExn(s) |> Decode.state;
+               dispatch(Rehydrate(state))
+             }
+           )
+           |> resolve
+       )
+    |> ignore
+  );
+
+hydrate();

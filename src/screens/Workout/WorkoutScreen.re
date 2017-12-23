@@ -89,12 +89,7 @@ module Base = {
     | ResumeTimer;
   let startTimer = (self) => setInterval(self.ReasonReact.reduce(() => Tick), 1000);
   let component = ReasonReact.reducerComponent("WorkoutScreenBase");
-  let make =
-      (
-        ~state as reductiveState: Progenitor.appState,
-        ~dispatch: Progenitor.action => unit,
-        _children
-      ) => {
+  let make = (~state as reductiveState: Progenitor.state, ~dispatch, _children) => {
     ...component,
     initialState: () => {
       timer: {status: `active, timeUsed: 0, handle: None},
@@ -103,7 +98,6 @@ module Base = {
     },
     didMount: (_self) => {
       Js.log("zero-based-level " ++ string_of_int(reductiveState.currentWorkout.level));
-      dispatch(Progenitor.Initialize);
       ReasonReact.NoUpdate
     },
     reducer: (action, state) =>
@@ -131,7 +125,6 @@ module Base = {
       | None => ()
       },
     render: (self) => {
-      Js.log(reductiveState.initialized);
       let layout = self.state.inSession ? sessionLayout : transitionLayout;
       <Styled.Background>
         <ScrollView
