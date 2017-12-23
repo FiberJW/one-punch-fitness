@@ -124,21 +124,3 @@ module RNAnimatable = {
       ReasonReact.wrapJsForReason(~reactClass=view, ~props={"easing": easing}, children);
   };
 };
-
-module MobX = {
-  module React = {
-    module Provider = {
-      [@bs.module "mobx-react"] external provider : ReasonReact.reactClass = "Provider";
-      let make = (~workoutStore, children) =>
-        ReasonReact.wrapJsForReason(
-          ~reactClass=provider,
-          ~props={"workoutStore": workoutStore},
-          children
-        );
-    };
-    [@bs.module "mobx-react"]
-    external observer : ReasonReact.reactClass => ReasonReact.reactClass =
-      "observer";
-    let observer = observer;
-  };
-};

@@ -43,5 +43,4 @@ let make = (_children) => {
     </Styled.Container>
 };
 
-let default =
-  MobX.React.observer(ReasonReact.wrapReasonForJs(~component, (_jsProps) => make([||])));
+let default = ReasonReact.wrapReasonForJs(~component, (_jsProps) => make([||]));

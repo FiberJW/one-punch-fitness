@@ -9,8 +9,6 @@
     "chalk": "^2.3.0",
     "expo": "^24.0.0",
     "flow-bin": "0.56.0",
-    "mobx": "^3.4.1",
-    "mobx-react": "^4.3.5",
     "moment": "^2.19.4",
     "react": "16.0.0",
     "react-native":
@@ -20,6 +18,7 @@
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-navigation": "^1.0.0-beta.21",
     "reason-react": "0.3.0",
+    "reductive": "^0.2.0",
     "styled-components": "^2.2.3"
   },
   "name": "one-punch-fitness",

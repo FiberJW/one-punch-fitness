@@ -7,11 +7,11 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Timer = require("./components/Timer/Timer.bs.js");
 var Assets = require("Assets");
 var Colors = require("../../config/Colors.bs.js");
-var Stores = require("../../state/Stores.bs.js");
 var Routines = require("../../config/Routines.bs.js");
+var Reductive = require("reductive/src/reductive.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
-var NPMBindings = require("../../config/NPMBindings.bs.js");
+var Progenitor = require("../../state/Progenitor.bs.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var ActionButton = require("./components/ActionButton/ActionButton.bs.js");
 var SessionControl = require("./components/SessionControl/SessionControl.bs.js");
@@ -113,15 +113,18 @@ function startTimer(self) {
   );
 }
 
-var component = ReasonReact.reducerComponent("WorkoutScreen");
+var component = ReasonReact.reducerComponent("WorkoutScreenBase");
 
-function make$7(navigation, _) {
+function make$7(reductiveState, dispatch, _) {
   var newrecord = component.slice();
   newrecord[/* didMount */ 4] = function() {
     console.log(
       "zero-based-level " +
-        Pervasives.string_of_int(navigation.state.params.level)
+        Pervasives.string_of_int(
+          reductiveState[/* currentWorkout */ 1][/* level */ 1]
+        )
     );
+    Curry._1(dispatch, /* Initialize */ 0);
     return /* NoUpdate */ 0;
   };
   newrecord[/* willUnmount */ 6] = function(self) {
@@ -134,7 +137,7 @@ function make$7(navigation, _) {
     }
   };
   newrecord[/* render */ 9] = function(self) {
-    console.log(Stores.workout.bool);
+    console.log(reductiveState[/* initialized */ 0]);
     var match = self[/* state */ 2][/* inSession */ 1];
     var layout = match !== 0 ? sessionLayout : transitionLayout;
     var match$1 = self[/* state */ 2][/* inSession */ 1];
@@ -246,7 +249,7 @@ function make$7(navigation, _) {
                                     (Pervasives.string_of_int(
                                       Caml_array.caml_array_get(
                                         Routines.variations,
-                                        navigation.state.params.level
+                                        reductiveState[/* currentWorkout */ 1][/* level */ 1]
                                       )[/* sitUps */ 1][/* sets */ 0]
                                     ) +
                                       ""),
@@ -284,7 +287,7 @@ function make$7(navigation, _) {
                                         Pervasives.string_of_int(
                                           Caml_array.caml_array_get(
                                             Routines.variations,
-                                            navigation.state.params.level
+                                            reductiveState[/* currentWorkout */ 1][/* level */ 1]
                                           )[/* sitUps */ 1][/* reps */ 1]
                                         ),
                                       ]
@@ -446,7 +449,6 @@ function make$7(navigation, _) {
           if (
             state[/* timer */ 0][/* status */ 2] !== /* paused */ -276545362
           ) {
-            Stores.workout.toggleBool();
             var init = state[/* timer */ 0];
             return /* Update */ Block.__(0, [
               /* record */ [
@@ -529,20 +531,45 @@ function make$7(navigation, _) {
   return newrecord;
 }
 
-var $$default = Curry._1(
-  NPMBindings.MobX[/* React */ 0][/* observer */ 1],
-  ReasonReact.wrapReasonForJs(component, function(jsProps) {
-    return make$7(jsProps.navigation, /* array */ []);
-  })
+var Base = /* module */ [
+  /* Styled */ Styled,
+  /* transitionLayout */ transitionLayout,
+  /* sessionLayout */ sessionLayout,
+  /* workoutOrder */ workoutOrder,
+  /* startTimer */ startTimer,
+  /* component */ component,
+  /* make */ make$7,
+];
+
+var make$8 = Reductive.Provider[/* createMake */ 0](
+  /* None */ 0,
+  Progenitor.store
 );
 
-exports.Styled = Styled;
-exports.transitionLayout = transitionLayout;
-exports.sessionLayout = sessionLayout;
-exports.workoutOrder = workoutOrder;
-exports.startTimer = startTimer;
-exports.component = component;
-exports.make = make$7;
+var Provider = /* module */ [/* make */ make$8];
+
+var component$1 = ReasonReact.statelessComponent("WorkoutScreen");
+
+function make$9() {
+  var newrecord = component$1.slice();
+  newrecord[/* render */ 9] = function() {
+    return ReasonReact.element(
+      /* None */ 0,
+      /* None */ 0,
+      Curry._2(make$8, make$7, /* array */ [])
+    );
+  };
+  return newrecord;
+}
+
+var $$default = ReasonReact.wrapReasonForJs(component$1, function() {
+  return make$9(/* array */ []);
+});
+
+exports.Base = Base;
+exports.Provider = Provider;
+exports.component = component$1;
+exports.make = make$9;
 exports.$$default = $$default;
 exports.default = $$default;
 exports.__esModule = true;
