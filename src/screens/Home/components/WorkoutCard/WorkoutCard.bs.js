@@ -6,8 +6,10 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Assets = require("Assets");
 var Colors = require("../../../../config/Colors.bs.js");
 var Routines = require("../../../../config/Routines.bs.js");
+var Reductive = require("reductive/src/reductive.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
+var Progenitor = require("../../../../state/Progenitor.bs.js");
 var Json_decode = require("bs-json/src/Json_decode.js");
 var Json_encode = require("bs-json/src/Json_encode.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
@@ -132,16 +134,16 @@ function hydrate(self) {
   return /* NoUpdate */ 0;
 }
 
-var component = ReasonReact.reducerComponent("WorkoutCard");
+var component = ReasonReact.reducerComponent("WorkoutCardBase");
 
-function make$6(navigation, _) {
+function make$6(navigation, reductiveState, dispatch, _) {
   var newrecord = component.slice();
   newrecord[/* didMount */ 4] = hydrate;
   newrecord[/* didUpdate */ 5] = function(param) {
     return persist(param[/* newSelf */ 1][/* state */ 2]);
   };
-  newrecord[/* render */ 9] = function(self) {
-    var match = self[/* state */ 2][/* level */ 0];
+  newrecord[/* render */ 9] = function() {
+    var match = reductiveState[/* currentWorkout */ 0][/* level */ 0];
     var tmp;
     if (match > 4 || match < 0) {
       tmp = Assets.Illustrations.workoutLevel1;
@@ -194,7 +196,9 @@ function make$6(navigation, _) {
                     /* array */ [
                       "level " +
                         Pervasives.string_of_int(
-                          (self[/* state */ 2][/* level */ 0] + 1) | 0
+                          (reductiveState[/* currentWorkout */ 0][/* level */ 0] +
+                            1) |
+                            0
                         ),
                     ]
                   )
@@ -203,11 +207,14 @@ function make$6(navigation, _) {
                   /* None */ 0,
                   /* None */ 0,
                   IntensityButton.make(
-                    Curry._1(self[/* reduce */ 1], function() {
-                      return /* DecrementLevel */ 1;
-                    }),
+                    function() {
+                      return Curry._1(dispatch, /* DecrementLevel */ 1);
+                    },
                     "decrement",
-                    +(self[/* state */ 2][/* level */ 0] === 0),
+                    +(
+                      reductiveState[/* currentWorkout */ 0][/* level */ 0] ===
+                      0
+                    ),
                     /* array */ []
                   )
                 ),
@@ -215,11 +222,14 @@ function make$6(navigation, _) {
                   /* None */ 0,
                   /* None */ 0,
                   IntensityButton.make(
-                    Curry._1(self[/* reduce */ 1], function() {
-                      return /* IncrementLevel */ 0;
-                    }),
+                    function() {
+                      return Curry._1(dispatch, /* IncrementLevel */ 0);
+                    },
                     "increment",
-                    +(self[/* state */ 2][/* level */ 0] === 4),
+                    +(
+                      reductiveState[/* currentWorkout */ 0][/* level */ 0] ===
+                      4
+                    ),
                     /* array */ []
                   )
                 ),
@@ -265,13 +275,13 @@ function make$6(navigation, _) {
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* pushUps */ 0][/* sets */ 0],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* pushUps */ 0][/* reps */ 1],
                           ],
                           /* None */ 0,
@@ -288,13 +298,13 @@ function make$6(navigation, _) {
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* sitUps */ 1][/* sets */ 0],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* sitUps */ 1][/* reps */ 1],
                           ],
                           /* None */ 0,
@@ -311,13 +321,13 @@ function make$6(navigation, _) {
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* squats */ 2][/* sets */ 0],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* squats */ 2][/* reps */ 1],
                           ],
                           /* None */ 0,
@@ -336,13 +346,13 @@ function make$6(navigation, _) {
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* run */ 3][/* distance */ 0],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* run */ 3][/* units */ 1],
                           ],
                           /* None */ 0,
@@ -389,13 +399,13 @@ function make$6(navigation, _) {
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* rest */ 4][/* units */ 1],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* rest */ 4][/* amount */ 0],
                           ],
                           /* array */ []
@@ -412,13 +422,13 @@ function make$6(navigation, _) {
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* transition */ 5][/* units */ 1],
                           ],
                           /* Some */ [
                             Caml_array.caml_array_get(
                               Routines.variations,
-                              self[/* state */ 2][/* level */ 0]
+                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
                             )[/* transition */ 5][/* amount */ 0],
                           ],
                           /* array */ []
@@ -462,7 +472,8 @@ function make$6(navigation, _) {
                   WorkoutCardStartButton.make(
                     function() {
                       return navigation.navigate("Workout", {
-                        level: self[/* state */ 2][/* level */ 0],
+                        level:
+                          reductiveState[/* currentWorkout */ 0][/* level */ 0],
                       });
                     },
                     /* array */ []
@@ -496,15 +507,49 @@ function make$6(navigation, _) {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
-  return make$6(jsProps.navigation, /* array */ []);
+var Base = /* module */ [
+  /* Styled */ Styled,
+  /* persist */ persist,
+  /* hydrate */ hydrate,
+  /* component */ component,
+  /* make */ make$6,
+];
+
+var make$7 = Reductive.Provider[/* createMake */ 0](
+  /* None */ 0,
+  Progenitor.store
+);
+
+var Provider = /* module */ [/* make */ make$7];
+
+var component$1 = ReasonReact.statelessComponent("WorkoutCard");
+
+function make$8(navigation, _) {
+  var newrecord = component$1.slice();
+  newrecord[/* render */ 9] = function() {
+    return ReasonReact.element(
+      /* None */ 0,
+      /* None */ 0,
+      Curry._2(
+        make$7,
+        function(param, param$1, param$2) {
+          return make$6(navigation, param, param$1, param$2);
+        },
+        /* array */ []
+      )
+    );
+  };
+  return newrecord;
+}
+
+var $$default = ReasonReact.wrapReasonForJs(component$1, function(jsProps) {
+  return make$8(jsProps.navigation, /* array */ []);
 });
 
-exports.Styled = Styled;
-exports.persist = persist;
-exports.hydrate = hydrate;
-exports.component = component;
-exports.make = make$6;
+exports.Base = Base;
+exports.Provider = Provider;
+exports.component = component$1;
+exports.make = make$8;
 exports.$$default = $$default;
 exports.default = $$default;
 exports.__esModule = true;
