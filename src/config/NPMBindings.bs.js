@@ -3,7 +3,6 @@
 
 var Expo = require("expo");
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
-var MobxReact = require("mobx-react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var VectorIcons = require("@expo/vector-icons");
@@ -118,31 +117,10 @@ var View = /* module */ [/* make */ make$4];
 
 var RNAnimatable = /* module */ [/* View */ View];
 
-function make$5(workoutStore, children) {
-  return ReasonReact.wrapJsForReason(
-    MobxReact.Provider,
-    {
-      workoutStore: workoutStore,
-    },
-    children
-  );
-}
-
-var Provider = /* module */ [/* make */ make$5];
-
-function observer(prim) {
-  return MobxReact.observer(prim);
-}
-
-var React = /* module */ [/* Provider */ Provider, /* observer */ observer];
-
-var MobX = /* module */ [/* React */ React];
-
 exports.RNCalendars = RNCalendars;
 exports.Expo = Expo$1;
 exports.VectorIcons = VectorIcons$1;
 exports.DateTimePicker = DateTimePicker;
 exports.Moment = Moment;
 exports.RNAnimatable = RNAnimatable;
-exports.MobX = MobX;
 /* expo Not a pure module */
