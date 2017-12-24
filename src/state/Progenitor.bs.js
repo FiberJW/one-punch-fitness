@@ -3,13 +3,31 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var Reductive = require("reductive/src/reductive.js");
+var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var Json_decode = require("bs-json/src/Json_decode.js");
 var Json_encode = require("bs-json/src/Json_encode.js");
 var AsyncStorage$BsReactNative = require("bs-react-native/src/asyncStorage.js");
 
+AsyncStorage$BsReactNative.clear(/* None */ 0, /* () */ 0);
+
 function workout(w) {
   return Json_encode.object_(
-    /* :: */ [/* tuple */ ["level", w[/* level */ 0]], /* [] */ 0]
+    /* :: */ [
+      /* tuple */ ["level", w[/* level */ 0]],
+      /* :: */ [
+        /* tuple */ ["date", w[/* date */ 1]],
+        /* :: */ [
+          /* tuple */ ["started", Js_boolean.to_js_boolean(w[/* started */ 2])],
+          /* :: */ [
+            /* tuple */ [
+              "completed",
+              Js_boolean.to_js_boolean(w[/* completed */ 3]),
+            ],
+            /* [] */ 0,
+          ],
+        ],
+      ],
+    ]
   );
 }
 
@@ -27,6 +45,9 @@ var Encode = /* module */ [/* workout */ workout, /* state */ state];
 function workout$1(json) {
   return /* record */ [
     /* level */ Json_decode.field("level", Json_decode.$$int, json),
+    /* date */ Json_decode.field("date", Json_decode.string, json),
+    /* started */ Json_decode.field("started", Json_decode.bool, json),
+    /* completed */ Json_decode.field("completed", Json_decode.bool, json),
   ];
 }
 
@@ -40,18 +61,37 @@ var Decode = /* module */ [/* workout */ workout$1, /* state */ state$1];
 
 function reducer(state, action) {
   if (typeof action === "number") {
-    if (action !== 0) {
-      return /* record */ [
-        /* currentWorkout : record */ [
-          /* level */ (state[/* currentWorkout */ 0][/* level */ 0] - 1) | 0,
-        ],
-      ];
-    } else {
-      return /* record */ [
-        /* currentWorkout : record */ [
-          /* level */ (state[/* currentWorkout */ 0][/* level */ 0] + 1) | 0,
-        ],
-      ];
+    switch (action) {
+      case 0:
+        var init = state[/* currentWorkout */ 0];
+        return /* record */ [
+          /* currentWorkout : record */ [
+            /* level */ (state[/* currentWorkout */ 0][/* level */ 0] + 1) | 0,
+            /* date */ init[/* date */ 1],
+            /* started */ init[/* started */ 2],
+            /* completed */ init[/* completed */ 3],
+          ],
+        ];
+      case 1:
+        var init$1 = state[/* currentWorkout */ 0];
+        return /* record */ [
+          /* currentWorkout : record */ [
+            /* level */ (state[/* currentWorkout */ 0][/* level */ 0] - 1) | 0,
+            /* date */ init$1[/* date */ 1],
+            /* started */ init$1[/* started */ 2],
+            /* completed */ init$1[/* completed */ 3],
+          ],
+        ];
+      case 2:
+        var init$2 = state[/* currentWorkout */ 0];
+        return /* record */ [
+          /* currentWorkout : record */ [
+            /* level */ init$2[/* level */ 0],
+            /* date */ init$2[/* date */ 1],
+            /* started : true */ 1,
+            /* completed */ init$2[/* completed */ 3],
+          ],
+        ];
     }
   } else {
     return action[0];
@@ -83,7 +123,14 @@ function persist(store, next, action) {
 
 var store = Reductive.Store[/* create */ 0](
   reducer,
-  /* record */ [/* currentWorkout : record */ [/* level */ 0]],
+  /* record */ [
+    /* currentWorkout : record */ [
+      /* level */ 0,
+      /* date */ new Date().toUTCString(),
+      /* started : false */ 0,
+      /* completed : false */ 0,
+    ],
+  ],
   /* Some */ [persist],
   /* () */ 0
 );
@@ -119,4 +166,4 @@ exports.persist = persist;
 exports.store = store;
 exports.dispatch = dispatch;
 exports.hydrate = hydrate;
-/* store Not a pure module */
+/*  Not a pure module */

@@ -1,29 +1,56 @@
 open BsReactNative;
 
-type workout = {level: int};
+AsyncStorage.clear();
+
+type workout = {
+  level: int,
+  date: string,
+  started: bool,
+  completed: bool
+};
 
 type state = {currentWorkout: workout};
-
-module Encode = {
-  let workout = (w) => Json.Encode.(object_([("level", Js.Json.number(float_of_int(w.level)))]));
-  let state = (s) => Json.Encode.(object_([("currentWorkout", workout(s.currentWorkout))]));
-};
-
-module Decode = {
-  let workout = (json) => Json.Decode.{level: json |> field("level", int)};
-  let state = (json) => Json.Decode.{currentWorkout: json |> field("currentWorkout", workout)};
-};
 
 type action =
   | Rehydrate(state)
   | IncrementLevel
-  | DecrementLevel;
+  | DecrementLevel
+  | StartWorkout;
+
+module Encode = {
+  let workout = (w) =>
+    Json.Encode.(
+      object_([
+        ("level", Js.Json.number(float_of_int(w.level))),
+        ("date", Js.Json.string(w.date)),
+        ("started", Js.Json.boolean(Js.Boolean.to_js_boolean(w.started))),
+        ("completed", Js.Json.boolean(Js.Boolean.to_js_boolean(w.completed)))
+      ])
+    );
+  let state = (s) => Json.Encode.(object_([("currentWorkout", workout(s.currentWorkout))]));
+};
+
+module Decode = {
+  let workout = (json) =>
+    Json.Decode.{
+      level: json |> field("level", int),
+      date: json |> field("date", string),
+      started: json |> field("started", bool),
+      completed: json |> field("completed", bool)
+    };
+  let state = (json) => Json.Decode.{currentWorkout: json |> field("currentWorkout", workout)};
+};
 
 let reducer = (state: state, action: action) =>
   switch action {
   | Rehydrate(state) => state
-  | IncrementLevel => {currentWorkout: {level: state.currentWorkout.level + 1}}
-  | DecrementLevel => {currentWorkout: {level: state.currentWorkout.level - 1}}
+  | IncrementLevel => {
+      currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level + 1}
+    }
+  | DecrementLevel => {
+      currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level - 1}
+    }
+  | StartWorkout => {currentWorkout: {...state.currentWorkout, started: true}}
   };
 
 let persist = (store, next, action) => {
@@ -47,7 +74,14 @@ let persist = (store, next, action) => {
 let store =
   Reductive.Store.create(
     ~reducer,
-    ~preloadedState={currentWorkout: {level: 0}},
+    ~preloadedState={
+      currentWorkout: {
+        level: 0,
+        date: Js.Date.toUTCString(Js.Date.make()),
+        started: false,
+        completed: false
+      }
+    },
     ~enhancer=persist,
     ()
   );
@@ -73,3 +107,7 @@ let hydrate = () =>
   );
 
 hydrate();
+/* TODO:
+   when ready, when rehydrating if hydrated currentworkout doesn't exist on the currentday,
+    do the calculations to push it into the history and create a new currentWorkout
+    */
