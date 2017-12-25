@@ -2,11 +2,27 @@ open BsReactNative;
 
 AsyncStorage.clear();
 
+type setsCompleted = {
+  pushUps: int,
+  sitUps: int,
+  squats: int,
+  run: bool
+};
+
+type timeUsedPerSet = {
+  pushUps: Js.Array.t(float),
+  sitUps: Js.Array.t(float),
+  squats: Js.Array.t(float),
+  run: float
+};
+
 type workout = {
   level: int,
   date: string,
   started: bool,
-  completed: bool
+  completed: bool,
+  setsCompleted,
+  timeUsedPerSet
 };
 
 type state = {currentWorkout: workout};
@@ -18,40 +34,63 @@ type action =
   | StartWorkout;
 
 module Encode = {
-  let workout = (w) =>
+  let timeUsedPerSet = (tps: timeUsedPerSet) =>
+    Json.Encode.(
+      object_([
+        ("pushUps", Js.Json.numberArray(tps.pushUps)),
+        ("sitUps", Js.Json.numberArray(tps.sitUps)),
+        ("squats", Js.Json.numberArray(tps.squats)),
+        ("run", Js.Json.number(tps.run))
+      ])
+    );
+  let setsCompleted = (sc: setsCompleted) =>
+    Json.Encode.(
+      object_([
+        ("pushUps", Js.Json.number(float_of_int(sc.pushUps))),
+        ("sitUps", Js.Json.number(float_of_int(sc.sitUps))),
+        ("squats", Js.Json.number(float_of_int(sc.squats))),
+        ("run", Js.Json.boolean(Js.Boolean.to_js_boolean(sc.run)))
+      ])
+    );
+  let workout = (w: workout) =>
     Json.Encode.(
       object_([
         ("level", Js.Json.number(float_of_int(w.level))),
         ("date", Js.Json.string(w.date)),
         ("started", Js.Json.boolean(Js.Boolean.to_js_boolean(w.started))),
-        ("completed", Js.Json.boolean(Js.Boolean.to_js_boolean(w.completed)))
+        ("completed", Js.Json.boolean(Js.Boolean.to_js_boolean(w.completed))),
+        ("setsCompleted", setsCompleted(w.setsCompleted))
       ])
     );
   let state = (s) => Json.Encode.(object_([("currentWorkout", workout(s.currentWorkout))]));
 };
 
 module Decode = {
-  let workout = (json) =>
+  let timeUsedPerSet = (json) : timeUsedPerSet =>
+    Json.Decode.{
+      pushUps: json |> field("pushUps", Json.Decode.array(Json.Decode.float)),
+      sitUps: json |> field("sitUps", Json.Decode.array(Json.Decode.float)),
+      squats: json |> field("squats", Json.Decode.array(Json.Decode.float)),
+      run: json |> field("run", Json.Decode.float)
+    };
+  let setsCompleted = (json) : setsCompleted =>
+    Json.Decode.{
+      pushUps: json |> field("pushUps", int),
+      sitUps: json |> field("sitUps", int),
+      squats: json |> field("squats", int),
+      run: json |> field("run", bool)
+    };
+  let workout = (json) : workout =>
     Json.Decode.{
       level: json |> field("level", int),
       date: json |> field("date", string),
       started: json |> field("started", bool),
-      completed: json |> field("completed", bool)
+      completed: json |> field("completed", bool),
+      setsCompleted: json |> field("setsCompleted", setsCompleted),
+      timeUsedPerSet: json |> field("timeUsedPerSet", timeUsedPerSet)
     };
   let state = (json) => Json.Decode.{currentWorkout: json |> field("currentWorkout", workout)};
 };
-
-let reducer = (state: state, action: action) =>
-  switch action {
-  | Rehydrate(state) => state
-  | IncrementLevel => {
-      currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level + 1}
-    }
-  | DecrementLevel => {
-      currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level - 1}
-    }
-  | StartWorkout => {currentWorkout: {...state.currentWorkout, started: true}}
-  };
 
 let persist = (store, next, action) => {
   let returnValue = next(action);
@@ -71,24 +110,7 @@ let persist = (store, next, action) => {
   returnValue
 };
 
-let store =
-  Reductive.Store.create(
-    ~reducer,
-    ~preloadedState={
-      currentWorkout: {
-        level: 0,
-        date: Js.Date.toUTCString(Js.Date.make()),
-        started: false,
-        completed: false
-      }
-    },
-    ~enhancer=persist,
-    ()
-  );
-
-let dispatch = Reductive.Store.dispatch(store);
-
-let hydrate = () =>
+let hydrate = (dispatch) =>
   Js.Promise.(
     AsyncStorage.getItem("@state", ())
     |> then_(
@@ -106,8 +128,52 @@ let hydrate = () =>
     |> ignore
   );
 
-hydrate();
+let reducer = (state: state, action: action) =>
+  switch action {
+  | Rehydrate(state) => state
+  | IncrementLevel => {
+      currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level + 1}
+    }
+  | DecrementLevel => {
+      currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level - 1}
+    }
+  | StartWorkout => {currentWorkout: {...state.currentWorkout, started: true}}
+  };
+
+let store =
+  Reductive.Store.create(
+    ~reducer,
+    ~preloadedState={
+      currentWorkout: {
+        level: 0,
+        date: Js.Date.toUTCString(Js.Date.make()),
+        started: false,
+        completed: false,
+        setsCompleted: {pushUps: 0, sitUps: 0, squats: 0, run: false},
+        timeUsedPerSet: {pushUps: [||], sitUps: [||], squats: [||], run: 0.}
+      }
+    },
+    ~enhancer=persist,
+    ()
+  );
+
+hydrate(Reductive.Store.dispatch(store));
 /* TODO:
    when ready, when rehydrating if hydrated currentworkout doesn't exist on the currentday,
     do the calculations to push it into the history and create a new currentWorkout
     */
+/*
+ * WorkoutFlow:
+ * StartButton ->
+ *     Prompt Starting 1st set of 1st exercise
+ *     If "GO" button is pressed:
+ *       - set started = true
+ *       - begin timer
+ *     When user hits stop -> complete, or just complete:
+ *       - set time used to the time used record
+ *       - increment sets done for that exercise
+ *       - reset timer and set it for the rest time
+ *     Repeat for remaining sets of exercise,
+ *     and when the amount of sets done is one less than max sets,
+ *     start next on completion of that set, setting the timer for a transition period
+ */
