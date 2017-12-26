@@ -66,7 +66,7 @@ var Styled = /* module */ [
 
 var component = ReasonReact.statelessComponent("InfoCard");
 
-function make$5(navigation, title, description, _) {
+function make$5(navigation, title, shortDescription, content, _) {
   var newrecord = component.slice();
   newrecord[/* render */ 9] = function() {
     return ReasonReact.element(
@@ -86,7 +86,10 @@ function make$5(navigation, title, description, _) {
         /* None */ 0,
         /* Some */ [
           function() {
-            return navigation.navigate("Info", {});
+            return navigation.navigate("Info", {
+              title: title,
+              content: content,
+            });
           },
         ],
         /* None */ 0,
@@ -156,7 +159,7 @@ function make$5(navigation, title, description, _) {
                 ReasonReact.element(
                   /* None */ 0,
                   /* None */ 0,
-                  make$1(/* array */ [description])
+                  make$1(/* array */ [shortDescription])
                 ),
               ]
             )
@@ -172,7 +175,8 @@ var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
   return make$5(
     jsProps.navigation,
     jsProps.title,
-    jsProps.description,
+    jsProps.shortDescription,
+    jsProps.content,
     /* array */ []
   );
 });

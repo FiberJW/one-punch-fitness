@@ -6,6 +6,6 @@ export default styled.Text`
   color: ${colors.spotiBlack};
   font-size: 18px;
   font-family: InterReg;
-  margin-top: 16px;
+  margin-vertical: 16px;
   background-color: transparent;
 `;

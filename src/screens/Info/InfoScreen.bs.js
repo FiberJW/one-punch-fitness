@@ -60,7 +60,7 @@ var Styled = /* module */ [
 
 var component = ReasonReact.statelessComponent("InfoScreen");
 
-function make$5() {
+function make$5(navigation, _) {
   var newrecord = component.slice();
   newrecord[/* render */ 9] = function() {
     return ReasonReact.element(
@@ -81,16 +81,12 @@ function make$5() {
                 ReasonReact.element(
                   /* None */ 0,
                   /* None */ 0,
-                  make$3(/* array */ ["What is Saitama's secret?"])
+                  make$3(/* array */ [navigation.state.params.title])
                 ),
                 ReasonReact.element(
                   /* None */ 0,
                   /* None */ 0,
-                  make$4(
-                    /* array */ [
-                      "Lorem ipsum dolor sit amet, quidam corrumpit ad eam, duo graeco nostrud temporibus in. His suas veritus mentitum eu, in debet dicant vidisse sit. Oratio splendide vim ei, quaeque assentior sit ex, cibo clita ne sit. Exerci impedit no ius. Quidam regione consetetur cu vel. Vix ei dolor veniam periculis, porro luptatum an vel, ea eum blandit instructior.",
-                    ]
-                  )
+                  make$4(/* array */ [navigation.state.params.content])
                 ),
               ]
             )
@@ -102,8 +98,8 @@ function make$5() {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, function() {
-  return make$5(/* array */ []);
+var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
+  return make$5(jsProps.navigation, /* array */ []);
 });
 
 exports.Styled = Styled;
