@@ -5,11 +5,19 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Reductive = require("reductive/src/reductive.js");
 var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
+var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var Json_decode = require("bs-json/src/Json_decode.js");
 var Json_encode = require("bs-json/src/Json_encode.js");
 var AsyncStorage$BsReactNative = require("bs-react-native/src/asyncStorage.js");
 
-AsyncStorage$BsReactNative.clear(/* None */ 0, /* () */ 0);
+function dateString(date) {
+  return (
+    Pervasives.string_of_int(date.getFullYear() | 0) +
+    ("-" +
+      (Pervasives.string_of_int(((date.getMonth() | 0) + 1) | 0) +
+        ("-" + Pervasives.string_of_int(date.getDate() | 0))))
+  );
+}
 
 function timeUsedPerSet(tps) {
   return Json_encode.object_(
@@ -77,11 +85,21 @@ function workout(w) {
   );
 }
 
+function history(param) {
+  return Json_encode.arrayOf(workout, param);
+}
+
 function state(s) {
   return Json_encode.object_(
     /* :: */ [
       /* tuple */ ["currentWorkout", workout(s[/* currentWorkout */ 0])],
-      /* [] */ 0,
+      /* :: */ [
+        /* tuple */ [
+          "history",
+          Json_encode.arrayOf(workout, s[/* history */ 1]),
+        ],
+        /* [] */ 0,
+      ],
     ]
   );
 }
@@ -90,6 +108,7 @@ var Encode = /* module */ [
   /* timeUsedPerSet */ timeUsedPerSet,
   /* setsCompleted */ setsCompleted,
   /* workout */ workout,
+  /* history */ history,
   /* state */ state,
 ];
 
@@ -148,9 +167,14 @@ function workout$1(json) {
   ];
 }
 
+function history$1(param) {
+  return Json_decode.array(workout$1, param);
+}
+
 function state$1(json) {
   return /* record */ [
     /* currentWorkout */ Json_decode.field("currentWorkout", workout$1, json),
+    /* history */ Json_decode.field("history", history$1, json),
   ];
 }
 
@@ -158,6 +182,7 @@ var Decode = /* module */ [
   /* timeUsedPerSet */ timeUsedPerSet$1,
   /* setsCompleted */ setsCompleted$1,
   /* workout */ workout$1,
+  /* history */ history$1,
   /* state */ state$1,
 ];
 
@@ -201,6 +226,27 @@ function hydrate(dispatch) {
   return /* () */ 0;
 }
 
+function genNewWorkout() {
+  return /* record */ [
+    /* level */ 0,
+    /* date */ dateString(new Date()),
+    /* started : false */ 0,
+    /* completed : false */ 0,
+    /* setsCompleted : record */ [
+      /* pushUps */ 0,
+      /* sitUps */ 0,
+      /* squats */ 0,
+      /* run : false */ 0,
+    ],
+    /* timeUsedPerSet : record */ [
+      /* pushUps : float array */ [],
+      /* sitUps : float array */ [],
+      /* squats : float array */ [],
+      /* run */ 0,
+    ],
+  ];
+}
+
 function reducer(state, action) {
   if (typeof action === "number") {
     switch (action) {
@@ -210,6 +256,7 @@ function reducer(state, action) {
           /* currentWorkout */ ((newrecord[/* level */ 0] =
             (state[/* currentWorkout */ 0][/* level */ 0] + 1) | 0),
           newrecord),
+          /* history */ state[/* history */ 1],
         ];
       case 1:
         var newrecord$1 = state[/* currentWorkout */ 0].slice();
@@ -217,18 +264,21 @@ function reducer(state, action) {
           /* currentWorkout */ ((newrecord$1[/* level */ 0] =
             (state[/* currentWorkout */ 0][/* level */ 0] - 1) | 0),
           newrecord$1),
+          /* history */ state[/* history */ 1],
         ];
       case 2:
         var newrecord$2 = state[/* currentWorkout */ 0].slice();
         return /* record */ [
           /* currentWorkout */ ((newrecord$2[/* started */ 2] = /* true */ 1),
           newrecord$2),
+          /* history */ state[/* history */ 1],
         ];
       case 3:
         var newrecord$3 = state[/* currentWorkout */ 0].slice();
         return /* record */ [
           /* currentWorkout */ ((newrecord$3[/* completed */ 3] = /* true */ 1),
           newrecord$3),
+          /* history */ state[/* history */ 1],
         ];
     }
   } else if (action.tag) {
@@ -261,6 +311,7 @@ function reducer(state, action) {
               /* run */ init$2[/* run */ 3],
             ],
           ],
+          /* history */ state[/* history */ 1],
         ];
       case 1:
         var init$3 = state[/* currentWorkout */ 0];
@@ -289,6 +340,7 @@ function reducer(state, action) {
               /* run */ init$5[/* run */ 3],
             ],
           ],
+          /* history */ state[/* history */ 1],
         ];
       case 2:
         var init$6 = state[/* currentWorkout */ 0];
@@ -317,6 +369,7 @@ function reducer(state, action) {
               /* run */ init$8[/* run */ 3],
             ],
           ],
+          /* history */ state[/* history */ 1],
         ];
       case 3:
         var init$9 = state[/* currentWorkout */ 0];
@@ -341,34 +394,31 @@ function reducer(state, action) {
               /* run */ t,
             ],
           ],
+          /* history */ state[/* history */ 1],
         ];
     }
   } else {
-    return action[0];
+    var state$1 = action[0];
+    if (
+      state$1[/* currentWorkout */ 0][/* date */ 1] !== dateString(new Date())
+    ) {
+      return /* record */ [
+        /* currentWorkout */ genNewWorkout(/* () */ 0),
+        /* history */ state$1[/* history */ 1].concat(
+          state$1[/* currentWorkout */ 0]
+        ),
+      ];
+    } else {
+      return state$1;
+    }
   }
 }
 
 var store = Reductive.Store[/* create */ 0](
   reducer,
   /* record */ [
-    /* currentWorkout : record */ [
-      /* level */ 0,
-      /* date */ new Date().toUTCString(),
-      /* started : false */ 0,
-      /* completed : false */ 0,
-      /* setsCompleted : record */ [
-        /* pushUps */ 0,
-        /* sitUps */ 0,
-        /* squats */ 0,
-        /* run : false */ 0,
-      ],
-      /* timeUsedPerSet : record */ [
-        /* pushUps : float array */ [],
-        /* sitUps : float array */ [],
-        /* squats : float array */ [],
-        /* run */ 0,
-      ],
-    ],
+    /* currentWorkout */ genNewWorkout(/* () */ 0),
+    /* history : array */ [],
   ],
   /* Some */ [persist],
   /* () */ 0
@@ -380,10 +430,12 @@ hydrate(function(param) {
   return partial_arg(store, param);
 });
 
+exports.dateString = dateString;
 exports.Encode = Encode;
 exports.Decode = Decode;
 exports.persist = persist;
 exports.hydrate = hydrate;
+exports.genNewWorkout = genNewWorkout;
 exports.reducer = reducer;
 exports.store = store;
-/*  Not a pure module */
+/* store Not a pure module */
