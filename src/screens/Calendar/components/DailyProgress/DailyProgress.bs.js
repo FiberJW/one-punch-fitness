@@ -3,6 +3,9 @@
 
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
+var Routines = require("../../../../config/Routines.bs.js");
+var Caml_array = require("bs-platform/lib/js/caml_array.js");
+var Caml_int32 = require("bs-platform/lib/js/caml_int32.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Title = require("./styled/Title");
@@ -118,9 +121,11 @@ var Styled = /* module */ [
 
 var component = ReasonReact.reducerComponent("DailyProgressFacet");
 
-function make$9(currentWorkout, parentContainerWidth, _) {
+function make$9(workout, parentContainerWidth, _) {
   var newrecord = component.slice();
   newrecord[/* render */ 9] = function(self) {
+    var match = workout[/* setsCompleted */ 4][/* run */ 3];
+    var match$1 = workout[/* setsCompleted */ 4][/* run */ 3];
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
@@ -133,13 +138,26 @@ function make$9(currentWorkout, parentContainerWidth, _) {
             make$4(
               /* None */ 0,
               /* array */ [
-                currentWorkout.map(function(rf, i) {
-                  return ReasonReact.element(
-                    /* Some */ [Pervasives.string_of_int(i)],
-                    /* None */ 0,
-                    make$7(/* array */ [rf[/* name */ 0]])
-                  );
-                }),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$7(/* array */ ["push-ups"])
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$7(/* array */ ["sit-ups"])
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$7(/* array */ ["squats"])
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$7(/* array */ ["running"])
+                ),
               ]
             )
           ),
@@ -149,32 +167,96 @@ function make$9(currentWorkout, parentContainerWidth, _) {
             make$4(
               /* Some */ [/* true */ 1],
               /* array */ [
-                currentWorkout.map(function(rf, i) {
-                  return ReasonReact.element(
-                    /* Some */ [Pervasives.string_of_int(i)],
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$5(
+                    /* Some */ [
+                      Curry._1(self[/* reduce */ 1], function($$event) {
+                        return /* MeasureMaxBarWidth */ [
+                          $$event.nativeEvent.layout.width,
+                        ];
+                      }),
+                    ],
+                    /* array */ [
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        make$6(
+                          self[/* state */ 2][/* maxBarWidth */ 0] *
+                            (workout[/* setsCompleted */ 4][/* pushUps */ 0] /
+                              Caml_array.caml_array_get(
+                                Routines.variations,
+                                workout[/* level */ 0]
+                              )[/* pushUps */ 0][/* sets */ 0]),
+                          /* array */ []
+                        )
+                      ),
+                    ]
+                  )
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$5(
                     /* None */ 0,
-                    make$5(
-                      /* Some */ [
-                        Curry._1(self[/* reduce */ 1], function($$event) {
-                          return /* MeasureMaxBarWidth */ [
-                            $$event.nativeEvent.layout.width,
-                          ];
-                        }),
-                      ],
-                      /* array */ [
-                        ReasonReact.element(
-                          /* None */ 0,
-                          /* None */ 0,
-                          make$6(
-                            self[/* state */ 2][/* maxBarWidth */ 0] *
-                              (rf[/* amountCompleted */ 1] / rf[/* max */ 2]),
-                            /* array */ []
-                          )
-                        ),
-                      ]
-                    )
-                  );
-                }),
+                    /* array */ [
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        make$6(
+                          self[/* state */ 2][/* maxBarWidth */ 0] *
+                            (workout[/* setsCompleted */ 4][/* sitUps */ 1] /
+                              Caml_array.caml_array_get(
+                                Routines.variations,
+                                workout[/* level */ 0]
+                              )[/* sitUps */ 1][/* sets */ 0]),
+                          /* array */ []
+                        )
+                      ),
+                    ]
+                  )
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$5(
+                    /* None */ 0,
+                    /* array */ [
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        make$6(
+                          self[/* state */ 2][/* maxBarWidth */ 0] *
+                            (workout[/* setsCompleted */ 4][/* squats */ 2] /
+                              Caml_array.caml_array_get(
+                                Routines.variations,
+                                workout[/* level */ 0]
+                              )[/* squats */ 2][/* sets */ 0]),
+                          /* array */ []
+                        )
+                      ),
+                    ]
+                  )
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$5(
+                    /* None */ 0,
+                    /* array */ [
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        make$6(
+                          self[/* state */ 2][/* maxBarWidth */ 0] *
+                            (match !== 0 ? 1 : 0),
+                          /* array */ []
+                        )
+                      ),
+                    ]
+                  )
+                ),
               ]
             )
           ),
@@ -184,30 +266,62 @@ function make$9(currentWorkout, parentContainerWidth, _) {
             make$4(
               /* None */ 0,
               /* array */ [
-                currentWorkout.map(function(rf, i) {
-                  var match = +(rf[/* name */ 0] === "running");
-                  var tmp;
-                  if (match !== 0) {
-                    var match$1 = +(rf[/* amountCompleted */ 1] > 0);
-                    tmp =
-                      match$1 !== 0
-                        ? Pervasives.string_of_float(
-                            rf[/* amountCompleted */ 1]
-                          ) + "km"
-                        : Pervasives.string_of_int(
-                            rf[/* amountCompleted */ 1] | 0
-                          ) + " km";
-                  } else {
-                    tmp = Pervasives.string_of_int(
-                      rf[/* amountCompleted */ 1] | 0
-                    );
-                  }
-                  return ReasonReact.element(
-                    /* Some */ [Pervasives.string_of_int(i)],
-                    /* None */ 0,
-                    make$8(/* array */ [tmp])
-                  );
-                }),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$8(
+                    /* array */ [
+                      Pervasives.string_of_int(
+                        Caml_int32.imul(
+                          workout[/* setsCompleted */ 4][/* pushUps */ 0],
+                          Caml_array.caml_array_get(
+                            Routines.variations,
+                            workout[/* level */ 0]
+                          )[/* pushUps */ 0][/* reps */ 1]
+                        )
+                      ),
+                    ]
+                  )
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$8(
+                    /* array */ [
+                      Pervasives.string_of_int(
+                        Caml_int32.imul(
+                          workout[/* setsCompleted */ 4][/* sitUps */ 1],
+                          Caml_array.caml_array_get(
+                            Routines.variations,
+                            workout[/* level */ 0]
+                          )[/* sitUps */ 1][/* reps */ 1]
+                        )
+                      ),
+                    ]
+                  )
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$8(
+                    /* array */ [
+                      Pervasives.string_of_int(
+                        Caml_int32.imul(
+                          workout[/* setsCompleted */ 4][/* squats */ 2],
+                          Caml_array.caml_array_get(
+                            Routines.variations,
+                            workout[/* level */ 0]
+                          )[/* squats */ 2][/* reps */ 1]
+                        )
+                      ),
+                    ]
+                  )
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  make$8(/* array */ [match$1 !== 0 ? "10km" : "0 km"])
+                ),
               ]
             )
           ),
@@ -227,11 +341,7 @@ function make$9(currentWorkout, parentContainerWidth, _) {
 }
 
 var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
-  return make$9(
-    jsProps.currentWorkout,
-    jsProps.parentContainerWidth,
-    /* array */ []
-  );
+  return make$9(jsProps.workout, jsProps.parentContainerWidth, /* array */ []);
 });
 
 var Stats$1 = /* module */ [
@@ -242,39 +352,9 @@ var Stats$1 = /* module */ [
 
 var component$1 = ReasonReact.reducerComponent("DailyProgress");
 
-function make$10() {
+function make$10(workout, percComplete, _) {
   var newrecord = component$1.slice();
   newrecord[/* render */ 9] = function(self) {
-    var workout = /* array */ [
-      /* record */ [
-        /* name */ "push-ups",
-        /* amountCompleted */ 75,
-        /* max */ 100,
-      ],
-      /* record */ [
-        /* name */ "sit-ups",
-        /* amountCompleted */ 75,
-        /* max */ 100,
-      ],
-      /* record */ [
-        /* name */ "squats",
-        /* amountCompleted */ 75,
-        /* max */ 100,
-      ],
-      /* record */ [
-        /* name */ "running",
-        /* amountCompleted */ 2.3,
-        /* max */ 10,
-      ],
-    ];
-    var totalComplete = [0];
-    var max = [0];
-    workout.forEach(function(rf) {
-      totalComplete[0] += rf[/* amountCompleted */ 1];
-      max[0] += rf[/* max */ 2];
-      return /* () */ 0;
-    });
-    var percComplete = totalComplete[0] / max[0] * 100;
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
@@ -337,8 +417,8 @@ function make$10() {
   return newrecord;
 }
 
-var $$default$1 = ReasonReact.wrapReasonForJs(component$1, function() {
-  return make$10(/* array */ []);
+var $$default$1 = ReasonReact.wrapReasonForJs(component$1, function(jsProps) {
+  return make$10(jsProps.workout, jsProps.percComplete, /* array */ []);
 });
 
 exports.Styled = Styled;

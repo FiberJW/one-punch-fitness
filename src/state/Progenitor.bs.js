@@ -191,7 +191,6 @@ function persist(store, next, action) {
   var stateAsJson = JSON.stringify(
     state(Reductive.Store[/* getState */ 5](store))
   );
-  console.log(stateAsJson);
   AsyncStorage$BsReactNative.setItem(
     "@state",
     stateAsJson,
