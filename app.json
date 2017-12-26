@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "one-punch-fitness",
-    "description": "An empty new project",
+    "description":
+      "Could the you of tomorrow beat you today? Instead of giving in, move forward.",
     "slug": "one-punch-fitness",
     "privacy": "public",
     "sdkVersion": "24.0.0",
