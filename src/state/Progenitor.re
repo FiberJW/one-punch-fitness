@@ -1,6 +1,11 @@
 open BsReactNative;
 
-AsyncStorage.clear();
+let dateString = (date) =>
+  string_of_int(int_of_float(Js.Date.getFullYear(date)))
+  ++ "-"
+  ++ string_of_int(int_of_float(Js.Date.getMonth(date)) + 1)
+  ++ "-"
+  ++ string_of_int(int_of_float(Js.Date.getDate(date)));
 
 type exercise =
   | PushUps
@@ -31,7 +36,10 @@ type workout = {
   timeUsedPerSet
 };
 
-type state = {currentWorkout: workout};
+type state = {
+  currentWorkout: workout,
+  history: Js.Array.t(workout)
+};
 
 type action =
   | Rehydrate(state)
@@ -71,7 +79,11 @@ module Encode = {
         ("timeUsedPerSet", timeUsedPerSet(w.timeUsedPerSet))
       ])
     );
-  let state = (s) => Json.Encode.(object_([("currentWorkout", workout(s.currentWorkout))]));
+  let history = Json.Encode.arrayOf(workout);
+  let state = (s) =>
+    Json.Encode.(
+      object_([("currentWorkout", workout(s.currentWorkout)), ("history", history(s.history))])
+    );
 };
 
 module Decode = {
@@ -98,7 +110,12 @@ module Decode = {
       setsCompleted: json |> field("setsCompleted", setsCompleted),
       timeUsedPerSet: json |> field("timeUsedPerSet", timeUsedPerSet)
     };
-  let state = (json) => Json.Decode.{currentWorkout: json |> field("currentWorkout", workout)};
+  let history = Json.Decode.array(workout);
+  let state = (json) =>
+    Json.Decode.{
+      currentWorkout: json |> field("currentWorkout", workout),
+      history: json |> field("history", history)
+    };
 };
 
 let persist = (store, next, action) => {
@@ -138,20 +155,40 @@ let hydrate = (dispatch) =>
     |> ignore
   );
 
+let genNewWorkout = () => {
+  level: 0,
+  date: dateString(Js.Date.make()),
+  started: false,
+  completed: false,
+  setsCompleted: {pushUps: 0, sitUps: 0, squats: 0, run: false},
+  timeUsedPerSet: {pushUps: [||], sitUps: [||], squats: [||], run: 0.}
+};
+
 let reducer = (state: state, action: action) =>
   switch action {
-  | Rehydrate(state) => state
+  | Rehydrate(state) =>
+    if (state.currentWorkout.date !== dateString(Js.Date.make())) {
+      {
+        history: Js.Array.append(state.currentWorkout, state.history),
+        currentWorkout: genNewWorkout()
+      }
+    } else {
+      state
+    }
   | IncrementLevel => {
+      ...state,
       currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level + 1}
     }
   | DecrementLevel => {
+      ...state,
       currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level - 1}
     }
-  | StartWorkout => {currentWorkout: {...state.currentWorkout, started: true}}
-  | CompleteWorkout => {currentWorkout: {...state.currentWorkout, completed: true}}
+  | StartWorkout => {...state, currentWorkout: {...state.currentWorkout, started: true}}
+  | CompleteWorkout => {...state, currentWorkout: {...state.currentWorkout, completed: true}}
   | CompleteSet(e, t) =>
     switch e {
     | PushUps => {
+        ...state,
         currentWorkout: {
           ...state.currentWorkout,
           setsCompleted: {
@@ -165,6 +202,7 @@ let reducer = (state: state, action: action) =>
         }
       }
     | SitUps => {
+        ...state,
         currentWorkout: {
           ...state.currentWorkout,
           setsCompleted: {
@@ -178,6 +216,7 @@ let reducer = (state: state, action: action) =>
         }
       }
     | Squats => {
+        ...state,
         currentWorkout: {
           ...state.currentWorkout,
           setsCompleted: {
@@ -191,6 +230,7 @@ let reducer = (state: state, action: action) =>
         }
       }
     | Running => {
+        ...state,
         currentWorkout: {
           ...state.currentWorkout,
           setsCompleted: {...state.currentWorkout.setsCompleted, run: true},
@@ -203,37 +243,9 @@ let reducer = (state: state, action: action) =>
 let store =
   Reductive.Store.create(
     ~reducer,
-    ~preloadedState={
-      currentWorkout: {
-        level: 0,
-        date: Js.Date.toUTCString(Js.Date.make()),
-        started: false,
-        completed: false,
-        setsCompleted: {pushUps: 0, sitUps: 0, squats: 0, run: false},
-        timeUsedPerSet: {pushUps: [||], sitUps: [||], squats: [||], run: 0.}
-      }
-    },
+    ~preloadedState={currentWorkout: genNewWorkout(), history: [||]},
     ~enhancer=persist,
     ()
   );
 
 hydrate(Reductive.Store.dispatch(store));
-/* TODO:
-   when ready, when rehydrating if hydrated currentworkout doesn't exist on the currentday,
-    do the calculations to push it into the history and create a new currentWorkout
-    */
-/*
- * WorkoutFlow: (maybe keeping computed record of what exercises are done by calculating the sets done on launch?)
- * StartButton ->
- *     Prompt Starting 1st set of 1st exercise
- *     If "GO" button is pressed:
- *       - set started = true
- *       - begin timer
- *     When user hits stop -> complete, or just complete:
- *       - set time used to the time used record
- *       - increment sets done for that exercise
- *       - reset timer and set it for the rest time
- *     Repeat for remaining sets of exercise,
- *     and when the amount of sets done is one less than max sets,
- *     start next on completion of that set, setting the timer for a transition period
- */
