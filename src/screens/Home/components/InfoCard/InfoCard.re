@@ -40,18 +40,19 @@ module Styled = {
 
 let component = ReasonReact.statelessComponent("InfoCard");
 
-let make = (~navigation, ~title, ~description, _children) => {
+let make = (~navigation, ~title, ~shortDescription, ~content, _children) => {
   ...component,
   render: (_self) =>
     <TouchableOpacity
-      activeOpacity=0.9 onPress=(() => navigation##navigate("Info", Js.Obj.empty()))>
+      activeOpacity=0.9
+      onPress=(() => navigation##navigate("Info", {"title": title, "content": content}))>
       <Styled.Container>
         <View>
           <Styled.CoverImage source=illustrations##theSecretSauce resizeMode="cover" />
           <Styled.ImageGradient colors=[|"rgba(0,0,0,0)", Colors.spotiBlack|] />
           <Styled.Title> title </Styled.Title>
         </View>
-        <Styled.Description> description </Styled.Description>
+        <Styled.Description> shortDescription </Styled.Description>
       </Styled.Container>
     </TouchableOpacity>
 };
@@ -63,7 +64,8 @@ let default =
       make(
         ~navigation=jsProps##navigation,
         ~title=jsProps##title,
-        ~description=jsProps##description,
+        ~content=jsProps##content,
+        ~shortDescription=jsProps##shortDescription,
         [||]
       )
   );

@@ -3,5 +3,5 @@ import styled from "styled-components/native";
 
 export default styled.ScrollView`
   flex: 1;
-  padding: 24px;
+  padding-horizontal: 24px;
 `;

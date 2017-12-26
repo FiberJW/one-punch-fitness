@@ -40,22 +40,24 @@ module Styled = {
 
 let component = ReasonReact.statelessComponent("InfoScreen");
 
-let make = (_children) => {
+let make = (~navigation, _children) => {
   ...component,
   render: (_self) =>
     <Styled.Container>
       <Styled.HeroImage source=illustrations##theSecretSauce resizeMode="cover" />
       <Styled.TextContentContainer>
-        <Styled.Title> (ReasonReact.stringToElement("What is Saitama's secret?")) </Styled.Title>
+        <Styled.Title>
+          (ReasonReact.stringToElement(navigation##state##params##title))
+        </Styled.Title>
         <Styled.Description>
-          (
-            ReasonReact.stringToElement(
-              "Lorem ipsum dolor sit amet, quidam corrumpit ad eam, duo graeco nostrud temporibus in. His suas veritus mentitum eu, in debet dicant vidisse sit. Oratio splendide vim ei, quaeque assentior sit ex, cibo clita ne sit. Exerci impedit no ius. Quidam regione consetetur cu vel. Vix ei dolor veniam periculis, porro luptatum an vel, ea eum blandit instructior."
-            )
-          )
+          (ReasonReact.stringToElement(navigation##state##params##content))
         </Styled.Description>
       </Styled.TextContentContainer>
     </Styled.Container>
 };
 
-let default = ReasonReact.wrapReasonForJs(~component, (_jsProps) => make([||]));
+let default =
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    (jsProps) => make(~navigation=jsProps##navigation, [||])
+  );
