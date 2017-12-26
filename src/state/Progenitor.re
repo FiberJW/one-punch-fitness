@@ -121,7 +121,6 @@ module Decode = {
 let persist = (store, next, action) => {
   let returnValue = next(action);
   let stateAsJson = Encode.state(Reductive.Store.getState(store)) |> Js.Json.stringify;
-  Js.log(stateAsJson);
   AsyncStorage.setItem(
     "@state",
     stateAsJson,
