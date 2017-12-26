@@ -7,10 +7,10 @@ module Styled = {
   module TouchableBase = {
     [@bs.module "./styled/TouchableBase"] external touchableBase : ReasonReact.reactClass =
       "default";
-    let make = (~onPress, children) =>
+    let make = (~onPress, ~disabled, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=touchableBase,
-        ~props={"onPress": onPress},
+        ~props={"onPress": onPress, "disabled": Js.Boolean.to_js_boolean(disabled)},
         children
       );
   };
@@ -23,15 +23,19 @@ module Styled = {
 
 let component = ReasonReact.statelessComponent("WorkoutCardStartButton");
 
-let make = (~onPress, _children) => {
+let make = (~disabled, ~label, ~onPress, _children) => {
   ...component,
   render: (_self) =>
     <Styled.Container>
-      <Styled.TouchableBase onPress>
-        <Styled.Label> (ReasonReact.stringToElement("start")) </Styled.Label>
+      <Styled.TouchableBase onPress disabled>
+        <Styled.Label> (ReasonReact.stringToElement(label)) </Styled.Label>
       </Styled.TouchableBase>
     </Styled.Container>
 };
 
 let default =
-  ReasonReact.wrapReasonForJs(~component, (jsProps) => make(~onPress=jsProps##onPress, [||]));
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    (jsProps) =>
+      make(~onPress=jsProps##onPress, ~label=jsProps##label, ~disabled=jsProps##disabled, [||])
+  );

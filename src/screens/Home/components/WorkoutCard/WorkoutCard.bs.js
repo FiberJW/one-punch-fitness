@@ -153,10 +153,11 @@ function make$6(navigation, reductiveState, dispatch, _) {
                       return Curry._1(dispatch, /* DecrementLevel */ 1);
                     },
                     "decrement",
-                    +(
-                      reductiveState[/* currentWorkout */ 0][/* level */ 0] ===
-                      0
-                    ),
+                    reductiveState[/* currentWorkout */ 0][/* started */ 2] ||
+                      +(
+                        reductiveState[/* currentWorkout */ 0][/* level */ 0] ===
+                        0
+                      ),
                     /* array */ []
                   )
                 ),
@@ -168,10 +169,11 @@ function make$6(navigation, reductiveState, dispatch, _) {
                       return Curry._1(dispatch, /* IncrementLevel */ 0);
                     },
                     "increment",
-                    +(
-                      reductiveState[/* currentWorkout */ 0][/* level */ 0] ===
-                      4
-                    ),
+                    reductiveState[/* currentWorkout */ 0][/* started */ 2] ||
+                      +(
+                        reductiveState[/* currentWorkout */ 0][/* level */ 0] ===
+                        4
+                      ),
                     /* array */ []
                   )
                 ),
@@ -255,6 +257,35 @@ function make$6(navigation, reductiveState, dispatch, _) {
                           /* array */ []
                         )
                       ),
+                    ]
+                  )
+                ),
+                ReasonReact.element(
+                  /* None */ 0,
+                  /* None */ 0,
+                  View$BsReactNative.make(
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0,
+                    /* None */ 0
+                  )(
+                    /* array */ [
                       ReasonReact.element(
                         /* None */ 0,
                         /* None */ 0,
@@ -304,81 +335,6 @@ function make$6(navigation, reductiveState, dispatch, _) {
                     ]
                   )
                 ),
-                ReasonReact.element(
-                  /* None */ 0,
-                  /* None */ 0,
-                  View$BsReactNative.make(
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0,
-                    /* None */ 0
-                  )(
-                    /* array */ [
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        RoutineFacet.make(
-                          "rest",
-                          /* None */ 0,
-                          /* None */ 0,
-                          /* None */ 0,
-                          /* Some */ [
-                            Caml_array.caml_array_get(
-                              Routines.variations,
-                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
-                            )[/* rest */ 4][/* units */ 1],
-                          ],
-                          /* Some */ [
-                            Caml_array.caml_array_get(
-                              Routines.variations,
-                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
-                            )[/* rest */ 4][/* amount */ 0],
-                          ],
-                          /* array */ []
-                        )
-                      ),
-                      ReasonReact.element(
-                        /* None */ 0,
-                        /* None */ 0,
-                        RoutineFacet.make(
-                          "transition",
-                          /* None */ 0,
-                          /* None */ 0,
-                          /* None */ 0,
-                          /* Some */ [
-                            Caml_array.caml_array_get(
-                              Routines.variations,
-                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
-                            )[/* transition */ 5][/* units */ 1],
-                          ],
-                          /* Some */ [
-                            Caml_array.caml_array_get(
-                              Routines.variations,
-                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
-                            )[/* transition */ 5][/* amount */ 0],
-                          ],
-                          /* array */ []
-                        )
-                      ),
-                    ]
-                  )
-                ),
               ]
             )
           ),
@@ -412,7 +368,14 @@ function make$6(navigation, reductiveState, dispatch, _) {
                   /* None */ 0,
                   /* None */ 0,
                   WorkoutCardStartButton.make(
+                    reductiveState[/* currentWorkout */ 0][/* completed */ 3],
+                    reductiveState[/* currentWorkout */ 0][/* completed */ 3]
+                      ? "completed"
+                      : reductiveState[/* currentWorkout */ 0][/* started */ 2]
+                        ? "resume"
+                        : "start",
                     function() {
+                      Curry._1(dispatch, /* StartWorkout */ 2);
                       return navigation.navigate("Workout", {});
                     },
                     /* array */ []

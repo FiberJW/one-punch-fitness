@@ -2,6 +2,12 @@ open BsReactNative;
 
 AsyncStorage.clear();
 
+type exercise =
+  | PushUps
+  | SitUps
+  | Squats
+  | Running;
+
 type setsCompleted = {
   pushUps: int,
   sitUps: int,
@@ -31,7 +37,9 @@ type action =
   | Rehydrate(state)
   | IncrementLevel
   | DecrementLevel
-  | StartWorkout;
+  | StartWorkout
+  | CompleteWorkout
+  | CompleteSet(exercise, float);
 
 module Encode = {
   let timeUsedPerSet = (tps: timeUsedPerSet) =>
@@ -59,7 +67,8 @@ module Encode = {
         ("date", Js.Json.string(w.date)),
         ("started", Js.Json.boolean(Js.Boolean.to_js_boolean(w.started))),
         ("completed", Js.Json.boolean(Js.Boolean.to_js_boolean(w.completed))),
-        ("setsCompleted", setsCompleted(w.setsCompleted))
+        ("setsCompleted", setsCompleted(w.setsCompleted)),
+        ("timeUsedPerSet", timeUsedPerSet(w.timeUsedPerSet))
       ])
     );
   let state = (s) => Json.Encode.(object_([("currentWorkout", workout(s.currentWorkout))]));
@@ -95,6 +104,7 @@ module Decode = {
 let persist = (store, next, action) => {
   let returnValue = next(action);
   let stateAsJson = Encode.state(Reductive.Store.getState(store)) |> Js.Json.stringify;
+  Js.log(stateAsJson);
   AsyncStorage.setItem(
     "@state",
     stateAsJson,
@@ -138,6 +148,56 @@ let reducer = (state: state, action: action) =>
       currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level - 1}
     }
   | StartWorkout => {currentWorkout: {...state.currentWorkout, started: true}}
+  | CompleteWorkout => {currentWorkout: {...state.currentWorkout, completed: true}}
+  | CompleteSet(e, t) =>
+    switch e {
+    | PushUps => {
+        currentWorkout: {
+          ...state.currentWorkout,
+          setsCompleted: {
+            ...state.currentWorkout.setsCompleted,
+            pushUps: state.currentWorkout.setsCompleted.pushUps + 1
+          },
+          timeUsedPerSet: {
+            ...state.currentWorkout.timeUsedPerSet,
+            pushUps: Js.Array.append(t, state.currentWorkout.timeUsedPerSet.pushUps)
+          }
+        }
+      }
+    | SitUps => {
+        currentWorkout: {
+          ...state.currentWorkout,
+          setsCompleted: {
+            ...state.currentWorkout.setsCompleted,
+            sitUps: state.currentWorkout.setsCompleted.sitUps + 1
+          },
+          timeUsedPerSet: {
+            ...state.currentWorkout.timeUsedPerSet,
+            sitUps: Js.Array.append(t, state.currentWorkout.timeUsedPerSet.sitUps)
+          }
+        }
+      }
+    | Squats => {
+        currentWorkout: {
+          ...state.currentWorkout,
+          setsCompleted: {
+            ...state.currentWorkout.setsCompleted,
+            squats: state.currentWorkout.setsCompleted.squats + 1
+          },
+          timeUsedPerSet: {
+            ...state.currentWorkout.timeUsedPerSet,
+            squats: Js.Array.append(t, state.currentWorkout.timeUsedPerSet.squats)
+          }
+        }
+      }
+    | Running => {
+        currentWorkout: {
+          ...state.currentWorkout,
+          setsCompleted: {...state.currentWorkout.setsCompleted, run: true},
+          timeUsedPerSet: {...state.currentWorkout.timeUsedPerSet, run: t}
+        }
+      }
+    }
   };
 
 let store =
@@ -163,7 +223,7 @@ hydrate(Reductive.Store.dispatch(store));
     do the calculations to push it into the history and create a new currentWorkout
     */
 /*
- * WorkoutFlow:
+ * WorkoutFlow: (maybe keeping computed record of what exercises are done by calculating the sets done on launch?)
  * StartButton ->
  *     Prompt Starting 1st set of 1st exercise
  *     If "GO" button is pressed:

@@ -15,6 +15,7 @@ var Progenitor = require("../../state/Progenitor.bs.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var ActionButton = require("./components/ActionButton/ActionButton.bs.js");
 var SessionControl = require("./components/SessionControl/SessionControl.bs.js");
+var Alert$BsReactNative = require("bs-react-native/src/alert.js");
 var Style$BsReactNative = require("bs-react-native/src/style.js");
 var ScrollView$BsReactNative = require("bs-react-native/src/components/scrollView.js");
 var Image = require("./components/styled/Image");
@@ -97,13 +98,6 @@ var sessionLayout = /* int array */ [
   /* SessionControls */ 3,
 ];
 
-var workoutOrder = /* int array */ [
-  /* PushUps */ 0,
-  /* SitUps */ 1,
-  /* Squats */ 2,
-  /* Running */ 3,
-];
-
 function startTimer(self) {
   return setInterval(
     Curry._1(self[/* reduce */ 1], function() {
@@ -113,18 +107,47 @@ function startTimer(self) {
   );
 }
 
-var component = ReasonReact.reducerComponent("WorkoutScreenBase");
+function currentExercise(s) {
+  if (
+    s[/* currentWorkout */ 0][/* setsCompleted */ 4][/* pushUps */ 0] <
+    Caml_array.caml_array_get(
+      Routines.variations,
+      s[/* currentWorkout */ 0][/* level */ 0]
+    )[/* pushUps */ 0][/* sets */ 0]
+  ) {
+    return /* PushUps */ 0;
+  } else if (
+    s[/* currentWorkout */ 0][/* setsCompleted */ 4][/* sitUps */ 1] <
+    Caml_array.caml_array_get(
+      Routines.variations,
+      s[/* currentWorkout */ 0][/* level */ 0]
+    )[/* sitUps */ 1][/* sets */ 0]
+  ) {
+    return /* SitUps */ 1;
+  } else if (
+    s[/* currentWorkout */ 0][/* setsCompleted */ 4][/* squats */ 2] <
+    Caml_array.caml_array_get(
+      Routines.variations,
+      s[/* currentWorkout */ 0][/* level */ 0]
+    )[/* squats */ 2][/* sets */ 0]
+  ) {
+    return /* Squats */ 2;
+  } else {
+    return /* Running */ 3;
+  }
+}
 
-function make$7(reductiveState, _, _$1) {
-  var newrecord = component.slice();
-  newrecord[/* didMount */ 4] = function() {
-    console.log(
-      "zero-based-level " +
-        Pervasives.string_of_int(
-          reductiveState[/* currentWorkout */ 0][/* level */ 0]
-        )
-    );
-    return /* NoUpdate */ 0;
+var baseComponent = ReasonReact.reducerComponent("WorkoutScreenBase");
+
+function baseMake(navigation, reductiveState, dispatch, _) {
+  var newrecord = baseComponent.slice();
+  newrecord[/* willReceiveProps */ 3] = function(self) {
+    var init = self[/* state */ 2];
+    return /* record */ [
+      /* timer */ init[/* timer */ 0],
+      /* inSession */ init[/* inSession */ 1],
+      /* currentExercise */ currentExercise(reductiveState),
+    ];
   };
   newrecord[/* willUnmount */ 6] = function(self) {
     var match = self[/* state */ 2][/* timer */ 0][/* handle */ 1];
@@ -238,38 +261,100 @@ function make$7(reductiveState, _, _$1) {
                               make$6(tmp, "cover", /* array */ [])
                             );
                           case 1:
-                            return ReasonReact.element(
-                              /* Some */ [Pervasives.string_of_int(i)],
-                              /* None */ 0,
-                              make$2(
-                                /* array */ [
-                                  "set 1 of " +
-                                    (Pervasives.string_of_int(
-                                      Caml_array.caml_array_get(
-                                        Routines.variations,
-                                        reductiveState[/* currentWorkout */ 0][/* level */ 0]
-                                      )[/* sitUps */ 1][/* sets */ 0]
-                                    ) +
-                                      ""),
-                                ]
-                              )
+                            var match$1 = +(
+                              self[/* state */ 2][/* currentExercise */ 2] ===
+                              /* Running */ 3
                             );
+                            if (match$1 !== 0) {
+                              return null;
+                            } else {
+                              var match$2 =
+                                self[/* state */ 2][/* currentExercise */ 2];
+                              var tmp$1;
+                              switch (match$2) {
+                                case 0:
+                                  tmp$1 =
+                                    (reductiveState[/* currentWorkout */ 0][/* setsCompleted */ 4][/* pushUps */ 0] +
+                                      1) |
+                                    0;
+                                  break;
+                                case 1:
+                                  tmp$1 =
+                                    (reductiveState[/* currentWorkout */ 0][/* setsCompleted */ 4][/* sitUps */ 1] +
+                                      1) |
+                                    0;
+                                  break;
+                                case 2:
+                                  tmp$1 =
+                                    (reductiveState[/* currentWorkout */ 0][/* setsCompleted */ 4][/* squats */ 2] +
+                                      1) |
+                                    0;
+                                  break;
+                                case 3:
+                                  tmp$1 = 1;
+                                  break;
+                              }
+                              var match$3 =
+                                self[/* state */ 2][/* currentExercise */ 2];
+                              var tmp$2;
+                              switch (match$3) {
+                                case 0:
+                                  tmp$2 = Caml_array.caml_array_get(
+                                    Routines.variations,
+                                    reductiveState[/* currentWorkout */ 0][/* level */ 0]
+                                  )[/* pushUps */ 0][/* sets */ 0];
+                                  break;
+                                case 1:
+                                  tmp$2 = Caml_array.caml_array_get(
+                                    Routines.variations,
+                                    reductiveState[/* currentWorkout */ 0][/* level */ 0]
+                                  )[/* sitUps */ 1][/* sets */ 0];
+                                  break;
+                                case 2:
+                                  tmp$2 = Caml_array.caml_array_get(
+                                    Routines.variations,
+                                    reductiveState[/* currentWorkout */ 0][/* level */ 0]
+                                  )[/* squats */ 2][/* sets */ 0];
+                                  break;
+                                case 3:
+                                  tmp$2 = 1;
+                                  break;
+                              }
+                              return ReasonReact.element(
+                                /* Some */ [Pervasives.string_of_int(i)],
+                                /* None */ 0,
+                                make$2(
+                                  /* array */ [
+                                    "set " +
+                                      (Pervasives.string_of_int(tmp$1) +
+                                        (" of " +
+                                          (Pervasives.string_of_int(tmp$2) +
+                                            ""))),
+                                  ]
+                                )
+                              );
+                            }
+                            break;
                           case 2:
-                            var match$1 =
+                            var match$4 = +(
+                              self[/* state */ 2][/* currentExercise */ 2] ===
+                              /* Running */ 3
+                            );
+                            var match$5 =
                               self[/* state */ 2][/* currentExercise */ 2];
-                            var tmp$1;
-                            switch (match$1) {
+                            var tmp$3;
+                            switch (match$5) {
                               case 0:
-                                tmp$1 = "push-ups";
+                                tmp$3 = "push-ups";
                                 break;
                               case 1:
-                                tmp$1 = "sit-ups";
+                                tmp$3 = "sit-ups";
                                 break;
                               case 2:
-                                tmp$1 = "squats";
+                                tmp$3 = "squats";
                                 break;
                               case 3:
-                                tmp$1 = "run";
+                                tmp$3 = "run";
                                 break;
                             }
                             return ReasonReact.element(
@@ -282,23 +367,34 @@ function make$7(reductiveState, _, _$1) {
                                     /* None */ 0,
                                     make$4(
                                       /* array */ [
-                                        Pervasives.string_of_int(
-                                          Caml_array.caml_array_get(
-                                            Routines.variations,
-                                            reductiveState[/* currentWorkout */ 0][/* level */ 0]
-                                          )[/* sitUps */ 1][/* reps */ 1]
-                                        ),
+                                        match$4 !== 0
+                                          ? Pervasives.string_of_int(
+                                              Caml_array.caml_array_get(
+                                                Routines.variations,
+                                                reductiveState[/* currentWorkout */ 0][/* level */ 0]
+                                              )[/* run */ 3][/* distance */ 0]
+                                            ) +
+                                            Caml_array.caml_array_get(
+                                              Routines.variations,
+                                              reductiveState[/* currentWorkout */ 0][/* level */ 0]
+                                            )[/* run */ 3][/* units */ 1]
+                                          : Pervasives.string_of_int(
+                                              Caml_array.caml_array_get(
+                                                Routines.variations,
+                                                reductiveState[/* currentWorkout */ 0][/* level */ 0]
+                                              )[/* sitUps */ 1][/* reps */ 1]
+                                            ),
                                       ]
                                     )
                                   ),
-                                  " " + tmp$1,
+                                  " " + tmp$3,
                                 ]
                               )
                             );
                           case 3:
-                            var match$2 =
+                            var match$6 =
                               self[/* state */ 2][/* timer */ 0][/* status */ 2];
-                            var match$3 =
+                            var match$7 =
                               self[/* state */ 2][/* timer */ 0][/* status */ 2];
                             return ReasonReact.element(
                               /* Some */ [Pervasives.string_of_int(i)],
@@ -309,8 +405,8 @@ function make$7(reductiveState, _, _$1) {
                                     /* None */ 0,
                                     /* None */ 0,
                                     SessionControl.make(
-                                      match$2 !== -276545362
-                                        ? match$2 >= 373703110
+                                      match$6 !== -276545362
+                                        ? match$6 >= 373703110
                                           ? Curry._1(
                                               self[/* reduce */ 1],
                                               function() {
@@ -336,8 +432,8 @@ function make$7(reductiveState, _, _$1) {
                                               return /* ResumeTimer */ 3;
                                             }
                                           ),
-                                      match$3 !== -276545362
-                                        ? match$3 >= 373703110
+                                      match$7 !== -276545362
+                                        ? match$7 >= 373703110
                                           ? "PAUSE"
                                           : "START"
                                         : "RESUME",
@@ -402,6 +498,30 @@ function make$7(reductiveState, _, _$1) {
                                   /* () */ 0
                                 );
                               }
+                              Curry._1(
+                                dispatch,
+                                /* CompleteSet */ Block.__(1, [
+                                  self[/* state */ 2][/* currentExercise */ 2],
+                                  self[/* state */ 2][/* timer */ 0][/* timeUsed */ 0],
+                                ])
+                              );
+                              if (
+                                self[/* state */ 2][/* currentExercise */ 2] ===
+                                /* Running */ 3
+                              ) {
+                                Curry._1(dispatch, /* CompleteWorkout */ 3);
+                                Alert$BsReactNative.alert(
+                                  "congrats",
+                                  /* Some */ [
+                                    "you've completed today's workout. keep on!",
+                                  ],
+                                  /* None */ 0,
+                                  /* None */ 0,
+                                  /* None */ 0,
+                                  /* () */ 0
+                                );
+                                navigation.goBack();
+                              }
                             } else {
                               Curry._2(
                                 self[/* reduce */ 1],
@@ -437,7 +557,7 @@ function make$7(reductiveState, _, _$1) {
         /* status : active */ 373703110,
       ],
       /* inSession : false */ 0,
-      /* currentExercise : PushUps */ 0,
+      /* currentExercise */ currentExercise(reductiveState),
     ];
   };
   newrecord[/* reducer */ 12] = function(action, state) {
@@ -529,46 +649,48 @@ function make$7(reductiveState, _, _$1) {
   return newrecord;
 }
 
-var Base = /* module */ [
-  /* Styled */ Styled,
-  /* transitionLayout */ transitionLayout,
-  /* sessionLayout */ sessionLayout,
-  /* workoutOrder */ workoutOrder,
-  /* startTimer */ startTimer,
-  /* component */ component,
-  /* make */ make$7,
-];
-
-var make$8 = Reductive.Provider[/* createMake */ 0](
+var make$7 = Reductive.Provider[/* createMake */ 0](
   /* None */ 0,
   Progenitor.store
 );
 
-var Provider = /* module */ [/* make */ make$8];
+var Provider = /* module */ [/* make */ make$7];
 
-var component$1 = ReasonReact.statelessComponent("WorkoutScreen");
+var component = ReasonReact.statelessComponent("WorkoutScreen");
 
-function make$9() {
-  var newrecord = component$1.slice();
+function make$8(navigation, _) {
+  var newrecord = component.slice();
   newrecord[/* render */ 9] = function() {
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
-      Curry._2(make$8, make$7, /* array */ [])
+      Curry._2(
+        make$7,
+        function(param, param$1, param$2) {
+          return baseMake(navigation, param, param$1, param$2);
+        },
+        /* array */ []
+      )
     );
   };
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component$1, function() {
-  return make$9(/* array */ []);
+var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
+  return make$8(jsProps.navigation, /* array */ []);
 });
 
-exports.Base = Base;
+exports.Styled = Styled;
+exports.transitionLayout = transitionLayout;
+exports.sessionLayout = sessionLayout;
+exports.startTimer = startTimer;
+exports.currentExercise = currentExercise;
+exports.baseComponent = baseComponent;
+exports.baseMake = baseMake;
 exports.Provider = Provider;
-exports.component = component$1;
-exports.make = make$9;
+exports.component = component;
+exports.make = make$8;
 exports.$$default = $$default;
 exports.default = $$default;
 exports.__esModule = true;
-/* component Not a pure module */
+/* baseComponent Not a pure module */
