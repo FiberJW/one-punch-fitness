@@ -74,12 +74,16 @@ module Base = {
             )
           </Styled.LevelLabel>
           <IntensityButton
-            disabled=(reductiveState.currentWorkout.level === 0)
+            disabled=(
+              reductiveState.currentWorkout.started || reductiveState.currentWorkout.level === 0
+            )
             action="decrement"
             onPress=(() => dispatch(Progenitor.DecrementLevel))
           />
           <IntensityButton
-            disabled=(reductiveState.currentWorkout.level === 4)
+            disabled=(
+              reductiveState.currentWorkout.started || reductiveState.currentWorkout.level === 4
+            )
             action="increment"
             onPress=(() => dispatch(Progenitor.IncrementLevel))
           />
@@ -96,6 +100,8 @@ module Base = {
               reps=Routines.variations[reductiveState.currentWorkout.level].sitUps.reps
               name="sit-ups"
             />
+          </View>
+          <View>
             <RoutineFacet
               sets=Routines.variations[reductiveState.currentWorkout.level].squats.sets
               reps=Routines.variations[reductiveState.currentWorkout.level].squats.reps
@@ -107,22 +113,25 @@ module Base = {
               name="run"
             />
           </View>
-          <View>
-            <RoutineFacet
-              amount=Routines.variations[reductiveState.currentWorkout.level].rest.amount
-              units=Routines.variations[reductiveState.currentWorkout.level].rest.units
-              name="rest"
-            />
-            <RoutineFacet
-              amount=Routines.variations[reductiveState.currentWorkout.level].transition.amount
-              units=Routines.variations[reductiveState.currentWorkout.level].transition.units
-              name="transition"
-            />
-          </View>
         </Styled.RoutineContainer>
         <View>
           <WorkoutCardStartButton
-            onPress=(() => navigation##navigate("Workout", Js.Obj.empty()))
+            disabled=reductiveState.currentWorkout.completed
+            label=(
+                    if (reductiveState.currentWorkout.completed) {
+                      "completed"
+                    } else if (reductiveState.currentWorkout.started) {
+                      "resume"
+                    } else {
+                      "start"
+                    }
+                  )
+            onPress=(
+              () => {
+                dispatch(Progenitor.StartWorkout);
+                navigation##navigate("Workout", Js.Obj.empty())
+              }
+            )
           />
         </View>
       </Styled.Container>
