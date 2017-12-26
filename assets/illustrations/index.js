@@ -14,5 +14,5 @@ export default {
   pushups: require("./pushups.png"),
   situps: require("./situps.png"),
   squats: require("./squats.png"),
-  run: require("./pushups.png"),
+  run: require("./run.png"),
 };
