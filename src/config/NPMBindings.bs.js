@@ -37,7 +37,7 @@ function make(
       disableMonthChange: Js_null_undefined.from_opt(disableMonthChange),
       firstDay: Js_null_undefined.from_opt(firstDay),
       hideDayNames: Js_null_undefined.from_opt(hideDayNames),
-      markedDates: Js_null_undefined.from_opt(markedDates),
+      markedDates: markedDates,
       markingType: Js_null_undefined.from_opt(markingType),
       style: Js_null_undefined.from_opt(style),
     },

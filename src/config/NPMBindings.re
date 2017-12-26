@@ -12,7 +12,16 @@ module RNCalendars = {
           ~disableMonthChange: option(Js.boolean)=?,
           ~firstDay: option(int)=?,
           ~hideDayNames: option(Js.boolean)=?,
-          ~markedDates: option({.})=?,
+          ~markedDates:
+             Js.Dict.t(
+               {
+                 .
+                 "startingDay": Js.boolean,
+                 "endingDay": Js.boolean,
+                 "color": string,
+                 "textColor": string
+               }
+             ),
           ~style: option(BsReactNative.Style.t)=?,
           ~markingType: option(string)=?,
           children
@@ -29,7 +38,7 @@ module RNCalendars = {
           "disableMonthChange": Js.Nullable.from_opt(disableMonthChange),
           "firstDay": Js.Nullable.from_opt(firstDay),
           "hideDayNames": Js.Nullable.from_opt(hideDayNames),
-          "markedDates": Js.Nullable.from_opt(markedDates),
+          "markedDates": markedDates,
           "markingType": Js.Nullable.from_opt(markingType),
           "style": Js.Nullable.from_opt(style)
         },
