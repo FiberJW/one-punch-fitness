@@ -81,6 +81,11 @@ module Expo = {
     external cancelAllScheduledNotificationsAsync : unit => Js.Promise.t(unit) =
       "cancelAllScheduledNotificationsAsync";
   };
+  module KeepAwake = {
+    [@bs.module "expo"] external keepAwake : ReasonReact.reactClass = "KeepAwake";
+    let make = (children) =>
+      ReasonReact.wrapJsForReason(~reactClass=keepAwake, ~props=Js.Obj.empty(), children);
+  };
 };
 
 module VectorIcons = {

@@ -1,5 +1,7 @@
 open BsReactNative;
 
+open NPMBindings;
+
 [@bs.val] external setInterval : (unit => unit, int) => int = "setInterval";
 
 [@bs.val] external clearInterval : int => unit = "clearInterval";
@@ -148,6 +150,7 @@ let baseMake = (~navigation, ~state as reductiveState: Progenitor.state, ~dispat
         alwaysBounceVertical=false
         showsVerticalScrollIndicator=false>
         <Styled.Container>
+          <Expo.KeepAwake />
           (
             ReasonReact.arrayToElement(
               Array.mapi(
@@ -292,8 +295,8 @@ let baseMake = (~navigation, ~state as reductiveState: Progenitor.state, ~dispat
                     if (self.state.currentExercise === Running) {
                       dispatch(Progenitor.CompleteWorkout);
                       Alert.alert(
-                        ~title="congrats",
-                        ~message="you've completed today's workout. keep on!",
+                        ~title="Congrats!",
+                        ~message="You've completed today's workout. Rock on!",
                         ()
                       );
                       navigation##goBack()

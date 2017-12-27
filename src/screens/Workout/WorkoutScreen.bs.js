@@ -12,6 +12,7 @@ var Reductive = require("reductive/src/reductive.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var Progenitor = require("../../state/Progenitor.bs.js");
+var NPMBindings = require("../../config/NPMBindings.bs.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var ActionButton = require("./components/ActionButton/ActionButton.bs.js");
 var SessionControl = require("./components/SessionControl/SessionControl.bs.js");
@@ -235,6 +236,14 @@ function baseMake(navigation, reductiveState, dispatch, _) {
                   /* None */ 0,
                   make$1(
                     /* array */ [
+                      ReasonReact.element(
+                        /* None */ 0,
+                        /* None */ 0,
+                        Curry._1(
+                          NPMBindings.Expo[/* KeepAwake */ 4][/* make */ 0],
+                          /* array */ []
+                        )
+                      ),
                       $$Array.mapi(function(i, it) {
                         switch (it) {
                           case 0:
@@ -511,9 +520,9 @@ function baseMake(navigation, reductiveState, dispatch, _) {
                               ) {
                                 Curry._1(dispatch, /* CompleteWorkout */ 3);
                                 Alert$BsReactNative.alert(
-                                  "congrats",
+                                  "Congrats!",
                                   /* Some */ [
-                                    "you've completed today's workout. keep on!",
+                                    "You've completed today's workout. Rock on!",
                                   ],
                                   /* None */ 0,
                                   /* None */ 0,

@@ -55,7 +55,7 @@ function baseMake(reductiveState, _, _$1) {
       if (progress > 75) {
         markedDates[w[/* date */ 1]] = {
           startingDay: true,
-          color: "green",
+          color: Colors.start,
           endingDay: true,
           textColor: Colors.spotiBlack,
         };
@@ -63,7 +63,7 @@ function baseMake(reductiveState, _, _$1) {
       } else if (progress > 50) {
         markedDates[w[/* date */ 1]] = {
           startingDay: true,
-          color: "yellow",
+          color: "orange",
           endingDay: true,
           textColor: Colors.spotiBlack,
         };
@@ -71,7 +71,7 @@ function baseMake(reductiveState, _, _$1) {
       } else {
         markedDates[w[/* date */ 1]] = {
           startingDay: true,
-          color: "orange",
+          color: "red",
           endingDay: true,
           textColor: "white",
         };

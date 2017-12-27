@@ -31,7 +31,7 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
             w.date,
             {
               "startingDay": Js.true_,
-              "color": "green",
+              "color": Colors.start,
               "endingDay": Js.true_,
               "textColor": Colors.spotiBlack
             }
@@ -42,7 +42,7 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
             w.date,
             {
               "startingDay": Js.true_,
-              "color": "yellow",
+              "color": "orange",
               "endingDay": Js.true_,
               "textColor": Colors.spotiBlack
             }
@@ -51,12 +51,7 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
           Js.Dict.set(
             markedDates,
             w.date,
-            {
-              "startingDay": Js.true_,
-              "color": "orange",
-              "endingDay": Js.true_,
-              "textColor": "white"
-            }
+            {"startingDay": Js.true_, "color": "red", "endingDay": Js.true_, "textColor": "white"}
           )
         }
       },
