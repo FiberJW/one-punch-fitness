@@ -255,19 +255,15 @@ function hydrate(self) {
 }
 
 function cancelNotifications(self, callback) {
-  Expo.Notifications.cancelAllScheduledNotificationsAsync().then(function() {
-    return Promise.resolve(
-      (Curry._2(
-        self[/* reduce */ 1],
-        function() {
-          return /* UnsetNotification */ 1;
-        },
-        /* () */ 0
-      ),
-      Curry._1(callback, /* () */ 0))
-    );
-  });
-  return /* () */ 0;
+  Expo.Notifications.cancelAllScheduledNotificationsAsync();
+  Curry._2(
+    self[/* reduce */ 1],
+    function() {
+      return /* UnsetNotification */ 1;
+    },
+    /* () */ 0
+  );
+  return Curry._1(callback, /* () */ 0);
 }
 
 var component$2 = ReasonReact.reducerComponent("SettingsScreen");

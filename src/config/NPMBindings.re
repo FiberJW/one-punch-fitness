@@ -78,7 +78,7 @@ module Expo = {
     external cancelScheduledNotificationAsync : string => Js.Promise.t(unit) =
       "cancelScheduledNotificationAsync";
     [@bs.scope "Notifications"] [@bs.module "expo"]
-    external cancelAllScheduledNotificationsAsync : unit => Js.Promise.t(unit) =
+    external cancelAllScheduledNotificationsAsync : unit => unit =
       "cancelAllScheduledNotificationsAsync";
   };
   module KeepAwake = {
