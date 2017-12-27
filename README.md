@@ -1,10 +1,10 @@
 <p align="center">
-  <img alt="flavor" src="./assets/ios-icon.png" width="256">
+  <img alt="OPF App Icon" src="./assets/ios-icon.png" width="256">
 </p>
 
-<h2 align="center" style="font-weight:600">
+<h3 align="center" style="font-weight:600">
   One Punch Fitness
-</h2>
+</h3>
 
 <p align="center">
   A "One Punch Man"-inspired workout app!
