@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "one-punch-fitness",
+    "name": "One Punch Fitness",
     "description": "A \"One Punch Man\"-inspired workout app!",
     "slug": "one-punch-fitness",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/ios-icon.png",
