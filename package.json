@@ -19,6 +19,7 @@
     "react-navigation": "^1.0.0-beta.21",
     "reason-react": "0.3.0",
     "reductive": "^0.2.0",
+    "sentry-expo": "^1.7.0",
     "styled-components": "^2.2.3"
   },
   "name": "one-punch-fitness",
@@ -34,7 +35,7 @@
     "blessed": "^0.1.81",
     "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
-    "exp": "^47.1.3",
+    "exp": "^47.1.4",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier": "^1.7.4"
