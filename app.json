@@ -1,12 +1,11 @@
 {
   "expo": {
     "name": "one-punch-fitness",
-    "description":
-      "Could the you of tomorrow beat you today? Instead of giving in, move forward.",
+    "description": "A \"One Punch Man\"-inspired workout app!",
     "slug": "one-punch-fitness",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/ios-icon.png",
