@@ -61,14 +61,21 @@ var Permissions = /* module */ [];
 
 var Notifications = /* module */ [];
 
+function make$2(children) {
+  return ReasonReact.wrapJsForReason(Expo.KeepAwake, {}, children);
+}
+
+var KeepAwake = /* module */ [/* make */ make$2];
+
 var Expo$1 = /* module */ [
   /* Font */ Font,
   /* AppLoading */ AppLoading,
   /* Permissions */ Permissions,
   /* Notifications */ Notifications,
+  /* KeepAwake */ KeepAwake,
 ];
 
-function make$2(name, size, color, children) {
+function make$3(name, size, color, children) {
   return ReasonReact.wrapJsForReason(
     VectorIcons.Feather,
     {
@@ -80,11 +87,11 @@ function make$2(name, size, color, children) {
   );
 }
 
-var Feather = /* module */ [/* make */ make$2];
+var Feather = /* module */ [/* make */ make$3];
 
 var VectorIcons$1 = /* module */ [/* Feather */ Feather];
 
-function make$3($staropt$star, onConfirm, onCancel, mode, titleIOS, children) {
+function make$4($staropt$star, onConfirm, onCancel, mode, titleIOS, children) {
   var isVisible = $staropt$star ? $staropt$star[0] : /* false */ 0;
   return ReasonReact.wrapJsForReason(
     ReactNativeModalDatetimePicker.default,
@@ -99,11 +106,11 @@ function make$3($staropt$star, onConfirm, onCancel, mode, titleIOS, children) {
   );
 }
 
-var DateTimePicker = /* module */ [/* make */ make$3];
+var DateTimePicker = /* module */ [/* make */ make$4];
 
 var Moment = /* module */ [];
 
-function make$4(easing, children) {
+function make$5(easing, children) {
   return ReasonReact.wrapJsForReason(
     ReactNativeAnimatable.View,
     {
@@ -113,7 +120,7 @@ function make$4(easing, children) {
   );
 }
 
-var View = /* module */ [/* make */ make$4];
+var View = /* module */ [/* make */ make$5];
 
 var RNAnimatable = /* module */ [/* View */ View];
 
