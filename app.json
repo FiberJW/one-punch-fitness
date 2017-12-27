@@ -6,7 +6,7 @@
     "slug": "one-punch-fitness",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/ios-icon.png",
@@ -26,6 +26,19 @@
     "android": {
       "icon": "./assets/android-icon.png"
     },
-    "assetBundlePatterns": ["assets/**/*"]
+    "assetBundlePatterns": ["assets/**/*"],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "juwan-wheatley",
+            "project": "one-punch-fitness",
+            "authToken":
+              "ba831e90c8b5421b907731c3bc77415161fa905c437e4572ae79ad2192886adc"
+          }
+        }
+      ]
+    }
   }
 }
