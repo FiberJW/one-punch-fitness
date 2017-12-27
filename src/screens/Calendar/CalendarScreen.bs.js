@@ -68,13 +68,15 @@ function baseMake(reductiveState, _, _$1) {
           textColor: Colors.spotiBlack,
         };
         return /* () */ 0;
-      } else {
+      } else if (progress > 0) {
         markedDates[w[/* date */ 1]] = {
           startingDay: true,
-          color: "red",
+          color: "orangered",
           endingDay: true,
           textColor: "white",
         };
+        return /* () */ 0;
+      } else {
         return /* () */ 0;
       }
     });

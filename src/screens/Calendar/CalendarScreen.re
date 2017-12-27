@@ -47,12 +47,19 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
               "textColor": Colors.spotiBlack
             }
           )
-        } else {
+        } else if (progress > 0.) {
           Js.Dict.set(
             markedDates,
             w.date,
-            {"startingDay": Js.true_, "color": "red", "endingDay": Js.true_, "textColor": "white"}
+            {
+              "startingDay": Js.true_,
+              "color": "orangered",
+              "endingDay": Js.true_,
+              "textColor": "white"
+            }
           )
+        } else {
+          ()
         }
       },
       hist
