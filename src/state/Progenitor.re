@@ -168,7 +168,7 @@ let reducer = (state: state, action: action) =>
   | Rehydrate(state) =>
     if (state.currentWorkout.date !== dateString(Js.Date.make())) {
       {
-        history: Js.Array.append(state.currentWorkout, state.history),
+        history: Array.append(state.history, [|state.currentWorkout|]),
         currentWorkout: genNewWorkout()
       }
     } else {
