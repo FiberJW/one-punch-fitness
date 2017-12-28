@@ -5,7 +5,7 @@
     "slug": "one-punch-fitness",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/ios-icon.png",
@@ -13,6 +13,10 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#651FFF"
+    },
+    "notification": {
+      "icon": "./assets/notification-icon.png",
+      "color": "#191414"
     },
     "packagerOpts": {
       "assetExts": ["ttf", "mp4"]
@@ -22,6 +26,8 @@
       "icon": "./assets/ios-icon.png"
     },
     "android": {
+      "package": "co.jwheatley.opf",
+      "versionCode": 0,
       "icon": "./assets/android-icon.png"
     },
     "assetBundlePatterns": ["assets/**/*"],
