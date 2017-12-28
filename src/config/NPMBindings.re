@@ -130,11 +130,3 @@ module Moment = {
   type t;
   [@bs.module] external make : string => Js.t({..}) = "moment";
 };
-
-module RNAnimatable = {
-  module View = {
-    [@bs.module "react-native-animatable"] external view : ReasonReact.reactClass = "View";
-    let make = (~easing, children) =>
-      ReasonReact.wrapJsForReason(~reactClass=view, ~props={"easing": easing}, children);
-  };
-};

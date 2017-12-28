@@ -1,4 +1,3 @@
-// @flow
 import Sentry from "sentry-expo";
 import App from "./src/index.bs";
 

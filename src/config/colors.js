@@ -1,6 +1,5 @@
 /**
  * @providesModule ReColor
- * @flow
  */
 import * as Colors from "./Colors.bs";
 

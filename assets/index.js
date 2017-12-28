@@ -1,5 +1,4 @@
 /**
- * @flow
  * @providesModule Assets
  */
 

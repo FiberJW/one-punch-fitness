@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { StackNavigator } from "react-navigation";
 import MainTab from "./MainTab";

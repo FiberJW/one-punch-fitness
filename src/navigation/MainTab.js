@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import { TabNavigator as tabNavigator } from "react-navigation";
 import { Feather } from "@expo/vector-icons";
@@ -8,13 +7,7 @@ import CalendarScreen from "../screens/Calendar/CalendarScreen.bs";
 import SettingsScreen from "../screens/Settings/SettingsScreen.bs";
 import TabBar from "./components/TabBar";
 
-type Props = {
-  navigation: {},
-};
-
-type State = void;
-
-export default class MainTab extends Component<Props, State> {
+export default class MainTab extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -35,13 +28,7 @@ export default class MainTab extends Component<Props, State> {
           path: "settings",
           navigationOptions: {
             tabBarLabel: null,
-            tabBarIcon: ({
-              focused,
-              tintColor,
-            }: {
-              focused: boolean,
-              tintColor: string,
-            }) => (
+            tabBarIcon: ({ focused, tintColor }) => (
               <Feather
                 color={focused ? tintColor : colors.halfWhite}
                 name="settings"
