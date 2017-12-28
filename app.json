@@ -5,7 +5,7 @@
     "slug": "one-punch-fitness",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/ios-icon.png",

@@ -154,8 +154,8 @@ let hydrate = (dispatch) =>
     |> ignore
   );
 
-let genNewWorkout = () => {
-  level: 0,
+let genNewWorkout = (level) => {
+  level,
   date: dateString(Js.Date.make()),
   started: false,
   completed: false,
@@ -169,7 +169,7 @@ let reducer = (state: state, action: action) =>
     if (state.currentWorkout.date !== dateString(Js.Date.make())) {
       {
         history: Array.append(state.history, [|state.currentWorkout|]),
-        currentWorkout: genNewWorkout()
+        currentWorkout: genNewWorkout(state.currentWorkout.level)
       }
     } else {
       state
@@ -242,7 +242,7 @@ let reducer = (state: state, action: action) =>
 let store =
   Reductive.Store.create(
     ~reducer,
-    ~preloadedState={currentWorkout: genNewWorkout(), history: [||]},
+    ~preloadedState={currentWorkout: genNewWorkout(0), history: [||]},
     ~enhancer=persist,
     ()
   );
