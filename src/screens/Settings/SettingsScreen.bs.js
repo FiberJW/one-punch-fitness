@@ -16,6 +16,7 @@ var Alert$BsReactNative = require("bs-react-native/src/alert.js");
 var Text = require("./styled/Option/Text");
 var Knob = require("./styled/Switch/Knob");
 var Label = require("./styled/Option/Label");
+var Platform$BsReactNative = require("bs-react-native/src/platform.js");
 var Container$1 = require("./styled/Option/Container");
 var Container$2 = require("./styled/Switch/Container");
 var AsyncStorage$BsReactNative = require("bs-react-native/src/asyncStorage.js");
@@ -255,15 +256,31 @@ function hydrate(self) {
 }
 
 function cancelNotifications(self, callback) {
-  Expo.Notifications.cancelAllScheduledNotificationsAsync();
-  Curry._2(
-    self[/* reduce */ 1],
-    function() {
-      return /* UnsetNotification */ 1;
-    },
-    /* () */ 0
-  );
-  return Curry._1(callback, /* () */ 0);
+  if (Platform$BsReactNative.os !== 0) {
+    Expo.Notifications.cancelAllScheduledNotificationsAsync().then(function() {
+      return Promise.resolve(
+        (Curry._2(
+          self[/* reduce */ 1],
+          function() {
+            return /* UnsetNotification */ 1;
+          },
+          /* () */ 0
+        ),
+        Curry._1(callback, /* () */ 0))
+      );
+    });
+    return /* () */ 0;
+  } else {
+    Expo.Notifications.cancelAllScheduledNotificationsAsync();
+    Curry._2(
+      self[/* reduce */ 1],
+      function() {
+        return /* UnsetNotification */ 1;
+      },
+      /* () */ 0
+    );
+    return Curry._1(callback, /* () */ 0);
+  }
 }
 
 var component$2 = ReasonReact.reducerComponent("SettingsScreen");
