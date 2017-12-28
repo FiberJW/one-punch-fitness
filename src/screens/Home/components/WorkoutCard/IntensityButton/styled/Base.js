@@ -1,4 +1,3 @@
-// @flow
 import styled from "styled-components/native";
 import colors from "ReColor";
 
@@ -10,5 +9,5 @@ export default styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${colors.twentyWhite};
-  ${({ disabled }: { disabled: boolean }) => (disabled ? "opacity: 0.3;" : "")};
+  ${({ disabled }) => (disabled ? "opacity: 0.3;" : "")};
 `;

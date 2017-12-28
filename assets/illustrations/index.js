@@ -1,7 +1,3 @@
-/**
- * @flow
- */
-
 export default {
   saitamaLevel0: require("./level-0.png"),
   workoutLevel1: require("./level-1.png"),

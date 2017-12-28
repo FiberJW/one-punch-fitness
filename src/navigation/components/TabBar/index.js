@@ -1,31 +1,11 @@
-// @flow
 import React, { Component } from "react";
-import type { Element } from "react";
 import { ScrollView, StatusBar } from "react-native";
 import Container from "./styled/Container";
 import colors from "../../../config/colors";
 import Label from "./Label";
 import TabIconWrapper from "./IconWrapper";
 
-type Props = {
-  navigation: {
-    state: {
-      index: number,
-      routes: Array<{}>,
-    },
-  },
-  getLabel: ({ route: {}, tintColor: string, focused: boolean }) => string,
-  jumpToIndex: (i: number) => void,
-  renderIcon: ({
-    route: {},
-    tintColor: string,
-    focused: boolean,
-  }) => Element<*>,
-};
-
-type State = void;
-
-export default class TabBar extends Component<Props, State> {
+export default class TabBar extends Component {
   render() {
     const { routes, index } = this.props.navigation.state;
 
