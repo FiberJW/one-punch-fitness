@@ -130,11 +130,26 @@ let hydrate = (self) => {
   ReasonReact.NoUpdate
 };
 
-let cancelNotifications = (self, callback) => {
-  Expo.Notifications.cancelAllScheduledNotificationsAsync();
-  self.ReasonReact.reduce(() => UnsetNotification, ());
-  callback()
-};
+let cancelNotifications = (self, callback) =>
+  switch Platform.os {
+  | Platform.IOS =>
+    Expo.Notifications.cancelAllScheduledNotifications() |> ignore;
+    self.ReasonReact.reduce(() => UnsetNotification, ());
+    callback()
+  | Platform.Android =>
+    Js.Promise.(
+      Expo.Notifications.cancelAllScheduledNotificationsAsync()
+      |> then_(
+           () =>
+             {
+               self.ReasonReact.reduce(() => UnsetNotification, ());
+               callback()
+             }
+             |> resolve
+         )
+      |> ignore
+    )
+  };
 
 let component = ReasonReact.reducerComponent("SettingsScreen");
 

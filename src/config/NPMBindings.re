@@ -75,10 +75,10 @@ module Expo = {
       (localNotification, schedulingOptions) => Js.Promise.t(string) =
       "scheduleLocalNotificationAsync";
     [@bs.scope "Notifications"] [@bs.module "expo"]
-    external cancelScheduledNotificationAsync : string => Js.Promise.t(unit) =
-      "cancelScheduledNotificationAsync";
+    external cancelAllScheduledNotifications : unit => unit =
+      "cancelAllScheduledNotificationsAsync";
     [@bs.scope "Notifications"] [@bs.module "expo"]
-    external cancelAllScheduledNotificationsAsync : unit => unit =
+    external cancelAllScheduledNotificationsAsync : unit => Js.Promise.t(unit) =
       "cancelAllScheduledNotificationsAsync";
   };
   module KeepAwake = {
