@@ -26,10 +26,10 @@
 
 ## Key technologies used to build this
 
-* Expo
-* React Native
-* ReasonML
-* Reductive
-* styled-components
-* react-navigation
-* Figma (for design)
+* [Expo](https://expo.io/)
+* [ReasonML](https://reasonml.github.io/)
+* [ReasonReact](https://reasonml.github.io/reason-react/) +
+  [Reductive](https://github.com/reasonml-community/reductive)
+* [styled-components](https://www.styled-components.com/)
+* [React Navigation](https://reactnavigation.org/)
+* [Figma](https://www.figma.com/) (for design)
