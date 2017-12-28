@@ -226,9 +226,9 @@ function hydrate(dispatch) {
   return /* () */ 0;
 }
 
-function genNewWorkout() {
+function genNewWorkout(level) {
   return /* record */ [
-    /* level */ 0,
+    /* level */ level,
     /* date */ dateString(new Date()),
     /* started : false */ 0,
     /* completed : false */ 0,
@@ -403,7 +403,9 @@ function reducer(state, action) {
       state$1[/* currentWorkout */ 0][/* date */ 1] !== dateString(new Date())
     ) {
       return /* record */ [
-        /* currentWorkout */ genNewWorkout(/* () */ 0),
+        /* currentWorkout */ genNewWorkout(
+          state$1[/* currentWorkout */ 0][/* level */ 0]
+        ),
         /* history */ $$Array.append(
           state$1[/* history */ 1],
           /* array */ [state$1[/* currentWorkout */ 0]]
@@ -418,7 +420,7 @@ function reducer(state, action) {
 var store = Reductive.Store[/* create */ 0](
   reducer,
   /* record */ [
-    /* currentWorkout */ genNewWorkout(/* () */ 0),
+    /* currentWorkout */ genNewWorkout(0),
     /* history : array */ [],
   ],
   /* Some */ [persist],
