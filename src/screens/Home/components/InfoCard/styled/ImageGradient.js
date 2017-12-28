@@ -1,4 +1,3 @@
-// @flow
 import { LinearGradient } from "expo";
 import styled from "styled-components/native";
 

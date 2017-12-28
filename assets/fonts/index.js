@@ -1,7 +1,3 @@
-/**
- * @flow
- */
-
 export default {
   InterBlack: require("./Inter-UI-Black.ttf"),
   InterBlackItalic: require("./Inter-UI-BlackItalic.ttf"),

@@ -1,4 +1,3 @@
-// @flow
 import { SafeAreaView } from "react-navigation";
 import styled from "styled-components/native";
 import colors from "ReColor";
