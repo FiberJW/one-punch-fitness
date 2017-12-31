@@ -38,7 +38,7 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
               "startingDay": Js.true_,
               "color": color,
               "endingDay": Js.true_,
-              "textColor": Colors.spotiBlack
+              "textColor": Chroma.make(color)##luminance() > 0.5 ? Colors.spotiBlack : "white"
             }
           )
         } else {

@@ -135,4 +135,7 @@ module Chroma = {
   external scale :
     Js.Array.t(string) => {. [@bs.meth] "mode": string => {. [@bs.meth] "colors": int => Js.Array.t(string)}} =
     "scale";
+    [@bs.module "chroma-js"]
+  external make :
+    (string) => {. [@bs.meth] "luminance": unit => float } = "default";
 };
