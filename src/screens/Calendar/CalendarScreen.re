@@ -2,8 +2,6 @@ open BsReactNative;
 
 open NPMBindings;
 
-open NPMBindings.RNCalendars;
-
 let baseComponent = ReasonReact.statelessComponent("CalendarScreenBase");
 
 let percComplete = (workout: Progenitor.workout) =>
@@ -54,7 +52,7 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
       contentContainerStyle=Style.(
                               style([flexGrow(1.), paddingVertical(Pt(16.)), alignItems(Center)])
                             )>
-      <Calendar
+      <RNCalendars.Calendar
         markedDates
         markingType="period"
         style=Style.(style([width(Pt(float(Dimensions.get(`window)##width - 32))), flex(0.)]))
