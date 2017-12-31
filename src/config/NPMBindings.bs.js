@@ -109,9 +109,12 @@ var DateTimePicker = /* module */ [/* make */ make$4];
 
 var Moment = /* module */ [];
 
+var Chroma = /* module */ [];
+
 exports.RNCalendars = RNCalendars;
 exports.Expo = Expo$1;
 exports.VectorIcons = VectorIcons$1;
 exports.DateTimePicker = DateTimePicker;
 exports.Moment = Moment;
+exports.Chroma = Chroma;
 /* expo Not a pure module */

@@ -127,6 +127,12 @@ module DateTimePicker = {
 };
 
 module Moment = {
-  type t;
   [@bs.module] external make : string => Js.t({..}) = "moment";
+};
+
+module Chroma = {
+  [@bs.module "chroma-js"]
+  external scale :
+    Js.Array.t(string) => {. [@bs.meth] "mode": string => {. [@bs.meth] "colors": int => Js.Array.t(string)}} =
+    "scale";
 };
