@@ -5,11 +5,11 @@
     "slug": "one-punch-fitness",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "githubUrl": "https://github.com/fiber-god/one-punch-fitness",
     "orientation": "portrait",
     "primaryColor": "#ffffff",
-    "icon": "./assets/android-icon.png",
+    "icon": "./assets/expo-icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
