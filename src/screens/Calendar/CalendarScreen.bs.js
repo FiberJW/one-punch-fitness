@@ -62,11 +62,12 @@ function baseMake(reductiveState, _, _$1) {
             .colors(100),
           ((progress | 0) - 1) | 0
         );
+        var match = +(ChromaJs.default(color).luminance() > 0.5);
         markedDates[w[/* date */ 1]] = {
           startingDay: true,
           color: color,
           endingDay: true,
-          textColor: Colors.spotiBlack,
+          textColor: match !== 0 ? Colors.spotiBlack : "white",
         };
         return /* () */ 0;
       } else {
