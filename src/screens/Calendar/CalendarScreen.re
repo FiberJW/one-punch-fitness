@@ -1,5 +1,7 @@
 open BsReactNative;
 
+open NPMBindings;
+
 open NPMBindings.RNCalendars;
 
 let baseComponent = ReasonReact.statelessComponent("CalendarScreenBase");
@@ -25,37 +27,20 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
     Js.Array.forEach(
       (w: Progenitor.workout) => {
         let progress = percComplete(w);
-        if (progress > 75.) {
+        if (progress > 0.) {
+          let color = Chroma.scale([|Colors.bRED, "orangered", "yellow", Colors.start|])##mode(
+                        "hsl"
+                      )##colors(
+                        100
+                      )[int_of_float(progress) - 1];
           Js.Dict.set(
             markedDates,
             w.date,
             {
               "startingDay": Js.true_,
-              "color": Colors.start,
+              "color": color,
               "endingDay": Js.true_,
               "textColor": Colors.spotiBlack
-            }
-          )
-        } else if (progress > 50.) {
-          Js.Dict.set(
-            markedDates,
-            w.date,
-            {
-              "startingDay": Js.true_,
-              "color": "orange",
-              "endingDay": Js.true_,
-              "textColor": Colors.spotiBlack
-            }
-          )
-        } else if (progress > 0.) {
-          Js.Dict.set(
-            markedDates,
-            w.date,
-            {
-              "startingDay": Js.true_,
-              "color": "orangered",
-              "endingDay": Js.true_,
-              "textColor": "white"
             }
           )
         } else {

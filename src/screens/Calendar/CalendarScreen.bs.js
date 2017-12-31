@@ -7,6 +7,7 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Colors = require("../../config/Colors.bs.js");
 var Routines = require("../../config/Routines.bs.js");
 var Reductive = require("reductive/src/reductive.js");
+var ChromaJs = require("chroma-js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Progenitor = require("../../state/Progenitor.bs.js");
 var NPMBindings = require("../../config/NPMBindings.bs.js");
@@ -52,28 +53,20 @@ function baseMake(reductiveState, _, _$1) {
     var markedDates = {};
     hist.forEach(function(w) {
       var progress = percComplete(w);
-      if (progress > 75) {
+      if (progress > 0) {
+        var color = Caml_array.caml_array_get(
+          ChromaJs.scale(
+            /* array */ [Colors.bRED, "orangered", "yellow", Colors.start]
+          )
+            .mode("hsl")
+            .colors(100),
+          ((progress | 0) - 1) | 0
+        );
         markedDates[w[/* date */ 1]] = {
           startingDay: true,
-          color: Colors.start,
+          color: color,
           endingDay: true,
           textColor: Colors.spotiBlack,
-        };
-        return /* () */ 0;
-      } else if (progress > 50) {
-        markedDates[w[/* date */ 1]] = {
-          startingDay: true,
-          color: "orange",
-          endingDay: true,
-          textColor: Colors.spotiBlack,
-        };
-        return /* () */ 0;
-      } else if (progress > 0) {
-        markedDates[w[/* date */ 1]] = {
-          startingDay: true,
-          color: "orangered",
-          endingDay: true,
-          textColor: "white",
         };
         return /* () */ 0;
       } else {
