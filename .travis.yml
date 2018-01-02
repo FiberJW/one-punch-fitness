@@ -2,8 +2,7 @@ language: node_js
 os: osx
 node_js:
   - "node"
-before_install:
-  - npm i -g npm
+cache: yarn
 before_script:
   - exp login -u $EXP_UNAME -p $EXP_PASSWORD
 script:
