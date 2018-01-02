@@ -34,7 +34,6 @@
     "blessed": "^0.1.81",
     "eslint": "^4.10.0",
     "eslint-config-universe": "^1.0.6",
-    "exp": "^47.1.4",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier": "^1.7.4"
@@ -46,7 +45,7 @@
     "watch-reason": "bsb -make-world -clean-world -w",
     "start-expo": "exp r",
     "start": "node dev",
-    "postinstall": "npm run build-reason"
+    "postinstall": "npm i -g exp && npm run build-reason"
   },
   "lint-staged": {
     "*.{js,json,css}": ["prettier --write", "git add"]
