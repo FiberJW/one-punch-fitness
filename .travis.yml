@@ -5,7 +5,8 @@ node_js:
 before_script:
   - exp login -u $EXP_UNAME -p $EXP_PASSWORD
 script:
-  - exp p
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then exp p; fi
+  - if [ "$TRAVIS_BRANCH" == "develop" ]; then exp p --release-channel staging; fi
 after_script:
 - exp logout
 
@@ -13,4 +14,4 @@ after_script:
 branches:
   only:
   - master
-  - stable
+  - develop
