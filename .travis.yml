@@ -8,3 +8,9 @@ script:
   - exp p
 after_script:
 - exp logout
+
+# safelist
+branches:
+  only:
+  - master
+  - stable
