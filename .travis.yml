@@ -1,0 +1,10 @@
+language: node_js
+os: osx
+node_js:
+  - "node"
+before_script:
+  - exp login -u $EXP_UNAME -p $EXP_PASSWORD
+script:
+  - exp p
+after_script:
+- exp logout
