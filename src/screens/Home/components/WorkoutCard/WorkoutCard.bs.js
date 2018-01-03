@@ -424,15 +424,8 @@ function make$8(navigation, _) {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component$1, function(jsProps) {
-  return make$8(jsProps.navigation, /* array */ []);
-});
-
 exports.Base = Base;
 exports.Provider = Provider;
 exports.component = component$1;
 exports.make = make$8;
-exports.$$default = $$default;
-exports.default = $$default;
-exports.__esModule = true;
 /* component Not a pure module */

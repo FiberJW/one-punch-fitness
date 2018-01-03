@@ -15,5 +15,3 @@ let make = (_children) => {
   render: (_self) =>
     <Styled.Base> <VectorIcons.Feather name="chevron-down" color="white" size=18 /> </Styled.Base>
 };
-
-let default = ReasonReact.wrapReasonForJs(~component, (_jsProps) => make([||]));

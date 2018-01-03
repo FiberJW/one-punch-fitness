@@ -42,18 +42,3 @@ let make = (~name, ~sets=0, ~reps=0, ~distance=0, ~units="km", ~amount=0, _child
       <Styled.Name> (ReasonReact.stringToElement(" " ++ name)) </Styled.Name>
     </Styled.Container>
 };
-
-let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    (jsProps) =>
-      make(
-        ~sets=jsProps##sets,
-        ~reps=jsProps##reps,
-        ~name=jsProps##name,
-        ~distance=jsProps##distance,
-        ~units=jsProps##units,
-        ~amount=jsProps##amount,
-        [||]
-      )
-  );

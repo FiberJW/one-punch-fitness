@@ -56,16 +56,3 @@ let make = (~navigation, ~title, ~shortDescription, ~content, _children) => {
       </Styled.Container>
     </TouchableOpacity>
 };
-
-let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    (jsProps) =>
-      make(
-        ~navigation=jsProps##navigation,
-        ~title=jsProps##title,
-        ~content=jsProps##content,
-        ~shortDescription=jsProps##shortDescription,
-        [||]
-      )
-  );

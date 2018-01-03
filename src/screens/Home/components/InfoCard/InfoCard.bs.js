@@ -171,20 +171,7 @@ function make$5(navigation, title, shortDescription, content, _) {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
-  return make$5(
-    jsProps.navigation,
-    jsProps.title,
-    jsProps.shortDescription,
-    jsProps.content,
-    /* array */ []
-  );
-});
-
 exports.Styled = Styled;
 exports.component = component;
 exports.make = make$5;
-exports.$$default = $$default;
-exports.default = $$default;
-exports.__esModule = true;
 /* component Not a pure module */
