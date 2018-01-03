@@ -126,15 +126,8 @@ function make$4(actions, _) {
   return newrecord;
 }
 
-var $$default$1 = ReasonReact.wrapReasonForJs(component$1, function(jsProps) {
-  return make$4(jsProps.actions, /* array */ []);
-});
-
 exports.Option = Option;
 exports.Styled = Styled$1;
 exports.component = component$1;
 exports.make = make$4;
-exports.$$default = $$default$1;
-exports.default = $$default$1;
-exports.__esModule = true;
 /* component Not a pure module */

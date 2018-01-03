@@ -79,19 +79,7 @@ function make$2(onPress, action, disabled, _) {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
-  return make$2(
-    jsProps.onPress,
-    jsProps.action,
-    jsProps.disabled,
-    /* array */ []
-  );
-});
-
 exports.Styled = Styled;
 exports.component = component;
 exports.make = make$2;
-exports.$$default = $$default;
-exports.default = $$default;
-exports.__esModule = true;
 /* component Not a pure module */

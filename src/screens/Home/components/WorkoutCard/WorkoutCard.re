@@ -148,9 +148,3 @@ let make = (~navigation, _children) => {
   ...component,
   render: (_self) => <Provider component=(Base.make(~navigation)) />
 };
-
-let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    (jsProps) => make(~navigation=jsProps##navigation, [||])
-  );

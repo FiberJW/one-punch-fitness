@@ -29,9 +29,3 @@ let make = (~onPress, ~label, _children) => {
       <Styled.Base> <Styled.Label> label </Styled.Label> </Styled.Base>
     </Styled.Touchable>
 };
-
-let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    (jsProps) => make(~onPress=jsProps##onPress, ~label=jsProps##label, [||])
-  );

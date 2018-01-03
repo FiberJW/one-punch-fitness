@@ -20,6 +20,3 @@ let make = (~time, _children) => {
       <Styled.Time> (ReasonReact.stringToElement(string_of_int(time))) </Styled.Time>
     </Styled.Container>
 };
-
-let default =
-  ReasonReact.wrapReasonForJs(~component, (jsProps) => make(~time=jsProps##time, [||]));

@@ -58,6 +58,3 @@ let make = (~actions, _children) => {
       )
     </Styled.Container>
 };
-
-let default =
-  ReasonReact.wrapReasonForJs(~component, (jsProps) => make(~actions=jsProps##actions, [||]));

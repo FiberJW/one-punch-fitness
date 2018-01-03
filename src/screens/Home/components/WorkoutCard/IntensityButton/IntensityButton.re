@@ -42,10 +42,3 @@ let make = (~onPress, ~action, ~disabled, _children) => {
       </Styled.Base>
     </Styled.Touchable>
 };
-
-let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    (jsProps) =>
-      make(~onPress=jsProps##onPress, ~action=jsProps##action, ~disabled=jsProps##disabled, [||])
-  );
