@@ -12,11 +12,16 @@ var Json_encode = require("bs-json/src/Json_encode.js");
 var AsyncStorage$BsReactNative = require("bs-react-native/src/asyncStorage.js");
 
 function dateString(date) {
+  var match = +((((date.getMonth() | 0) + 1) | 0) < 10);
+  var match$1 = +((date.getDate() | 0) < 10);
   return (
     Pervasives.string_of_int(date.getFullYear() | 0) +
     ("-" +
-      (Pervasives.string_of_int(((date.getMonth() | 0) + 1) | 0) +
-        ("-" + Pervasives.string_of_int(date.getDate() | 0))))
+      ((match !== 0 ? "0" : "") +
+        (Pervasives.string_of_int(((date.getMonth() | 0) + 1) | 0) +
+          ("-" +
+            ((match$1 !== 0 ? "0" : "") +
+              Pervasives.string_of_int(date.getDate() | 0))))))
   );
 }
 

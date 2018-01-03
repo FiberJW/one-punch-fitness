@@ -3,8 +3,10 @@ open BsReactNative;
 let dateString = (date) =>
   string_of_int(int_of_float(Js.Date.getFullYear(date)))
   ++ "-"
+  ++ (int_of_float(Js.Date.getMonth(date)) + 1 < 10 ? "0" : "")
   ++ string_of_int(int_of_float(Js.Date.getMonth(date)) + 1)
   ++ "-"
+  ++ (int_of_float(Js.Date.getDate(date)) < 10 ? "0" : "")
   ++ string_of_int(int_of_float(Js.Date.getDate(date)));
 
 type exercise =
