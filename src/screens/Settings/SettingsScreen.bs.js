@@ -387,6 +387,60 @@ function make$8() {
           ReasonReact.element(
             /* None */ 0,
             /* None */ 0,
+            make$7(
+              Colors.bRED,
+              "clear workout data",
+              function() {
+                return Alert$BsReactNative.alert(
+                  "Are you sure?",
+                  /* Some */ [
+                    "Removing your data destroys any progress you were storing in this app.",
+                  ],
+                  /* Some */ [
+                    /* :: */ [
+                      /* record */ [
+                        /* text : Some */ ["cancel"],
+                        /* onPress : None */ 0,
+                        /* style : Some */ [/* cancel */ 942927226],
+                      ],
+                      /* :: */ [
+                        /* record */ [
+                          /* text : Some */ ["OK"],
+                          /* onPress : Some */ [
+                            function() {
+                              AsyncStorage$BsReactNative.clear(
+                                /* None */ 0,
+                                /* () */ 0
+                              );
+                              Expo.Util.reload();
+                              return /* () */ 0;
+                            },
+                          ],
+                          /* style : Some */ [/* destructive */ -74879742],
+                        ],
+                        /* [] */ 0,
+                      ],
+                    ],
+                  ],
+                  /* Some */ [
+                    /* record */ [
+                      /* cancelable : Some */ [/* true */ 1],
+                      /* onDismiss : None */ 0,
+                    ],
+                  ],
+                  /* None */ 0,
+                  /* () */ 0
+                );
+              },
+              function() {
+                return null;
+              },
+              /* array */ []
+            )
+          ),
+          ReasonReact.element(
+            /* None */ 0,
+            /* None */ 0,
             NPMBindings.DateTimePicker[/* make */ 0](
               /* Some */ [self[/* state */ 2][/* datePickerVisible */ 3]],
               /* Some */ [
