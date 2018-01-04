@@ -86,6 +86,9 @@ module Expo = {
     let make = (children) =>
       ReasonReact.wrapJsForReason(~reactClass=keepAwake, ~props=Js.Obj.empty(), children);
   };
+  module Util = {
+    [@bs.scope "Util"] [@bs.module "expo"] external reload : unit => unit = "reload";
+  };
 };
 
 module VectorIcons = {

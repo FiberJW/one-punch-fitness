@@ -229,6 +229,34 @@ let make = (_children) => {
           /> :
           ReasonReact.nullElement
       )
+      <Option
+        tint=Colors.bRED
+        label="clear workout data"
+        onPress=(
+          () =>
+            Alert.alert(
+              ~title="Are you sure?",
+              ~message="Removing your data destroys any progress you were storing in this app.",
+              ~buttons=[
+                {text: Some("cancel"), onPress: None, style: Some(`cancel)},
+                {
+                  text: Some("OK"),
+                  onPress:
+                    Some(
+                      () => {
+                        AsyncStorage.clear() |> ignore;
+                        Expo.Util.reload()
+                      }
+                    ),
+                  style: Some(`destructive)
+                }
+              ],
+              ~options={cancelable: Some(true), onDismiss: None},
+              ()
+            )
+        )
+        render=(() => ReasonReact.nullElement)
+      />
       <DateTimePicker
         mode="time"
         titleIOS="Pick a time for your workout reminder"
