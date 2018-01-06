@@ -25,6 +25,8 @@ module Styled = {
   };
 };
 
+[@bs.module "Assets"] external illustrations : Js.t({..}) = "Illustrations";
+
 let component = ReasonReact.statelessComponent("CalendarScreen");
 
 let make = (~screenProps, _children) => {
@@ -35,8 +37,9 @@ let make = (~screenProps, _children) => {
       alwaysBounceVertical=false
       showsVerticalScrollIndicator=false>
       <WorkoutCard navigation=screenProps##rootNavigation />
-      <Styled.SectionLabel> (ReasonReact.stringToElement("GOODIES")) </Styled.SectionLabel>
+      <Styled.SectionLabel> (ReasonReact.stringToElement("GUIDES")) </Styled.SectionLabel>
       <InfoCard
+        coverImage=illustrations##theSecretSauce
         title="What is Saitama's secret?"
         shortDescription="Learn about this routine from Saitama himself!"
         content=(
@@ -59,6 +62,20 @@ let make = (~screenProps, _children) => {
           ++ "In other words, you gotta train like hell to the point where your hair falls out."
           ++ " That's the only way to become strong.\n\n- Saitama,\n\t\"Someone who is a hero for fun.\""
         )
+        navigation=screenProps##rootNavigation
+      />
+      <InfoCard
+        coverImage=illustrations##properPushups
+        title="Proper Push-Up Technique"
+        shortDescription="Make sure you're training your arms the right way!"
+        url="https://www.livestrong.com/article/32382-proper-pushup-technique/"
+        navigation=screenProps##rootNavigation
+      />
+      <InfoCard
+        coverImage=illustrations##wristsHurtPushup
+        title="A Wrist Mobility Drill"
+        shortDescription="Don't let your joints tap out before your muscles!"
+        url="https://www.instagram.com/p/4Wf-bgMEVm/"
         navigation=screenProps##rootNavigation
       />
     </Styled.Container>

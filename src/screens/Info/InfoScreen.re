@@ -1,3 +1,5 @@
+open BsReactNative;
+
 module Styled = {
   module HeroImage = {
     [@bs.module "./styled/HeroImage"] external heroImage : ReasonReact.reactClass = "default";
@@ -43,17 +45,21 @@ let component = ReasonReact.statelessComponent("InfoScreen");
 let make = (~navigation, _children) => {
   ...component,
   render: (_self) =>
-    <Styled.Container>
-      <Styled.HeroImage source=illustrations##theSecretSauce resizeMode="cover" />
-      <Styled.TextContentContainer>
-        <Styled.Title>
-          (ReasonReact.stringToElement(navigation##state##params##title))
-        </Styled.Title>
-        <Styled.Description>
-          (ReasonReact.stringToElement(navigation##state##params##content))
-        </Styled.Description>
-      </Styled.TextContentContainer>
-    </Styled.Container>
+    switch navigation##state##params##url {
+    | Some(url) => <WebView source=(WebView.source(~uri=url, ())) startInLoadingState=true />
+    | None =>
+      <Styled.Container>
+        <Styled.HeroImage source=navigation##state##params##coverImage resizeMode="cover" />
+        <Styled.TextContentContainer>
+          <Styled.Title>
+            (ReasonReact.stringToElement(navigation##state##params##title))
+          </Styled.Title>
+          <Styled.Description>
+            (ReasonReact.stringToElement(navigation##state##params##content))
+          </Styled.Description>
+        </Styled.TextContentContainer>
+      </Styled.Container>
+    }
 };
 
 let default =
