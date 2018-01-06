@@ -1,5 +1,7 @@
 open BsReactNative;
 
+open NPMBindings;
+
 module Styled = {
   module Container = {
     [@bs.module "./styled/Container"] external container : ReasonReact.reactClass = "default";
@@ -40,32 +42,42 @@ module Styled = {
 
 let component = ReasonReact.statelessComponent("InfoCard");
 
-let make = (~navigation, ~title, ~shortDescription, ~content, _children) => {
+let make = (~navigation, ~title, ~coverImage, ~shortDescription, ~content=?, ~url=?, _children) => {
   ...component,
   render: (_self) =>
     <TouchableOpacity
       activeOpacity=0.9
-      onPress=(() => navigation##navigate("Info", {"title": title, "content": content}))>
+      onPress=(
+        () =>
+          navigation##navigate(
+            "Info",
+            {"title": title, "content": content, "url": url, "coverImage": coverImage}
+          )
+      )>
       <Styled.Container>
         <View>
-          <Styled.CoverImage source=illustrations##theSecretSauce resizeMode="cover" />
+          <Styled.CoverImage source=coverImage resizeMode="cover" />
           <Styled.ImageGradient colors=[|"rgba(0,0,0,0)", Colors.spotiBlack|] />
           <Styled.Title> title </Styled.Title>
+          (
+            switch url {
+            | Some(_) =>
+              <View
+                style=Style.(
+                        style([
+                          position(Absolute),
+                          backgroundColor("transparent"),
+                          top(Pt(16.)),
+                          right(Pt(16.))
+                        ])
+                      )>
+                <VectorIcons.Feather name="link" size=16 color="white" />
+              </View>
+            | None => ReasonReact.nullElement
+            }
+          )
         </View>
         <Styled.Description> shortDescription </Styled.Description>
       </Styled.Container>
     </TouchableOpacity>
 };
-
-let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    (jsProps) =>
-      make(
-        ~navigation=jsProps##navigation,
-        ~title=jsProps##title,
-        ~content=jsProps##content,
-        ~shortDescription=jsProps##shortDescription,
-        [||]
-      )
-  );

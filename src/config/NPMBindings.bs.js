@@ -66,12 +66,15 @@ function make$2(children) {
 
 var KeepAwake = /* module */ [/* make */ make$2];
 
+var Util = /* module */ [];
+
 var Expo$1 = /* module */ [
   /* Font */ Font,
   /* AppLoading */ AppLoading,
   /* Permissions */ Permissions,
   /* Notifications */ Notifications,
   /* KeepAwake */ KeepAwake,
+  /* Util */ Util,
 ];
 
 function make$3(name, size, color, children) {

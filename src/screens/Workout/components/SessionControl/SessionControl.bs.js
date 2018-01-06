@@ -75,14 +75,7 @@ function make$3(onPress, label, color, _) {
   return newrecord;
 }
 
-var $$default = ReasonReact.wrapReasonForJs(component, function(jsProps) {
-  return make$3(jsProps.onPress, jsProps.label, jsProps.color, /* array */ []);
-});
-
 exports.Styled = Styled;
 exports.component = component;
 exports.make = make$3;
-exports.$$default = $$default;
-exports.default = $$default;
-exports.__esModule = true;
 /* component Not a pure module */
