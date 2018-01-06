@@ -49,6 +49,7 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
     );
     <ScrollView
       showsVerticalScrollIndicator=false
+      alwaysBounceVertical=false
       contentContainerStyle=Style.(
                               style([flexGrow(1.), paddingVertical(Pt(16.)), alignItems(Center)])
                             )>
