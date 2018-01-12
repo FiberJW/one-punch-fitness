@@ -138,7 +138,11 @@ function make$2(screenProps, _) {
               /* None */ 0,
               /* None */ 0,
               /* None */ 0,
-              /* None */ 0
+              /* Some */ [
+                Style$BsReactNative.style(
+                  /* :: */ [Style$BsReactNative.flexGrow(0), /* [] */ 0]
+                ),
+              ]
             )(/* array */ [])
           ),
         ]

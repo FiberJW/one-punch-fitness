@@ -41,6 +41,7 @@ let make = (~screenProps, _children) => {
         (ReasonReact.stringToElement("GUIDES (swipe left for more)"))
       </Styled.SectionLabel>
       <FlatList
+        style=Style.(style([flexGrow(0.)]))
         horizontal=true
         pagingEnabled=true
         removeClippedSubviews=true
