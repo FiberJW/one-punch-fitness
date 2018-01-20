@@ -142,16 +142,17 @@ let persist = (store, next, action) => {
   returnValue;
 };
 
-let hydrate = dispatch =>
+let hydrate = (dispatch, callback) =>
   Js.Promise.(
     AsyncStorage.getItem("@state", ())
     |> then_(json =>
          (
            switch json {
-           | None => ()
+           | None => callback()
            | Some(s) =>
              let state = Js.Json.parseExn(s) |> Decode.state;
              dispatch(Rehydrate(state));
+             callback();
            }
          )
          |> resolve
@@ -288,5 +289,3 @@ let store =
     ~enhancer=persist,
     ()
   );
-
-hydrate(Reductive.Store.dispatch(store));

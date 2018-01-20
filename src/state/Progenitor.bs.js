@@ -215,15 +215,16 @@ function persist(store, next, action) {
   return returnValue;
 }
 
-function hydrate(dispatch) {
+function hydrate(dispatch, callback) {
   AsyncStorage$BsReactNative.getItem("@state", /* None */ 0, /* () */ 0).then(
     function(json) {
       var tmp;
       if (json) {
         var state$2 = state$1(JSON.parse(json[0]));
-        tmp = Curry._1(dispatch, /* Rehydrate */ Block.__(0, [state$2]));
+        Curry._1(dispatch, /* Rehydrate */ Block.__(0, [state$2]));
+        tmp = Curry._1(callback, /* () */ 0);
       } else {
-        tmp = /* () */ 0;
+        tmp = Curry._1(callback, /* () */ 0);
       }
       return Promise.resolve(tmp);
     }
@@ -431,12 +432,6 @@ var store = Reductive.Store[/* create */ 0](
   /* Some */ [persist],
   /* () */ 0
 );
-
-var partial_arg = Reductive.Store[/* dispatch */ 4];
-
-hydrate(function(param) {
-  return partial_arg(store, param);
-});
 
 exports.dateString = dateString;
 exports.Encode = Encode;

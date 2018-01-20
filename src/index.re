@@ -26,29 +26,42 @@ module MainStack = {
     );
 };
 
-type state = {fontsLoaded: bool};
+type state = {
+  fontsLoaded: bool,
+  rehydrated: bool
+};
 
 type action =
+  | Rehydrated
   | FontsLoaded;
 
 let component = ReasonReact.reducerComponent("App");
 
 let make = _children => {
   ...component,
-  initialState: () => {fontsLoaded: false},
-  reducer: (action, _state) =>
+  initialState: () => {fontsLoaded: false, rehydrated: false},
+  reducer: (action, state) =>
     switch action {
-    | FontsLoaded => ReasonReact.Update({fontsLoaded: true})
+    | FontsLoaded => ReasonReact.Update({...state, fontsLoaded: true})
+    | Rehydrated => ReasonReact.Update({...state, rehydrated: true})
     },
-  didMount: self =>
+  didMount: self => {
+    Progenitor.hydrate(
+      Reductive.Store.dispatch(Progenitor.store),
+      self.reduce(() => Rehydrated)
+    );
     Js.Promise.(
       Expo.Font.loadAsync(fonts)
       |> then_(() => self.reduce(() => FontsLoaded, ()) |> resolve)
       |> ((_) => ReasonReact.NoUpdate)
-    ),
+    );
+  },
   render: self =>
     <Styled.Container>
-      (self.state.fontsLoaded ? <MainStack /> : <Expo.AppLoading />)
+      (
+        self.state.fontsLoaded && self.state.rehydrated ?
+          <MainStack /> : <Expo.AppLoading />
+      )
     </Styled.Container>
 };
 

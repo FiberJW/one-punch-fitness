@@ -5,6 +5,8 @@ var Expo = require("expo");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Assets = require("Assets");
+var Reductive = require("reductive/src/reductive.js");
+var Progenitor = require("./state/Progenitor.bs.js");
 var NPMBindings = require("./config/NPMBindings.bs.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var MainStack = require("./navigation/MainStack");
@@ -29,12 +31,21 @@ var component = ReasonReact.reducerComponent("App");
 function make$2() {
   var newrecord = component.slice();
   newrecord[/* didMount */ 4] = function(self) {
+    var partial_arg = Reductive.Store[/* dispatch */ 4];
+    Progenitor.hydrate(
+      function(param) {
+        return partial_arg(Progenitor.store, param);
+      },
+      Curry._1(self[/* reduce */ 1], function() {
+        return /* Rehydrated */ 0;
+      })
+    );
     Expo.Font.loadAsync(Assets.Fonts).then(function() {
       return Promise.resolve(
         Curry._2(
           self[/* reduce */ 1],
           function() {
-            return /* FontsLoaded */ 0;
+            return /* FontsLoaded */ 1;
           },
           /* () */ 0
         )
@@ -43,7 +54,9 @@ function make$2() {
     return /* NoUpdate */ 0;
   };
   newrecord[/* render */ 9] = function(self) {
-    var match = self[/* state */ 2][/* fontsLoaded */ 0];
+    var match =
+      self[/* state */ 2][/* fontsLoaded */ 0] &&
+      self[/* state */ 2][/* rehydrated */ 1];
     return ReasonReact.element(
       /* None */ 0,
       /* None */ 0,
@@ -68,12 +81,27 @@ function make$2() {
     );
   };
   newrecord[/* initialState */ 10] = function() {
-    return /* record */ [/* fontsLoaded : false */ 0];
+    return /* record */ [
+      /* fontsLoaded : false */ 0,
+      /* rehydrated : false */ 0,
+    ];
   };
-  newrecord[/* reducer */ 12] = function(_, _$1) {
-    return /* Update */ Block.__(0, [
-      /* record */ [/* fontsLoaded : true */ 1],
-    ]);
+  newrecord[/* reducer */ 12] = function(action, state) {
+    if (action !== 0) {
+      return /* Update */ Block.__(0, [
+        /* record */ [
+          /* fontsLoaded : true */ 1,
+          /* rehydrated */ state[/* rehydrated */ 1],
+        ],
+      ]);
+    } else {
+      return /* Update */ Block.__(0, [
+        /* record */ [
+          /* fontsLoaded */ state[/* fontsLoaded */ 0],
+          /* rehydrated : true */ 1,
+        ],
+      ]);
+    }
   };
   return newrecord;
 }
