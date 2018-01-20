@@ -6,7 +6,6 @@ var Colors = require("../../../../config/Colors.bs.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var NPMBindings = require("../../../../config/NPMBindings.bs.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Time = require("./styled/Time");
 var Container = require("./styled/Container");
 var Style$BsReactNative = require("bs-react-native/src/style.js");
 
@@ -16,17 +15,11 @@ function make(children) {
 
 var Container$1 = /* module */ [/* make */ make];
 
-function make$1(children) {
-  return ReasonReact.wrapJsForReason(Time.default, {}, children);
-}
-
-var Time$1 = /* module */ [/* make */ make$1];
-
-var Styled = /* module */ [/* Container */ Container$1, /* Time */ Time$1];
+var Styled = /* module */ [/* Container */ Container$1];
 
 var component = ReasonReact.statelessComponent("Timer");
 
-function make$2(time, _) {
+function make$1(time, _) {
   var newrecord = component.slice();
   newrecord[/* render */ 9] = function() {
     return ReasonReact.element(
@@ -73,5 +66,5 @@ function make$2(time, _) {
 
 exports.Styled = Styled;
 exports.component = component;
-exports.make = make$2;
+exports.make = make$1;
 /* component Not a pure module */

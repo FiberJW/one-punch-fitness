@@ -13,16 +13,6 @@ module Styled = {
         children
       );
   };
-  module Time = {
-    [@bs.module "./styled/Time"]
-    external time : ReasonReact.reactClass = "default";
-    let make = children =>
-      ReasonReact.wrapJsForReason(
-        ~reactClass=time,
-        ~props=Js.Obj.empty(),
-        children
-      );
-  };
 };
 
 let component = ReasonReact.statelessComponent("Timer");
