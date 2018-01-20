@@ -48,6 +48,7 @@ type action =
   | IncrementLevel
   | DecrementLevel
   | StartWorkout
+  | SupressUnusedWarningError
   | CompleteWorkout
   | CompleteSet(exercise, float);
 
@@ -181,6 +182,7 @@ let genNewWorkout = level => {
 
 let reducer = (state: state, action: action) =>
   switch action {
+  | SupressUnusedWarningError => state
   | Rehydrate(state) =>
     if (state.currentWorkout.date !== dateString(Js.Date.make())) {
       {

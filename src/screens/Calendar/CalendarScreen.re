@@ -20,6 +20,10 @@ let percComplete = (workout: Progenitor.workout) =>
 let baseMake =
     (~state as reductiveState: Progenitor.state, ~dispatch, _children) => {
   ...baseComponent,
+  didMount: _self => {
+    dispatch(Progenitor.SupressUnusedWarningError);
+    ReasonReact.NoUpdate;
+  },
   render: _self => {
     let hist =
       Array.append([|reductiveState.currentWorkout|], reductiveState.history);

@@ -518,7 +518,7 @@ function baseMake(navigation, reductiveState, dispatch, _) {
                                 self[/* state */ 2][/* currentExercise */ 2] ===
                                 /* Running */ 3
                               ) {
-                                Curry._1(dispatch, /* CompleteWorkout */ 3);
+                                Curry._1(dispatch, /* CompleteWorkout */ 4);
                                 Alert$BsReactNative.alert(
                                   "Congrats!",
                                   /* Some */ [

@@ -43,8 +43,12 @@ function percComplete(workout) {
   );
 }
 
-function baseMake(reductiveState, _, _$1) {
+function baseMake(reductiveState, dispatch, _) {
   var newrecord = baseComponent.slice();
+  newrecord[/* didMount */ 4] = function() {
+    Curry._1(dispatch, /* SupressUnusedWarningError */ 3);
+    return /* NoUpdate */ 0;
+  };
   newrecord[/* render */ 9] = function() {
     var hist = $$Array.append(
       /* array */ [reductiveState[/* currentWorkout */ 0]],

@@ -280,6 +280,8 @@ function reducer(state, action) {
           /* history */ state[/* history */ 1],
         ];
       case 3:
+        return state;
+      case 4:
         var newrecord$3 = state[/* currentWorkout */ 0].slice();
         return /* record */ [
           /* currentWorkout */ ((newrecord$3[/* completed */ 3] = /* true */ 1),
