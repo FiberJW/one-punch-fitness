@@ -3,28 +3,48 @@ module Base = {
   [@bs.module "Assets"] external illustrations : Js.t({..}) = "Illustrations";
   module Styled = {
     module Container = {
-      [@bs.module "./styled/Container"] external container : ReasonReact.reactClass = "default";
-      let make = (children) =>
-        ReasonReact.wrapJsForReason(~reactClass=container, ~props=Js.Obj.empty(), children);
+      [@bs.module "./styled/Container"]
+      external container : ReasonReact.reactClass = "default";
+      let make = children =>
+        ReasonReact.wrapJsForReason(
+          ~reactClass=container,
+          ~props=Js.Obj.empty(),
+          children
+        );
     };
     module Header = {
-      [@bs.module "./styled/Header"] external header : ReasonReact.reactClass = "default";
-      let make = (children) =>
-        ReasonReact.wrapJsForReason(~reactClass=header, ~props=Js.Obj.empty(), children);
+      [@bs.module "./styled/Header"]
+      external header : ReasonReact.reactClass = "default";
+      let make = children =>
+        ReasonReact.wrapJsForReason(
+          ~reactClass=header,
+          ~props=Js.Obj.empty(),
+          children
+        );
     };
     module RoutineContainer = {
-      [@bs.module "./styled/RoutineContainer"] external routineContainer : ReasonReact.reactClass =
-        "default";
-      let make = (children) =>
-        ReasonReact.wrapJsForReason(~reactClass=routineContainer, ~props=Js.Obj.empty(), children);
+      [@bs.module "./styled/RoutineContainer"]
+      external routineContainer : ReasonReact.reactClass = "default";
+      let make = children =>
+        ReasonReact.wrapJsForReason(
+          ~reactClass=routineContainer,
+          ~props=Js.Obj.empty(),
+          children
+        );
     };
     module LevelLabel = {
-      [@bs.module "./styled/LevelLabel"] external levelLabel : ReasonReact.reactClass = "default";
-      let make = (children) =>
-        ReasonReact.wrapJsForReason(~reactClass=levelLabel, ~props=Js.Obj.empty(), children);
+      [@bs.module "./styled/LevelLabel"]
+      external levelLabel : ReasonReact.reactClass = "default";
+      let make = children =>
+        ReasonReact.wrapJsForReason(
+          ~reactClass=levelLabel,
+          ~props=Js.Obj.empty(),
+          children
+        );
     };
     module CoverImage = {
-      [@bs.module "./styled/CoverImage"] external coverImage : ReasonReact.reactClass = "default";
+      [@bs.module "./styled/CoverImage"]
+      external coverImage : ReasonReact.reactClass = "default";
       let make = (~source=?, ~resizeMode=?, children) =>
         ReasonReact.wrapJsForReason(
           ~reactClass=coverImage,
@@ -36,8 +56,8 @@ module Base = {
         );
     };
     module ImageGradient = {
-      [@bs.module "./styled/ImageGradient"] external imageGradient : ReasonReact.reactClass =
-        "default";
+      [@bs.module "./styled/ImageGradient"]
+      external imageGradient : ReasonReact.reactClass = "default";
       let make = (~colors, children) =>
         ReasonReact.wrapJsForReason(
           ~reactClass=imageGradient,
@@ -47,9 +67,15 @@ module Base = {
     };
   };
   let component = ReasonReact.statelessComponent("WorkoutCardBase");
-  let make = (~navigation, ~state as reductiveState: Progenitor.state, ~dispatch, _children) => {
+  let make =
+      (
+        ~navigation,
+        ~state as reductiveState: Progenitor.state,
+        ~dispatch,
+        _children
+      ) => {
     ...component,
-    render: (_self) =>
+    render: _self =>
       <Styled.Container>
         <Styled.Header>
           <Styled.CoverImage
@@ -65,24 +91,29 @@ module Base = {
             )
             resizeMode="cover"
           />
-          <Styled.ImageGradient colors=[|"rgba(0,0,0,0)", Colors.spotiBlack|] />
+          <Styled.ImageGradient
+            colors=[|"rgba(0,0,0,0)", Colors.spotiBlack|]
+          />
           <Styled.LevelLabel>
             (
               ReasonReact.stringToElement(
-                "level " ++ string_of_int(reductiveState.currentWorkout.level + 1)
+                "level "
+                ++ string_of_int(reductiveState.currentWorkout.level + 1)
               )
             )
           </Styled.LevelLabel>
           <IntensityButton
             disabled=(
-              reductiveState.currentWorkout.started || reductiveState.currentWorkout.level === 0
+              reductiveState.currentWorkout.started
+              || reductiveState.currentWorkout.level === 0
             )
             action="decrement"
             onPress=(() => dispatch(Progenitor.DecrementLevel))
           />
           <IntensityButton
             disabled=(
-              reductiveState.currentWorkout.started || reductiveState.currentWorkout.level === 4
+              reductiveState.currentWorkout.started
+              || reductiveState.currentWorkout.level === 4
             )
             action="increment"
             onPress=(() => dispatch(Progenitor.IncrementLevel))
@@ -91,25 +122,41 @@ module Base = {
         <Styled.RoutineContainer>
           <View>
             <RoutineFacet
-              sets=Routines.variations[reductiveState.currentWorkout.level].pushUps.sets
-              reps=Routines.variations[reductiveState.currentWorkout.level].pushUps.reps
+              sets=Routines.variations[reductiveState.currentWorkout.level].
+                     pushUps.
+                     sets
+              reps=Routines.variations[reductiveState.currentWorkout.level].
+                     pushUps.
+                     reps
               name="push-ups"
             />
             <RoutineFacet
-              sets=Routines.variations[reductiveState.currentWorkout.level].sitUps.sets
-              reps=Routines.variations[reductiveState.currentWorkout.level].sitUps.reps
+              sets=Routines.variations[reductiveState.currentWorkout.level].
+                     sitUps.
+                     sets
+              reps=Routines.variations[reductiveState.currentWorkout.level].
+                     sitUps.
+                     reps
               name="sit-ups"
             />
           </View>
           <View>
             <RoutineFacet
-              sets=Routines.variations[reductiveState.currentWorkout.level].squats.sets
-              reps=Routines.variations[reductiveState.currentWorkout.level].squats.reps
+              sets=Routines.variations[reductiveState.currentWorkout.level].
+                     squats.
+                     sets
+              reps=Routines.variations[reductiveState.currentWorkout.level].
+                     squats.
+                     reps
               name="squats"
             />
             <RoutineFacet
-              distance=Routines.variations[reductiveState.currentWorkout.level].run.distance
-              units=Routines.variations[reductiveState.currentWorkout.level].run.units
+              distance=Routines.variations[reductiveState.currentWorkout.level].
+                         run.
+                         distance
+              units=Routines.variations[reductiveState.currentWorkout.level].
+                      run.
+                      units
               name="run"
             />
           </View>
@@ -119,17 +166,17 @@ module Base = {
             disabled=reductiveState.currentWorkout.completed
             label=(
                     if (reductiveState.currentWorkout.completed) {
-                      "completed"
+                      "completed";
                     } else if (reductiveState.currentWorkout.started) {
-                      "resume"
+                      "resume";
                     } else {
-                      "start"
+                      "start";
                     }
                   )
             onPress=(
               () => {
                 dispatch(Progenitor.StartWorkout);
-                navigation##navigate("Workout", Js.Obj.empty())
+                navigation##navigate("Workout", Js.Obj.empty());
               }
             )
           />
@@ -146,5 +193,5 @@ let component = ReasonReact.statelessComponent("WorkoutCard");
 
 let make = (~navigation, _children) => {
   ...component,
-  render: (_self) => <Provider component=(Base.make(~navigation)) />
+  render: _self => <Provider component=(Base.make(~navigation)) />
 };

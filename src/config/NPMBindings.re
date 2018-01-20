@@ -1,13 +1,14 @@
 module RNCalendars = {
   module Calendar = {
-    [@bs.module "react-native-calendars"] external calendar : ReasonReact.reactClass = "Calendar";
+    [@bs.module "react-native-calendars"]
+    external calendar : ReasonReact.reactClass = "Calendar";
     let make =
         (
           ~minDate: option(string)=?,
-          ~onDayPress: option((string => unit))=?,
+          ~onDayPress: option(string => unit)=?,
           ~hideArrows: option(Js.boolean)=?,
           ~monthFormat: option(string)=?,
-          ~onMonthChange: option((string => unit))=?,
+          ~onMonthChange: option(string => unit)=?,
           ~hideExtraDays: option(Js.boolean)=?,
           ~disableMonthChange: option(Js.boolean)=?,
           ~firstDay: option(int)=?,
@@ -49,27 +50,56 @@ module RNCalendars = {
 
 module Expo = {
   module Font = {
-    [@bs.scope "Font"] [@bs.module "expo"] external loadAsync : Js.t({..}) => Js.Promise.t(unit) =
-      "loadAsync";
+    [@bs.scope "Font"] [@bs.module "expo"]
+    external loadAsync : Js.t({..}) => Js.Promise.t(unit) = "loadAsync";
   };
   module AppLoading = {
-    [@bs.module "expo"] external appLoading : ReasonReact.reactClass = "AppLoading";
-    let make = (children) =>
-      ReasonReact.wrapJsForReason(~reactClass=appLoading, ~props=Js.Obj.empty(), children);
+    [@bs.module "expo"]
+    external appLoading : ReasonReact.reactClass = "AppLoading";
+    let make = children =>
+      ReasonReact.wrapJsForReason(
+        ~reactClass=appLoading,
+        ~props=Js.Obj.empty(),
+        children
+      );
   };
   module Permissions = {
-    [@bs.scope "Permissions"] [@bs.module "expo"] external notifications : string =
-      "NOTIFICATIONS";
     [@bs.scope "Permissions"] [@bs.module "expo"]
-    external ask : string => Js.Promise.t({. "expires": string, "status": string}) =
+    external notifications : string = "NOTIFICATIONS";
+    [@bs.scope "Permissions"] [@bs.module "expo"]
+    external ask :
+      string =>
+      Js.Promise.t(
+        {
+          .
+          "expires": string,
+          "status": string
+        }
+      ) =
       "askAsync";
     [@bs.scope "Permissions"] [@bs.module "expo"]
-    external get : string => Js.Promise.t({. "expires": string, "status": string}) =
+    external get :
+      string =>
+      Js.Promise.t(
+        {
+          .
+          "expires": string,
+          "status": string
+        }
+      ) =
       "getAsync";
   };
   module Notifications = {
-    type localNotification = {. "title": string, "body": string};
-    type schedulingOptions = {. "time": float, "repeat": string};
+    type localNotification = {
+      .
+      "title": string,
+      "body": string
+    };
+    type schedulingOptions = {
+      .
+      "time": float,
+      "repeat": string
+    };
     [@bs.scope "Notifications"] [@bs.module "expo"]
     external scheduleLocalNotificationAsync :
       (localNotification, schedulingOptions) => Js.Promise.t(string) =
@@ -82,18 +112,25 @@ module Expo = {
       "cancelAllScheduledNotificationsAsync";
   };
   module KeepAwake = {
-    [@bs.module "expo"] external keepAwake : ReasonReact.reactClass = "KeepAwake";
-    let make = (children) =>
-      ReasonReact.wrapJsForReason(~reactClass=keepAwake, ~props=Js.Obj.empty(), children);
+    [@bs.module "expo"]
+    external keepAwake : ReasonReact.reactClass = "KeepAwake";
+    let make = children =>
+      ReasonReact.wrapJsForReason(
+        ~reactClass=keepAwake,
+        ~props=Js.Obj.empty(),
+        children
+      );
   };
   module Util = {
-    [@bs.scope "Util"] [@bs.module "expo"] external reload : unit => unit = "reload";
+    [@bs.scope "Util"] [@bs.module "expo"]
+    external reload : unit => unit = "reload";
   };
 };
 
 module VectorIcons = {
   module Feather = {
-    [@bs.module "@expo/vector-icons"] external feather : ReasonReact.reactClass = "Feather";
+    [@bs.module "@expo/vector-icons"]
+    external feather : ReasonReact.reactClass = "Feather";
     let make = (~name: string, ~size: int, ~color: string, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=feather,
@@ -105,13 +142,12 @@ module VectorIcons = {
 
 module DateTimePicker = {
   [@bs.module "react-native-modal-datetime-picker"]
-  external dateTimePicker : ReasonReact.reactClass =
-    "default";
+  external dateTimePicker : ReasonReact.reactClass = "default";
   let make =
       (
         ~isVisible: bool=false,
-        ~onConfirm: option((Js.Date.t => unit))=?,
-        ~onCancel: option((unit => unit))=?,
+        ~onConfirm: option(Js.Date.t => unit)=?,
+        ~onCancel: option(unit => unit)=?,
         ~mode: option(string)=?,
         ~titleIOS: option(string)=?,
         children
@@ -136,9 +172,14 @@ module Moment = {
 module Chroma = {
   [@bs.module "chroma-js"]
   external scale :
-    Js.Array.t(string) => {. [@bs.meth] "mode": string => {. [@bs.meth] "colors": int => Js.Array.t(string)}} =
+    Js.Array.t(string) =>
+    {
+      .
+      [@bs.meth]
+      "mode": string => {. [@bs.meth] "colors": int => Js.Array.t(string)}
+    } =
     "scale";
-    [@bs.module "chroma-js"]
-  external make :
-    (string) => {. [@bs.meth] "luminance": unit => float } = "default";
+  [@bs.module "chroma-js"]
+  external make : string => {. [@bs.meth] "luminance": unit => float} =
+    "default";
 };

@@ -41,7 +41,8 @@ let cards = [|
     title: "Proper Push-Up Technique",
     shortDescription: "Make sure you're training your arms the right way!",
     content: None,
-    url: Some("https://www.livestrong.com/article/32382-proper-pushup-technique/")
+    url:
+      Some("https://www.livestrong.com/article/32382-proper-pushup-technique/")
   },
   {
     coverImage: illustrations##wristsHurtPushup,

@@ -17,16 +17,23 @@ let percComplete = (workout: Progenitor.workout) =>
   /. 4.
   *. 100.;
 
-let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children) => {
+let baseMake =
+    (~state as reductiveState: Progenitor.state, ~dispatch, _children) => {
   ...baseComponent,
-  render: (_self) => {
-    let hist = Array.append([|reductiveState.currentWorkout|], reductiveState.history);
+  render: _self => {
+    let hist =
+      Array.append([|reductiveState.currentWorkout|], reductiveState.history);
     let markedDates = Js.Dict.empty();
     Js.Array.forEach(
       (w: Progenitor.workout) => {
         let progress = percComplete(w);
         if (progress > 0.) {
-          let color = Chroma.scale([|Colors.bRED, "orangered", "yellow", Colors.start|])##mode(
+          let color = Chroma.scale([|
+                        Colors.bRED,
+                        "orangered",
+                        "yellow",
+                        Colors.start
+                      |])##mode(
                         "hsl"
                       )##colors(
                         100
@@ -38,12 +45,14 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
               "startingDay": Js.true_,
               "color": color,
               "endingDay": Js.true_,
-              "textColor": Chroma.make(color)##luminance() > 0.5 ? Colors.spotiBlack : "white"
+              "textColor":
+                Chroma.make(color)##luminance() > 0.5 ?
+                  Colors.spotiBlack : "white"
             }
-          )
+          );
         } else {
-          ()
-        }
+          ();
+        };
       },
       hist
     );
@@ -51,18 +60,27 @@ let baseMake = (~state as reductiveState: Progenitor.state, ~dispatch, _children
       showsVerticalScrollIndicator=false
       alwaysBounceVertical=false
       contentContainerStyle=Style.(
-                              style([flexGrow(1.), paddingVertical(Pt(16.)), alignItems(Center)])
+                              style([
+                                flexGrow(1.),
+                                paddingVertical(Pt(16.)),
+                                alignItems(Center)
+                              ])
                             )>
       <RNCalendars.Calendar
         markedDates
         markingType="period"
-        style=Style.(style([width(Pt(float(Dimensions.get(`window)##width - 32))), flex(0.)]))
+        style=Style.(
+                style([
+                  width(Pt(float(Dimensions.get(`window)##width - 32))),
+                  flex(0.)
+                ])
+              )
       />
       <DailyProgress
         workout=reductiveState.currentWorkout
         percComplete=(percComplete(reductiveState.currentWorkout))
       />
-    </ScrollView>
+    </ScrollView>;
   }
 };
 
@@ -72,6 +90,9 @@ module Provider = {
 
 let component = ReasonReact.statelessComponent("WorkoutScreen");
 
-let make = (_children) => {...component, render: (_self) => <Provider component=baseMake />};
+let make = _children => {
+  ...component,
+  render: _self => <Provider component=baseMake />
+};
 
-let default = ReasonReact.wrapReasonForJs(~component, (_jsProps) => make([||]));
+let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));

@@ -1,6 +1,6 @@
 open BsReactNative;
 
-let dateString = (date) =>
+let dateString = date =>
   string_of_int(int_of_float(Js.Date.getFullYear(date)))
   ++ "-"
   ++ (int_of_float(Js.Date.getMonth(date)) + 1 < 10 ? "0" : "")
@@ -82,28 +82,31 @@ module Encode = {
       ])
     );
   let history = Json.Encode.arrayOf(workout);
-  let state = (s) =>
+  let state = s =>
     Json.Encode.(
-      object_([("currentWorkout", workout(s.currentWorkout)), ("history", history(s.history))])
+      object_([
+        ("currentWorkout", workout(s.currentWorkout)),
+        ("history", history(s.history))
+      ])
     );
 };
 
 module Decode = {
-  let timeUsedPerSet = (json) : timeUsedPerSet =>
+  let timeUsedPerSet = json : timeUsedPerSet =>
     Json.Decode.{
       pushUps: json |> field("pushUps", Json.Decode.array(Json.Decode.float)),
       sitUps: json |> field("sitUps", Json.Decode.array(Json.Decode.float)),
       squats: json |> field("squats", Json.Decode.array(Json.Decode.float)),
       run: json |> field("run", Json.Decode.float)
     };
-  let setsCompleted = (json) : setsCompleted =>
+  let setsCompleted = json : setsCompleted =>
     Json.Decode.{
       pushUps: json |> field("pushUps", int),
       sitUps: json |> field("sitUps", int),
       squats: json |> field("squats", int),
       run: json |> field("run", bool)
     };
-  let workout = (json) : workout =>
+  let workout = json : workout =>
     Json.Decode.{
       level: json |> field("level", int),
       date: json |> field("date", string),
@@ -113,7 +116,7 @@ module Decode = {
       timeUsedPerSet: json |> field("timeUsedPerSet", timeUsedPerSet)
     };
   let history = Json.Decode.array(workout);
-  let state = (json) =>
+  let state = json =>
     Json.Decode.{
       currentWorkout: json |> field("currentWorkout", workout),
       history: json |> field("history", history)
@@ -122,12 +125,13 @@ module Decode = {
 
 let persist = (store, next, action) => {
   let returnValue = next(action);
-  let stateAsJson = Encode.state(Reductive.Store.getState(store)) |> Js.Json.stringify;
+  let stateAsJson =
+    Encode.state(Reductive.Store.getState(store)) |> Js.Json.stringify;
   AsyncStorage.setItem(
     "@state",
     stateAsJson,
     ~callback=
-      (e) =>
+      e =>
         switch e {
         | None => ()
         | Some(err) => Js.log(err)
@@ -135,34 +139,43 @@ let persist = (store, next, action) => {
     ()
   )
   |> ignore;
-  returnValue
+  returnValue;
 };
 
-let hydrate = (dispatch) =>
+let hydrate = dispatch =>
   Js.Promise.(
     AsyncStorage.getItem("@state", ())
-    |> then_(
-         (json) =>
-           (
-             switch json {
-             | None => ()
-             | Some(s) =>
-               let state = Js.Json.parseExn(s) |> Decode.state;
-               dispatch(Rehydrate(state))
-             }
-           )
-           |> resolve
+    |> then_(json =>
+         (
+           switch json {
+           | None => ()
+           | Some(s) =>
+             let state = Js.Json.parseExn(s) |> Decode.state;
+             dispatch(Rehydrate(state));
+           }
+         )
+         |> resolve
        )
     |> ignore
   );
 
-let genNewWorkout = (level) => {
+let genNewWorkout = level => {
   level,
   date: dateString(Js.Date.make()),
   started: false,
   completed: false,
-  setsCompleted: {pushUps: 0, sitUps: 0, squats: 0, run: false},
-  timeUsedPerSet: {pushUps: [||], sitUps: [||], squats: [||], run: 0.}
+  setsCompleted: {
+    pushUps: 0,
+    sitUps: 0,
+    squats: 0,
+    run: false
+  },
+  timeUsedPerSet: {
+    pushUps: [||],
+    sitUps: [||],
+    squats: [||],
+    run: 0.
+  }
 };
 
 let reducer = (state: state, action: action) =>
@@ -172,20 +185,38 @@ let reducer = (state: state, action: action) =>
       {
         history: Array.append(state.history, [|state.currentWorkout|]),
         currentWorkout: genNewWorkout(state.currentWorkout.level)
-      }
+      };
     } else {
-      state
+      state;
     }
   | IncrementLevel => {
       ...state,
-      currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level + 1}
+      currentWorkout: {
+        ...state.currentWorkout,
+        level: state.currentWorkout.level + 1
+      }
     }
   | DecrementLevel => {
       ...state,
-      currentWorkout: {...state.currentWorkout, level: state.currentWorkout.level - 1}
+      currentWorkout: {
+        ...state.currentWorkout,
+        level: state.currentWorkout.level - 1
+      }
     }
-  | StartWorkout => {...state, currentWorkout: {...state.currentWorkout, started: true}}
-  | CompleteWorkout => {...state, currentWorkout: {...state.currentWorkout, completed: true}}
+  | StartWorkout => {
+      ...state,
+      currentWorkout: {
+        ...state.currentWorkout,
+        started: true
+      }
+    }
+  | CompleteWorkout => {
+      ...state,
+      currentWorkout: {
+        ...state.currentWorkout,
+        completed: true
+      }
+    }
   | CompleteSet(e, t) =>
     switch e {
     | PushUps => {
@@ -198,7 +229,8 @@ let reducer = (state: state, action: action) =>
           },
           timeUsedPerSet: {
             ...state.currentWorkout.timeUsedPerSet,
-            pushUps: Js.Array.append(t, state.currentWorkout.timeUsedPerSet.pushUps)
+            pushUps:
+              Js.Array.append(t, state.currentWorkout.timeUsedPerSet.pushUps)
           }
         }
       }
@@ -212,7 +244,8 @@ let reducer = (state: state, action: action) =>
           },
           timeUsedPerSet: {
             ...state.currentWorkout.timeUsedPerSet,
-            sitUps: Js.Array.append(t, state.currentWorkout.timeUsedPerSet.sitUps)
+            sitUps:
+              Js.Array.append(t, state.currentWorkout.timeUsedPerSet.sitUps)
           }
         }
       }
@@ -226,7 +259,8 @@ let reducer = (state: state, action: action) =>
           },
           timeUsedPerSet: {
             ...state.currentWorkout.timeUsedPerSet,
-            squats: Js.Array.append(t, state.currentWorkout.timeUsedPerSet.squats)
+            squats:
+              Js.Array.append(t, state.currentWorkout.timeUsedPerSet.squats)
           }
         }
       }
@@ -234,8 +268,14 @@ let reducer = (state: state, action: action) =>
         ...state,
         currentWorkout: {
           ...state.currentWorkout,
-          setsCompleted: {...state.currentWorkout.setsCompleted, run: true},
-          timeUsedPerSet: {...state.currentWorkout.timeUsedPerSet, run: t}
+          setsCompleted: {
+            ...state.currentWorkout.setsCompleted,
+            run: true
+          },
+          timeUsedPerSet: {
+            ...state.currentWorkout.timeUsedPerSet,
+            run: t
+          }
         }
       }
     }
