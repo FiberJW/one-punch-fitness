@@ -6,6 +6,7 @@ var Js_boolean = require("bs-platform/lib/js/js_boolean.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var VectorIcons = require("@expo/vector-icons");
+var Ticker = require("../components/Ticker");
 var ReactNativeCalendars = require("react-native-calendars");
 var ReactNativeModalDatetimePicker = require("react-native-modal-datetime-picker");
 
@@ -114,10 +115,24 @@ var Moment = /* module */ [];
 
 var Chroma = /* module */ [];
 
+function make$5(text, textStyle, children) {
+  return ReasonReact.wrapJsForReason(
+    Ticker.default,
+    {
+      text: text,
+      textStyle: Js_null_undefined.from_opt(textStyle),
+    },
+    children
+  );
+}
+
+var RNTicker = /* module */ [/* make */ make$5];
+
 exports.RNCalendars = RNCalendars;
 exports.Expo = Expo$1;
 exports.VectorIcons = VectorIcons$1;
 exports.DateTimePicker = DateTimePicker;
 exports.Moment = Moment;
 exports.Chroma = Chroma;
+exports.RNTicker = RNTicker;
 /* expo Not a pure module */

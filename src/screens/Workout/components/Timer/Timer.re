@@ -1,3 +1,7 @@
+open BsReactNative;
+
+open NPMBindings;
+
 module Styled = {
   module Container = {
     [@bs.module "./styled/Container"]
@@ -27,8 +31,17 @@ let make = (~time, _children) => {
   ...component,
   render: _self =>
     <Styled.Container>
-      <Styled.Time>
-        (ReasonReact.stringToElement(string_of_int(time)))
-      </Styled.Time>
+      <RNTicker
+        text=(string_of_int(time))
+        textStyle=Style.(
+                    style([
+                      fontFamily("InterReg"),
+                      backgroundColor("transparent"),
+                      fontSize(Float(64.)),
+                      color(Colors.spotiBlack),
+                      textAlign(Center)
+                    ])
+                  )
+      />
     </Styled.Container>
 };

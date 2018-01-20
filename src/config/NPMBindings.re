@@ -183,3 +183,15 @@ module Chroma = {
   external make : string => {. [@bs.meth] "luminance": unit => float} =
     "default";
 };
+
+module RNTicker = {
+  [@bs.module "../components/Ticker"]
+  external js : ReasonReact.reactClass = "default";
+  let make =
+      (~text: string, ~textStyle: option(BsReactNative.Style.t)=?, children) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=js,
+      ~props={"text": text, "textStyle": Js.Nullable.from_opt(textStyle)},
+      children
+    );
+};
