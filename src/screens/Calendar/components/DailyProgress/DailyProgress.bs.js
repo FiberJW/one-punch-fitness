@@ -172,11 +172,14 @@ function make$9(workout, parentContainerWidth, _) {
                   /* None */ 0,
                   make$5(
                     /* Some */ [
-                      Curry._1(self[/* reduce */ 1], function($$event) {
-                        return /* MeasureMaxBarWidth */ [
-                          $$event.nativeEvent.layout.width,
-                        ];
-                      }),
+                      function($$event) {
+                        return Curry._1(
+                          self[/* send */ 4],
+                          /* MeasureMaxBarWidth */ [
+                            $$event.nativeEvent.layout.width,
+                          ]
+                        );
+                      },
                     ],
                     /* array */ [
                       ReasonReact.element(
@@ -360,11 +363,14 @@ function make$10(workout, percComplete, _) {
       /* None */ 0,
       make(
         /* Some */ [
-          Curry._1(self[/* reduce */ 1], function($$event) {
-            return /* MeasureContainerWidth */ Block.__(0, [
-              $$event.nativeEvent.layout.width,
-            ]);
-          }),
+          function($$event) {
+            return Curry._1(
+              self[/* send */ 4],
+              /* MeasureContainerWidth */ Block.__(0, [
+                $$event.nativeEvent.layout.width,
+              ])
+            );
+          },
         ],
         /* array */ [
           ReasonReact.element(

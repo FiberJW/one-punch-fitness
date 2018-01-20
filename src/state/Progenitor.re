@@ -133,7 +133,7 @@ let persist = (store, next, action) => {
     stateAsJson,
     ~callback=
       e =>
-        switch e {
+        switch (e) {
         | None => ()
         | Some(err) => Js.log(err)
         },
@@ -148,7 +148,7 @@ let hydrate = (dispatch, callback) =>
     AsyncStorage.getItem("@state", ())
     |> then_(json =>
          (
-           switch json {
+           switch (json) {
            | None => callback()
            | Some(s) =>
              let state = Js.Json.parseExn(s) |> Decode.state;
@@ -181,7 +181,7 @@ let genNewWorkout = level => {
 };
 
 let reducer = (state: state, action: action) =>
-  switch action {
+  switch (action) {
   | SupressUnusedWarningError => state
   | Rehydrate(state) =>
     if (state.currentWorkout.date !== dateString(Js.Date.make())) {
@@ -221,7 +221,7 @@ let reducer = (state: state, action: action) =>
       }
     }
   | CompleteSet(e, t) =>
-    switch e {
+    switch (e) {
     | PushUps => {
         ...state,
         currentWorkout: {

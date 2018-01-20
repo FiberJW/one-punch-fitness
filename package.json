@@ -17,13 +17,12 @@
     "react-native-calendars": "^1.15.0",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-navigation": "^1.0.0-beta.21",
-    "reason-react": "0.3.0",
+    "reason-react": "0.3.1",
     "reductive": "^0.2.0",
     "sentry-expo": "^1.7.0",
     "styled-components": "^2.2.3"
   },
   "name": "one-punch-fitness",
-  "version": "0.3.0",
   "description":
     "Could the you of tomorrow beat you today? Instead of giving in, move forward.",
   "author": "Juwan Wheatley",

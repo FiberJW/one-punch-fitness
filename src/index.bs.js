@@ -36,20 +36,12 @@ function make$2() {
       function(param) {
         return partial_arg(Progenitor.store, param);
       },
-      Curry._1(self[/* reduce */ 1], function() {
-        return /* Rehydrated */ 0;
-      })
+      function() {
+        return Curry._1(self[/* send */ 4], /* Rehydrated */ 0);
+      }
     );
     Expo.Font.loadAsync(Assets.Fonts).then(function() {
-      return Promise.resolve(
-        Curry._2(
-          self[/* reduce */ 1],
-          function() {
-            return /* FontsLoaded */ 1;
-          },
-          /* () */ 0
-        )
-      );
+      return Promise.resolve(Curry._1(self[/* send */ 4], /* FontsLoaded */ 1));
     });
     return /* NoUpdate */ 0;
   };

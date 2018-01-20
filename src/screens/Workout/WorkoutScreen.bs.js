@@ -100,12 +100,9 @@ var sessionLayout = /* int array */ [
 ];
 
 function startTimer(self) {
-  return setInterval(
-    Curry._1(self[/* reduce */ 1], function() {
-      return /* Tick */ 0;
-    }),
-    1000
-  );
+  return setInterval(function() {
+    return Curry._1(self[/* send */ 4], /* Tick */ 0);
+  }, 1000);
 }
 
 function currentExercise(s) {
@@ -416,31 +413,26 @@ function baseMake(navigation, reductiveState, dispatch, _) {
                                     SessionControl.make(
                                       match$6 !== -276545362
                                         ? match$6 >= 373703110
-                                          ? Curry._1(
-                                              self[/* reduce */ 1],
-                                              function() {
-                                                return /* PauseTimer */ 2;
-                                              }
-                                            )
-                                          : Curry._1(
-                                              self[/* reduce */ 1],
-                                              function() {
-                                                return /* StartTimer */ Block.__(
-                                                  0,
-                                                  [
-                                                    /* Some */ [
-                                                      startTimer(self),
-                                                    ],
-                                                  ]
-                                                );
-                                              }
-                                            )
-                                        : Curry._1(
-                                            self[/* reduce */ 1],
-                                            function() {
-                                              return /* ResumeTimer */ 3;
+                                          ? function() {
+                                              return Curry._1(
+                                                self[/* send */ 4],
+                                                /* PauseTimer */ 2
+                                              );
                                             }
-                                          ),
+                                          : function() {
+                                              return Curry._1(
+                                                self[/* send */ 4],
+                                                /* StartTimer */ Block.__(0, [
+                                                  /* Some */ [startTimer(self)],
+                                                ])
+                                              );
+                                            }
+                                        : function() {
+                                            return Curry._1(
+                                              self[/* send */ 4],
+                                              /* ResumeTimer */ 3
+                                            );
+                                          },
                                       match$7 !== -276545362
                                         ? match$7 >= 373703110
                                           ? "PAUSE"
@@ -454,19 +446,19 @@ function baseMake(navigation, reductiveState, dispatch, _) {
                                     /* None */ 0,
                                     /* None */ 0,
                                     SessionControl.make(
-                                      Curry._1(
-                                        self[/* reduce */ 1],
-                                        function() {
-                                          var match =
-                                            self[/* state */ 2][/* timer */ 0][/* handle */ 1];
-                                          if (match) {
-                                            clearInterval(match[0]);
-                                          }
-                                          return /* StopTimer */ Block.__(1, [
-                                            /* None */ 0,
-                                          ]);
+                                      function() {
+                                        var match =
+                                          self[/* state */ 2][/* timer */ 0][/* handle */ 1];
+                                        if (match) {
+                                          clearInterval(match[0]);
                                         }
-                                      ),
+                                        return Curry._1(
+                                          self[/* send */ 4],
+                                          /* StopTimer */ Block.__(1, [
+                                            /* None */ 0,
+                                          ])
+                                        );
+                                      },
                                       "STOP",
                                       Colors.bRED,
                                       /* array */ []
@@ -490,21 +482,16 @@ function baseMake(navigation, reductiveState, dispatch, _) {
                         /* None */ 0,
                         /* None */ 0,
                         ActionButton.make(
-                          Curry._1(self[/* reduce */ 1], function() {
+                          function() {
                             if (self[/* state */ 2][/* inSession */ 1]) {
                               var match =
                                 self[/* state */ 2][/* timer */ 0][/* handle */ 1];
                               if (match) {
                                 clearInterval(match[0]);
                               } else {
-                                Curry._2(
-                                  self[/* reduce */ 1],
-                                  function() {
-                                    return /* StopTimer */ Block.__(1, [
-                                      /* None */ 0,
-                                    ]);
-                                  },
-                                  /* () */ 0
+                                Curry._1(
+                                  self[/* send */ 4],
+                                  /* StopTimer */ Block.__(1, [/* None */ 0])
                                 );
                               }
                               Curry._1(
@@ -532,18 +519,18 @@ function baseMake(navigation, reductiveState, dispatch, _) {
                                 navigation.goBack();
                               }
                             } else {
-                              Curry._2(
-                                self[/* reduce */ 1],
-                                function() {
-                                  return /* StartTimer */ Block.__(0, [
-                                    /* Some */ [startTimer(self)],
-                                  ]);
-                                },
-                                /* () */ 0
+                              Curry._1(
+                                self[/* send */ 4],
+                                /* StartTimer */ Block.__(0, [
+                                  /* Some */ [startTimer(self)],
+                                ])
                               );
                             }
-                            return /* ToggleSession */ 1;
-                          }),
+                            return Curry._1(
+                              self[/* send */ 4],
+                              /* ToggleSession */ 1
+                            );
+                          },
                           match$1 !== 0 ? "COMPLETE" : "GO",
                           /* array */ []
                         )

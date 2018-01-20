@@ -238,13 +238,7 @@ function hydrate(self) {
           parsedJson
         );
         var state = /* record */ [state_000, state_001, state_002, state_003];
-        Curry._2(
-          self[/* reduce */ 1],
-          function() {
-            return /* Rehydrate */ Block.__(0, [state]);
-          },
-          /* () */ 0
-        );
+        Curry._1(self[/* send */ 4], /* Rehydrate */ Block.__(0, [state]));
         tmp = /* () */ 0;
       } else {
         tmp = /* () */ 0;
@@ -259,26 +253,14 @@ function cancelNotifications(self, callback) {
   if (Platform$BsReactNative.os !== 0) {
     Expo.Notifications.cancelAllScheduledNotificationsAsync().then(function() {
       return Promise.resolve(
-        (Curry._2(
-          self[/* reduce */ 1],
-          function() {
-            return /* UnsetNotification */ 1;
-          },
-          /* () */ 0
-        ),
+        (Curry._1(self[/* send */ 4], /* UnsetNotification */ 1),
         Curry._1(callback, /* () */ 0))
       );
     });
     return /* () */ 0;
   } else {
     Expo.Notifications.cancelAllScheduledNotificationsAsync();
-    Curry._2(
-      self[/* reduce */ 1],
-      function() {
-        return /* UnsetNotification */ 1;
-      },
-      /* () */ 0
-    );
+    Curry._1(self[/* send */ 4], /* UnsetNotification */ 1);
     return Curry._1(callback, /* () */ 0);
   }
 }
@@ -303,9 +285,9 @@ function make$8() {
         make$7(
           match$2 !== 0 ? Colors.status : Colors.disabled,
           "reminder time",
-          Curry._1(self[/* reduce */ 1], function() {
-            return /* ToggleDatePicker */ 2;
-          }),
+          function() {
+            return Curry._1(self[/* send */ 4], /* ToggleDatePicker */ 2);
+          },
           function() {
             return ReasonReact.element(
               /* None */ 0,
@@ -338,25 +320,19 @@ function make$8() {
               "reminders",
               function() {
                 if (self[/* state */ 2][/* remindersActive */ 0]) {
-                  return cancelNotifications(
-                    self,
-                    Curry._1(self[/* reduce */ 1], function() {
-                      return /* ToggleReminders */ 0;
-                    })
-                  );
+                  return cancelNotifications(self, function() {
+                    return Curry._1(
+                      self[/* send */ 4],
+                      /* ToggleReminders */ 0
+                    );
+                  });
                 } else {
                   Expo.Permissions.askAsync(
                     Expo.Permissions.NOTIFICATIONS
                   ).then(function(res) {
                     return Promise.resolve(
                       res.status === "granted"
-                        ? Curry._2(
-                            self[/* reduce */ 1],
-                            function() {
-                              return /* ToggleReminders */ 0;
-                            },
-                            /* () */ 0
-                          )
+                        ? Curry._1(self[/* send */ 4], /* ToggleReminders */ 0)
                         : Alert$BsReactNative.alert(
                             "Hey! If you want to remember to change yourself everyday, enable notifications!",
                             /* None */ 0,
@@ -470,12 +446,9 @@ function make$8() {
                       }
                     ).then(function() {
                       return Promise.resolve(
-                        Curry._2(
-                          self[/* reduce */ 1],
-                          function() {
-                            return /* SetTime */ Block.__(1, [d.toUTCString()]);
-                          },
-                          /* () */ 0
+                        Curry._1(
+                          self[/* send */ 4],
+                          /* SetTime */ Block.__(1, [d.toUTCString()])
                         )
                       );
                     });
@@ -484,9 +457,9 @@ function make$8() {
                 },
               ],
               /* Some */ [
-                Curry._1(self[/* reduce */ 1], function() {
-                  return /* ToggleDatePicker */ 2;
-                }),
+                function() {
+                  return Curry._1(self[/* send */ 4], /* ToggleDatePicker */ 2);
+                },
               ],
               /* Some */ ["time"],
               /* Some */ ["Pick a time for your workout reminder"],

@@ -4069,7 +4069,14 @@ readable-stream@~1.1.8, readable-stream@~1.1.9:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-reason-react@0.3.0, reason-react@^0.3.0:
+reason-react@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/reason-react/-/reason-react-0.3.1.tgz#55d5fcd07825299ce5d04f99e763bf2af1f9e0f2"
+  dependencies:
+    react ">=15.0.0 || >=16.0.0"
+    react-dom ">=15.0.0 || >=16.0.0"
+
+reason-react@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/reason-react/-/reason-react-0.3.0.tgz#c3ad272ed2dd2757f6934fcaacba9b192b891f57"
   dependencies:
