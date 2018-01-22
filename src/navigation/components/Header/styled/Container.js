@@ -1,6 +1,6 @@
 import { Platform } from "react-native";
 import { Constants } from "expo";
-import styled from "styled-components/native";
+import styled from "styled-components";
 import colors from "ReColor";
 
 export default styled.View`

@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import styled from "styled-components/native";
+import styled from "styled-components";
 import { Feather } from "@expo/vector-icons";
 import Container from "./styled/Container";
 
