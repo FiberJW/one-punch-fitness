@@ -5,3 +5,4 @@ npm-debug.*
 lib/**/*
 .merlin
 .bsb.lock
+**/**/*.bs.js
