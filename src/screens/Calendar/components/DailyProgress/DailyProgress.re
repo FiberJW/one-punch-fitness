@@ -102,7 +102,7 @@ module Stats = {
     ...component,
     initialState: () => {maxBarWidth: 0},
     reducer: (action, _state) =>
-      switch (action) {
+      switch action {
       | MeasureMaxBarWidth(width) => ReasonReact.Update({maxBarWidth: width})
       },
     render: self =>
@@ -236,7 +236,7 @@ let make = (~workout: Progenitor.workout, ~percComplete, _children) => {
   ...component,
   initialState: () => {containerWidth: 0, maxBarWidth: 0},
   reducer: (action, state) =>
-    switch (action) {
+    switch action {
     | MeasureContainerWidth(width) =>
       ReasonReact.Update({...state, containerWidth: width})
     | MeasureMaxBarWidth(width) =>
@@ -249,7 +249,15 @@ let make = (~workout: Progenitor.workout, ~percComplete, _children) => {
           self.send(MeasureContainerWidth(event##nativeEvent##layout##width))
       )>
       <Styled.Title>
-        (ReasonReact.stringToElement("today's workout"))
+        (
+          ReasonReact.stringToElement(
+            (
+              workout.date == Progenitor.dateString(Js.Date.make()) ?
+                "today" : workout.date
+            )
+            ++ "'s workout"
+          )
+        )
       </Styled.Title>
       <Styled.Status>
         (
