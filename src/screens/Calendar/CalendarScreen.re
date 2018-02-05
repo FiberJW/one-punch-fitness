@@ -85,16 +85,14 @@ let baseMake =
         current=self.state.currentWorkout.date
         markingType="period"
         onDayPress=(
-          day => {
-            Js.log2("selected day", day);
+          day =>
             Js.Array.forEach(
               (w: Progenitor.workout) =>
                 if (w.date == day##dateString) {
                   self.send(ChangeVisibleWorkout(w));
                 },
               hist
-            );
-          }
+            )
         )
         style=Style.(
                 style([
