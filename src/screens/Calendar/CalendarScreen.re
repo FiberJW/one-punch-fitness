@@ -82,7 +82,6 @@ let baseMake =
                             )>
       <RNCalendars.Calendar
         markedDates
-        current=self.state.currentWorkout.date
         markingType="period"
         onDayPress=(
           day =>

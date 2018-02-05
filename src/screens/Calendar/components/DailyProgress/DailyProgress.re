@@ -1,3 +1,5 @@
+open NPMBindings;
+
 module Styled = {
   module Container = {
     [@bs.module "./styled/Container"]
@@ -253,7 +255,7 @@ let make = (~workout: Progenitor.workout, ~percComplete, _children) => {
           ReasonReact.stringToElement(
             (
               workout.date == Progenitor.dateString(Js.Date.make()) ?
-                "today" : workout.date
+                "Today" : Moment.make(workout.date)##format("MMMM Do, YYYY")
             )
             ++ "'s workout"
           )
