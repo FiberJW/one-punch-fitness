@@ -41,18 +41,17 @@ let make = _children => {
   ...component,
   initialState: () => {fontsLoaded: false, rehydrated: false},
   reducer: (action, state) =>
-    switch action {
+    switch (action) {
     | FontsLoaded => ReasonReact.Update({...state, fontsLoaded: true})
     | Rehydrated => ReasonReact.Update({...state, rehydrated: true})
     },
   didMount: self => {
-    Progenitor.hydrate(
-      Reductive.Store.dispatch(Progenitor.store),
-      self.reduce(() => Rehydrated)
+    Progenitor.hydrate(Reductive.Store.dispatch(Progenitor.store), () =>
+      self.send(Rehydrated)
     );
     Js.Promise.(
       Expo.Font.loadAsync(fonts)
-      |> then_(() => self.reduce(() => FontsLoaded, ()) |> resolve)
+      |> then_(() => self.send(FontsLoaded) |> resolve)
       |> ((_) => ReasonReact.NoUpdate)
     );
   },

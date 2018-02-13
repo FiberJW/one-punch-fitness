@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled from "styled-components";
 import { Dimensions } from "react-native";
 
 export default styled.View`

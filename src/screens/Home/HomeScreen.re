@@ -59,7 +59,7 @@ let make = (~screenProps, _children) => {
         keyExtractor=((_, i) => string_of_int(i))
         renderItem=(
           FlatList.renderItem(({item}) =>
-            switch item.url {
+            switch (item.url) {
             | Some(u) =>
               <InfoCard
                 coverImage=item.coverImage

@@ -2,7 +2,12 @@ open BsReactNative;
 
 open NPMBindings;
 
-let baseComponent = ReasonReact.statelessComponent("CalendarScreenBase");
+type action =
+  | ChangeVisibleWorkout(Progenitor.workout);
+
+type state = {currentWorkout: Progenitor.workout};
+
+let baseComponent = ReasonReact.reducerComponent("CalendarScreenBase");
 
 let percComplete = (workout: Progenitor.workout) =>
   (
@@ -20,7 +25,16 @@ let percComplete = (workout: Progenitor.workout) =>
 let baseMake =
     (~state as reductiveState: Progenitor.state, ~dispatch, _children) => {
   ...baseComponent,
-  render: _self => {
+  didMount: _self => {
+    dispatch(Progenitor.SupressUnusedWarningError);
+    ReasonReact.NoUpdate;
+  },
+  initialState: () => {currentWorkout: reductiveState.currentWorkout},
+  reducer: (action, _state) =>
+    switch action {
+    | ChangeVisibleWorkout(w) => ReasonReact.Update({currentWorkout: w})
+    },
+  render: self => {
     let hist =
       Array.append([|reductiveState.currentWorkout|], reductiveState.history);
     let markedDates = Js.Dict.empty();
@@ -69,6 +83,16 @@ let baseMake =
       <RNCalendars.Calendar
         markedDates
         markingType="period"
+        onDayPress=(
+          day =>
+            Js.Array.forEach(
+              (w: Progenitor.workout) =>
+                if (w.date == day##dateString) {
+                  self.send(ChangeVisibleWorkout(w));
+                },
+              hist
+            )
+        )
         style=Style.(
                 style([
                   width(Pt(float(Dimensions.get(`window)##width - 32))),
@@ -77,8 +101,17 @@ let baseMake =
               )
       />
       <DailyProgress
-        workout=reductiveState.currentWorkout
-        percComplete=(percComplete(reductiveState.currentWorkout))
+        workout=(
+          reductiveState.currentWorkout.date == self.state.currentWorkout.date ?
+            reductiveState.currentWorkout : self.state.currentWorkout
+        )
+        percComplete=(
+          percComplete(
+            reductiveState.currentWorkout.date
+            == self.state.currentWorkout.date ?
+              reductiveState.currentWorkout : self.state.currentWorkout
+          )
+        )
       />
     </ScrollView>;
   }

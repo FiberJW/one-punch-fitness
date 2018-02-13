@@ -128,7 +128,7 @@ let persist = state => {
     stateAsJson,
     ~callback=
       e =>
-        switch e {
+        switch (e) {
         | None => ()
         | Some(err) => Js.log(err)
         },
@@ -142,7 +142,7 @@ let hydrate = self => {
     AsyncStorage.getItem("settings", ())
     |> then_(json =>
          (
-           switch json {
+           switch (json) {
            | None => ()
            | Some(s) =>
              let parsedJson = Js.Json.parseExn(s);
@@ -154,7 +154,7 @@ let hydrate = self => {
                    parsedJson |> field("datePickerVisible", bool),
                  timeSet: parsedJson |> field("timeSet", bool)
                };
-             self.ReasonReact.reduce(() => Rehydrate(state), ());
+             self.ReasonReact.send(Rehydrate(state));
              ();
            }
          )
@@ -167,17 +167,17 @@ let hydrate = self => {
 
 let cancelNotifications = (self, callback) =>
   Platform.(
-    switch os {
+    switch (os) {
     | IOS =>
       Expo.Notifications.cancelAllScheduledNotifications() |> ignore;
-      self.ReasonReact.reduce(() => UnsetNotification, ());
+      self.ReasonReact.send(UnsetNotification);
       callback();
     | Android =>
       Js.Promise.(
         Expo.Notifications.cancelAllScheduledNotificationsAsync()
         |> then_(() =>
              {
-               self.ReasonReact.reduce(() => UnsetNotification, ());
+               self.ReasonReact.send(UnsetNotification);
                callback();
              }
              |> resolve
@@ -198,7 +198,7 @@ let make = _children => {
     timeSet: false
   },
   reducer: (action, state) =>
-    switch action {
+    switch (action) {
     | ToggleReminders =>
       ReasonReact.Update({...state, remindersActive: ! state.remindersActive})
     | Rehydrate(s) => ReasonReact.Update(s)
@@ -226,14 +226,14 @@ let make = _children => {
         onPress=(
           () =>
             if (self.state.remindersActive) {
-              cancelNotifications(self, self.reduce(() => ToggleReminders));
+              cancelNotifications(self, () => self.send(ToggleReminders));
             } else {
               Js.Promise.(
                 Expo.Permissions.ask(Expo.Permissions.notifications)
                 |> then_(res =>
                      (
                        if (res##status === "granted") {
-                         self.reduce(() => ToggleReminders, ());
+                         self.send(ToggleReminders);
                        } else {
                          Alert.alert(
                            ~title=
@@ -255,7 +255,7 @@ let make = _children => {
           <Option
             tint=(self.state.timeSet ? Colors.status : Colors.disabled)
             label="reminder time"
-            onPress=(self.reduce(() => ToggleDatePicker))
+            onPress=(() => self.send(ToggleDatePicker))
             render=(
               () =>
                 <Option.Styled.Text>
@@ -324,14 +324,13 @@ let make = _children => {
                   }
                 )
                 |> then_(_localNotificationId =>
-                     self.reduce(() => SetTime(Js.Date.toUTCString(d)), ())
-                     |> resolve
+                     self.send(SetTime(Js.Date.toUTCString(d))) |> resolve
                    )
                 |> ignore
               )
             )
         )
-        onCancel=(self.reduce(() => ToggleDatePicker))
+        onCancel=(() => self.send(ToggleDatePicker))
         isVisible=self.state.datePickerVisible
       />
     </Styled.Container>

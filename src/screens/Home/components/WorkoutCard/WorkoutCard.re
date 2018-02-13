@@ -80,7 +80,7 @@ module Base = {
         <Styled.Header>
           <Styled.CoverImage
             source=(
-              switch reductiveState.currentWorkout.level {
+              switch (reductiveState.currentWorkout.level) {
               | 0 => illustrations##workoutLevel1
               | 1 => illustrations##workoutLevel2
               | 2 => illustrations##workoutLevel3

@@ -114,8 +114,7 @@ type action =
   | PauseTimer
   | ResumeTimer;
 
-let startTimer = self =>
-  setInterval(self.ReasonReact.reduce(() => Tick), 1000);
+let startTimer = self => setInterval(() => self.ReasonReact.send(Tick), 1000);
 
 let currentExercise = (s: Progenitor.state) =>
   /* returns exercise and if the whole routine is complete */
@@ -152,7 +151,7 @@ let baseMake =
     currentExercise: currentExercise(reductiveState)
   },
   reducer: (action, state) =>
-    switch action {
+    switch (action) {
     | Tick =>
       if (state.timer.status !== `paused) {
         ReasonReact.Update({
@@ -203,7 +202,7 @@ let baseMake =
       })
     },
   willUnmount: self =>
-    switch self.state.timer.handle {
+    switch (self.state.timer.handle) {
     | Some(h) => clearInterval(h)
     | None => ()
     },
@@ -224,13 +223,13 @@ let baseMake =
             ReasonReact.arrayToElement(
               Array.mapi(
                 (i, it) =>
-                  switch it {
+                  switch (it) {
                   | Image =>
                     <Styled.Image
                       key=(string_of_int(i))
                       resizeMode="cover"
                       source=(
-                        switch self.state.currentExercise {
+                        switch (self.state.currentExercise) {
                         | PushUps => illustrations##pushups
                         | SitUps => illustrations##situps
                         | Squats => illustrations##squats
@@ -251,7 +250,7 @@ let baseMake =
                           ReasonReact.stringToElement(
                             "set "
                             ++ string_of_int(
-                                 switch self.state.currentExercise {
+                                 switch (self.state.currentExercise) {
                                  | PushUps =>
                                    reductiveState.currentWorkout.setsCompleted.
                                      pushUps
@@ -269,7 +268,7 @@ let baseMake =
                                )
                             ++ " of "
                             ++ string_of_int(
-                                 switch self.state.currentExercise {
+                                 switch (self.state.currentExercise) {
                                  | PushUps =>
                                    Routines.variations[reductiveState.
                                                          currentWorkout.
@@ -327,7 +326,7 @@ let baseMake =
                         ReasonReact.stringToElement(
                           " "
                           ++ (
-                            switch self.state.currentExercise {
+                            switch (self.state.currentExercise) {
                             | PushUps => "push-ups"
                             | SitUps => "sit-ups"
                             | Squats => "squats"
@@ -342,17 +341,17 @@ let baseMake =
                       <SessionControl
                         color=Colors.blueLeftUsTooSoon
                         onPress=(
-                          switch self.state.timer.status {
-                          | `paused => self.reduce(() => ResumeTimer)
-                          | `stopped =>
-                            self.reduce(() =>
-                              StartTimer(Some(startTimer(self)))
+                          switch (self.state.timer.status) {
+                          | `paused => (() => self.send(ResumeTimer))
+                          | `stopped => (
+                              () =>
+                                self.send(StartTimer(Some(startTimer(self))))
                             )
-                          | `active => self.reduce(() => PauseTimer)
+                          | `active => (() => self.send(PauseTimer))
                           }
                         )
                         label=(
-                          switch self.state.timer.status {
+                          switch (self.state.timer.status) {
                           | `active => "PAUSE"
                           | `paused => "RESUME"
                           | `stopped => "START"
@@ -362,13 +361,13 @@ let baseMake =
                       <SessionControl
                         color=Colors.bRED
                         onPress=(
-                          self.reduce(() => {
-                            switch self.state.timer.handle {
+                          () => {
+                            switch (self.state.timer.handle) {
                             | Some(h) => clearInterval(h)
                             | None => ()
                             };
-                            StopTimer(None);
-                          })
+                            self.send(StopTimer(None));
+                          }
                         )
                         label="STOP"
                       />
@@ -380,11 +379,11 @@ let baseMake =
           )
           <ActionButton
             onPress=(
-              self.reduce(() => {
+              () => {
                 if (self.state.inSession) {
-                  switch self.state.timer.handle {
+                  switch (self.state.timer.handle) {
                   | Some(h) => clearInterval(h)
-                  | None => self.reduce(() => StopTimer(None), ())
+                  | None => self.send(StopTimer(None))
                   };
                   dispatch(
                     Progenitor.CompleteSet(
@@ -402,10 +401,10 @@ let baseMake =
                     navigation##goBack();
                   };
                 } else {
-                  self.reduce(() => StartTimer(Some(startTimer(self))), ());
+                  self.send(StartTimer(Some(startTimer(self))));
                 };
-                ToggleSession;
-              })
+                self.send(ToggleSession);
+              }
             )
             label=(self.state.inSession ? "COMPLETE" : "GO")
           />

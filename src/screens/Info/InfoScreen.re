@@ -60,7 +60,7 @@ let component = ReasonReact.statelessComponent("InfoScreen");
 let make = (~navigation, _children) => {
   ...component,
   render: _self =>
-    switch navigation##state##params##url {
+    switch (navigation##state##params##url) {
     | Some(url) =>
       <WebView
         source=(WebView.source(~uri=url, ()))

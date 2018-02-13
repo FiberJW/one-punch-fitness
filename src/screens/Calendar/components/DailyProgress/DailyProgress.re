@@ -1,3 +1,5 @@
+open NPMBindings;
+
 module Styled = {
   module Container = {
     [@bs.module "./styled/Container"]
@@ -124,9 +126,10 @@ module Stats = {
         <Styled.Stats.Column center=true>
           <Styled.Stats.BarContainer
             onLayout=(
-              self.reduce(event =>
-                MeasureMaxBarWidth(event##nativeEvent##layout##width)
-              )
+              event =>
+                self.send(
+                  MeasureMaxBarWidth(event##nativeEvent##layout##width)
+                )
             )>
             <Styled.Stats.Bar
               width=(
@@ -244,12 +247,19 @@ let make = (~workout: Progenitor.workout, ~percComplete, _children) => {
   render: self =>
     <Styled.Container
       onLayout=(
-        self.reduce(event =>
-          MeasureContainerWidth(event##nativeEvent##layout##width)
-        )
+        event =>
+          self.send(MeasureContainerWidth(event##nativeEvent##layout##width))
       )>
       <Styled.Title>
-        (ReasonReact.stringToElement("today's workout"))
+        (
+          ReasonReact.stringToElement(
+            (
+              workout.date == Progenitor.dateString(Js.Date.make()) ?
+                "Today" : Moment.make(workout.date)##format("MMMM Do, YYYY")
+            )
+            ++ "'s workout"
+          )
+        )
       </Styled.Title>
       <Styled.Status>
         (

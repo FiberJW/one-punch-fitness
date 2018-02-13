@@ -96,7 +96,7 @@ let make =
           />
           <Styled.Title> title </Styled.Title>
           (
-            switch url {
+            switch (url) {
             | Some(_) =>
               <View
                 style=Style.(

@@ -39,7 +39,7 @@ let make =
   render: _self =>
     <Styled.Container>
       (
-        switch name {
+        switch (name) {
         | "run" =>
           <Styled.Amount>
             (ReasonReact.stringToElement(string_of_int(distance) ++ units))

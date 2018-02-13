@@ -5,9 +5,10 @@ module RNCalendars = {
     let make =
         (
           ~minDate: option(string)=?,
-          ~onDayPress: option(string => unit)=?,
+          ~onDayPress: option(Js.t({..}) => unit)=?,
           ~hideArrows: option(Js.boolean)=?,
           ~monthFormat: option(string)=?,
+          ~current: option(string)=?,
           ~onMonthChange: option(string => unit)=?,
           ~hideExtraDays: option(Js.boolean)=?,
           ~disableMonthChange: option(Js.boolean)=?,
@@ -31,6 +32,7 @@ module RNCalendars = {
         ~reactClass=calendar,
         ~props={
           "minDate": Js.Nullable.from_opt(minDate),
+          "current": Js.Nullable.from_opt(current),
           "onDayPress": Js.Nullable.from_opt(onDayPress),
           "hideArrows": Js.Nullable.from_opt(hideArrows),
           "monthFormat": Js.Nullable.from_opt(monthFormat),
