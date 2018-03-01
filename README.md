@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="OPF App Icon" src="./assets/ios-icon.png" width="256">
+  <img alt="OPF App Icon" src="./assets/expo-icon.png" width="256">
 </p>
 
 <h3 align="center" style="font-weight:600">
