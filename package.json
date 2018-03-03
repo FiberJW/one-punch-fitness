@@ -12,10 +12,10 @@
     "moment": "^2.19.4",
     "prop-types": "^15.6.0",
     "react": "16.2.0",
-    "react-native":
-      "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-calendars": "^1.15.0",
     "react-native-modal-datetime-picker": "^4.13.0",
+    "react-native-ticker": "^2.0.3",
     "react-navigation": "^1.0.0-beta.27",
     "reason-react": "0.3.1",
     "reductive": "^0.2.0",
@@ -23,13 +23,14 @@
     "styled-components": "^3.1.1"
   },
   "name": "one-punch-fitness",
-  "description":
-    "Could the you of tomorrow beat you today? Instead of giving in, move forward.",
+  "description": "Could the you of tomorrow beat you today? Instead of giving in, move forward.",
   "author": "Juwan Wheatley",
   "eslintConfig": {
     "extends": "universe/native"
   },
-  "eslintIgnore": ["/**/*.bs.js"],
+  "eslintIgnore": [
+    "/**/*.bs.js"
+  ],
   "devDependencies": {
     "blessed": "^0.1.81",
     "eslint": "^4.10.0",
@@ -49,6 +50,9 @@
     "postinstall": "npm i -g exp && npm run build-reason"
   },
   "lint-staged": {
-    "*.{js,json,css}": ["prettier --write", "git add"]
+    "*.{js,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

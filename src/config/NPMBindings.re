@@ -187,7 +187,7 @@ module Chroma = {
 };
 
 module RNTicker = {
-  [@bs.module "../components/Ticker"]
+  [@bs.module "react-native-ticker"]
   external js : ReasonReact.reactClass = "default";
   let make =
       (~text: string, ~textStyle: option(BsReactNative.Style.t)=?, children) =>
