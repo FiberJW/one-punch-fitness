@@ -16,7 +16,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=background,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Container = {
@@ -26,7 +26,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Progress = {
@@ -36,7 +36,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=progress,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module SetType = {
@@ -46,7 +46,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=setType,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module SetReps = {
@@ -56,7 +56,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=setReps,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module SessionControlGroup = {
@@ -66,7 +66,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=sessionControlGroup,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Image = {
@@ -76,7 +76,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=image,
         ~props={"source": source, "resizeMode": resizeMode},
-        children
+        children,
       );
   };
 };
@@ -97,13 +97,13 @@ let sessionLayout = [|SetInfo, Timer, Progress, SessionControls|];
 type timerState = {
   timeUsed: int,
   handle: option(int),
-  status: timerStatusType
+  status: timerStatusType,
 };
 
 type state = {
   timer: timerState,
   inSession: bool,
-  currentExercise: Progenitor.exercise
+  currentExercise: Progenitor.exercise,
 };
 
 type action =
@@ -114,7 +114,8 @@ type action =
   | PauseTimer
   | ResumeTimer;
 
-let startTimer = self => setInterval(() => self.ReasonReact.send(Tick), 1000);
+let startTimer = self =>
+  setInterval(() => self.ReasonReact.send(Tick), 1000);
 
 let currentExercise = (s: Progenitor.state) =>
   /* returns exercise and if the whole routine is complete */
@@ -138,17 +139,17 @@ let baseMake =
       ~navigation,
       ~state as reductiveState: Progenitor.state,
       ~dispatch,
-      _children
+      _children,
     ) => {
   ...baseComponent,
   initialState: () => {
     timer: {
       status: `active,
       timeUsed: 0,
-      handle: None
+      handle: None,
     },
     inSession: false,
-    currentExercise: currentExercise(reductiveState)
+    currentExercise: currentExercise(reductiveState),
   },
   reducer: (action, state) =>
     switch (action) {
@@ -158,8 +159,8 @@ let baseMake =
           ...state,
           timer: {
             ...state.timer,
-            timeUsed: state.timer.timeUsed + 1
-          }
+            timeUsed: state.timer.timeUsed + 1,
+          },
         });
       } else {
         ReasonReact.NoUpdate;
@@ -172,8 +173,8 @@ let baseMake =
         timer: {
           handle,
           timeUsed: 0,
-          status: `active
-        }
+          status: `active,
+        },
       })
     | StopTimer(handle) =>
       ReasonReact.Update({
@@ -181,24 +182,24 @@ let baseMake =
         timer: {
           ...state.timer,
           handle,
-          status: `stopped
-        }
+          status: `stopped,
+        },
       })
     | PauseTimer =>
       ReasonReact.Update({
         ...state,
         timer: {
           ...state.timer,
-          status: `paused
-        }
+          status: `paused,
+        },
       })
     | ResumeTimer =>
       ReasonReact.Update({
         ...state,
         timer: {
           ...state.timer,
-          status: `active
-        }
+          status: `active,
+        },
       })
     },
   willUnmount: self =>
@@ -208,7 +209,7 @@ let baseMake =
     },
   willReceiveProps: self => {
     ...self.state,
-    currentExercise: currentExercise(reductiveState)
+    currentExercise: currentExercise(reductiveState),
   },
   render: self => {
     let layout = self.state.inSession ? sessionLayout : transitionLayout;
@@ -264,7 +265,7 @@ let baseMake =
                                      squats
                                    + 1
                                  | _ => 1
-                                 }
+                                 },
                                )
                             ++ " of "
                             ++ string_of_int(
@@ -288,9 +289,9 @@ let baseMake =
                                      squats.
                                      sets
                                  | _ => 1
-                                 }
+                                 },
                                )
-                            ++ ""
+                            ++ "",
                           )
                         )
                       </Styled.Progress>
@@ -305,7 +306,7 @@ let baseMake =
                                                       currentWorkout.
                                                       level].
                                   run.
-                                  distance
+                                  distance,
                               )
                               ++ Routines.variations[reductiveState.
                                                        currentWorkout.
@@ -317,8 +318,8 @@ let baseMake =
                                                       currentWorkout.
                                                       level].
                                   sitUps.
-                                  reps
-                              )
+                                  reps,
+                              ),
                           )
                         )
                       </Styled.SetReps>
@@ -332,7 +333,7 @@ let baseMake =
                             | Squats => "squats"
                             | Running => "run"
                             }
-                          )
+                          ),
                         )
                       )
                     </Styled.SetType>
@@ -345,7 +346,9 @@ let baseMake =
                           | `paused => (() => self.send(ResumeTimer))
                           | `stopped => (
                               () =>
-                                self.send(StartTimer(Some(startTimer(self))))
+                                self.send(
+                                  StartTimer(Some(startTimer(self))),
+                                )
                             )
                           | `active => (() => self.send(PauseTimer))
                           }
@@ -373,8 +376,8 @@ let baseMake =
                       />
                     </Styled.SessionControlGroup>
                   },
-                layout
-              )
+                layout,
+              ),
             )
           )
           <ActionButton
@@ -388,17 +391,17 @@ let baseMake =
                   dispatch(
                     Progenitor.CompleteSet(
                       self.state.currentExercise,
-                      float(self.state.timer.timeUsed)
-                    )
+                      float(self.state.timer.timeUsed),
+                    ),
                   );
                   if (self.state.currentExercise === Running) {
                     dispatch(Progenitor.CompleteWorkout);
                     Alert.alert(
                       ~title="Congrats!",
                       ~message="You've completed today's workout. Rock on!",
-                      ()
+                      (),
                     );
-                    navigation##goBack();
+                    navigation##pop();
                   };
                 } else {
                   self.send(StartTimer(Some(startTimer(self))));
@@ -411,7 +414,7 @@ let baseMake =
         </Styled.Container>
       </ScrollView>
     </Styled.Background>;
-  }
+  },
 };
 
 module Provider = {
@@ -422,7 +425,7 @@ let component = ReasonReact.statelessComponent("WorkoutScreen");
 
 let make = (~navigation, _children) => {
   ...component,
-  render: _self => <Provider component=(baseMake(~navigation)) />
+  render: _self => <Provider component=(baseMake(~navigation)) />,
 };
 
 let default =

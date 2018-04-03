@@ -24,5 +24,8 @@
   "js-post-build": {
     "cmd": "prettier --write"
   },
+  "warnings": {
+    "error": "+5"
+  },
   "suffix": ".bs.js"
 }

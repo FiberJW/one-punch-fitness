@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import Container from "./styled/Container";
 
 export default props => (
-  <TouchableOpacity onPress={() => props.navigation.goBack()}>
+  <TouchableOpacity onPress={() => props.navigation.pop()}>
     <Container>
       <Feather name="chevron-left" color="white" size={16} />
     </Container>
