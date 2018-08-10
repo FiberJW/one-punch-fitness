@@ -8,7 +8,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=heroImage,
         ~props={"source": source, "resizeMode": resizeMode},
-        children
+        children,
       );
   };
   module Container = {
@@ -18,7 +18,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module TextContentContainer = {
@@ -28,7 +28,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=textContentContainer,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Title = {
@@ -38,7 +38,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=title,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Description = {
@@ -48,7 +48,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=description,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -63,7 +63,7 @@ let make = (~navigation, _children) => {
     switch (navigation##state##params##url) {
     | Some(url) =>
       <WebView
-        source=(WebView.source(~uri=url, ()))
+        source=(WebView.sourceUri(~uri=url, ()))
         startInLoadingState=true
       />
     | None =>
@@ -74,14 +74,14 @@ let make = (~navigation, _children) => {
         />
         <Styled.TextContentContainer>
           <Styled.Title>
-            (ReasonReact.stringToElement(navigation##state##params##title))
+            (ReasonReact.string(navigation##state##params##title))
           </Styled.Title>
           <Styled.Description>
-            (ReasonReact.stringToElement(navigation##state##params##content))
+            (ReasonReact.string(navigation##state##params##content))
           </Styled.Description>
         </Styled.TextContentContainer>
       </Styled.Container>
-    }
+    },
 };
 
 let default =

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TabNavigator as tabNavigator } from "react-navigation";
+import { createTabNavigator } from "react-navigation";
 import { Feather } from "@expo/vector-icons";
 import colors from "ReColor";
 import HomeScreen from "../screens/Home/HomeScreen.bs";
@@ -13,7 +13,7 @@ export default class MainTab extends Component {
   };
 
   render() {
-    const Tabs = tabNavigator(
+    const Tabs = createTabNavigator(
       {
         Home: { screen: HomeScreen, path: "home" },
         Calendar: {

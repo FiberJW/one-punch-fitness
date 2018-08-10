@@ -5,7 +5,7 @@ import Back, { PlaceHolder } from "./BackButton";
 
 export default class Header extends Component {
   render() {
-    const screenDetails = this.props.getScreenDetails(this.props.scene);
+    console.log(this.props);
 
     return (
       <Container>
@@ -14,7 +14,7 @@ export default class Header extends Component {
         ) : (
           <PlaceHolder />
         )}
-        <Label text={screenDetails.options.title} disabled focused />
+        <Label text={this.props.scene.route.routeName} disabled focused />
         <PlaceHolder />
       </Container>
     );

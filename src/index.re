@@ -10,7 +10,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -22,13 +22,13 @@ module MainStack = {
     ReasonReact.wrapJsForReason(
       ~reactClass=mainStack,
       ~props=Js.Obj.empty(),
-      children
+      children,
     );
 };
 
 type state = {
   fontsLoaded: bool,
-  rehydrated: bool
+  rehydrated: bool,
 };
 
 type action =
@@ -52,7 +52,7 @@ let make = _children => {
     Js.Promise.(
       Expo.Font.loadAsync(fonts)
       |> then_(() => self.send(FontsLoaded) |> resolve)
-      |> ((_) => ReasonReact.NoUpdate)
+      |> ignore
     );
   },
   render: self =>
@@ -61,7 +61,7 @@ let make = _children => {
         self.state.fontsLoaded && self.state.rehydrated ?
           <MainStack /> : <Expo.AppLoading />
       )
-    </Styled.Container>
+    </Styled.Container>,
 };
 
 let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));

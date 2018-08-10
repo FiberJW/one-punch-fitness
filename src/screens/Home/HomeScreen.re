@@ -11,18 +11,16 @@ module Styled = {
           ~contentContainerStyle,
           ~alwaysBounceVertical,
           ~showsVerticalScrollIndicator,
-          children
+          children,
         ) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props={
           "contentContainerStyle": contentContainerStyle,
-          "alwaysBounceVertical":
-            Js.Boolean.to_js_boolean(alwaysBounceVertical),
-          "showsVerticalScrollIndicator":
-            Js.Boolean.to_js_boolean(showsVerticalScrollIndicator)
+          "alwaysBounceVertical": alwaysBounceVertical,
+          "showsVerticalScrollIndicator": showsVerticalScrollIndicator,
         },
-        children
+        children,
       );
   };
   module SectionLabel = {
@@ -32,7 +30,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=sectionLabel,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -48,7 +46,7 @@ let make = (~screenProps, _children) => {
       showsVerticalScrollIndicator=false>
       <WorkoutCard navigation=screenProps##rootNavigation />
       <Styled.SectionLabel>
-        (ReasonReact.stringToElement("GUIDES (swipe left for more)"))
+        (ReasonReact.string("GUIDES (swipe left for more)"))
       </Styled.SectionLabel>
       <FlatList
         style=Style.(style([flexGrow(0.)]))
@@ -80,7 +78,7 @@ let make = (~screenProps, _children) => {
           )
         )
       />
-    </Styled.Container>
+    </Styled.Container>,
 };
 
 let default =

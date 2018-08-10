@@ -4,8 +4,8 @@
     "description": "A \"One Punch Man\"-inspired workout app!",
     "slug": "one-punch-fitness",
     "privacy": "public",
-    "sdkVersion": "26.0.0",
-    "version": "0.4.7",
+    "sdkVersion": "29.0.0",
+    "version": "0.5.0",
     "githubUrl": "https://github.com/fiber-god/one-punch-fitness",
     "orientation": "portrait",
     "primaryColor": "#651FFF",
@@ -23,12 +23,15 @@
       "assetExts": ["ttf", "mp4"]
     },
     "ios": {
+      "supportsTablet": false,
+      "buildNumber": "1",
+      "bundleIdentifier": "co.jwheatley.opf",
       "loadJSInBackgroundExperimental": true,
       "icon": "./assets/ios-icon.png"
     },
     "android": {
       "package": "co.jwheatley.opf",
-      "versionCode": 0,
+      "versionCode": 1,
       "icon": "./assets/android-icon.png"
     },
     "assetBundlePatterns": ["assets/**/*"],

@@ -8,12 +8,12 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=touchable,
         ~props={
-          "disabled": Js.Boolean.to_js_boolean(disabled),
-          "left": Js.Boolean.to_js_boolean(left),
-          "right": Js.Boolean.to_js_boolean(right),
-          "onPress": onPress
+          "disabled": disabled,
+          "left": left,
+          "right": right,
+          "onPress": onPress,
         },
-        children
+        children,
       );
   };
   module Base = {
@@ -22,8 +22,8 @@ module Styled = {
     let make = (~disabled, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=base,
-        ~props={"disabled": Js.Boolean.to_js_boolean(disabled)},
-        children
+        ~props={"disabled": disabled},
+        children,
       );
   };
 };
@@ -45,5 +45,5 @@ let make = (~onPress, ~action, ~disabled, _children) => {
           size=18
         />
       </Styled.Base>
-    </Styled.Touchable>
+    </Styled.Touchable>,
 };

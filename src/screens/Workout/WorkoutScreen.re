@@ -221,7 +221,7 @@ let baseMake =
         <Styled.Container>
           <Expo.KeepAwake />
           (
-            ReasonReact.arrayToElement(
+            ReasonReact.array(
               Array.mapi(
                 (i, it) =>
                   switch (it) {
@@ -245,10 +245,10 @@ let baseMake =
                     />
                   | Progress =>
                     self.state.currentExercise === Running ?
-                      ReasonReact.nullElement :
+                      ReasonReact.null :
                       <Styled.Progress key=(string_of_int(i))>
                         (
-                          ReasonReact.stringToElement(
+                          ReasonReact.string(
                             "set "
                             ++ string_of_int(
                                  switch (self.state.currentExercise) {
@@ -299,7 +299,7 @@ let baseMake =
                     <Styled.SetType key=(string_of_int(i))>
                       <Styled.SetReps>
                         (
-                          ReasonReact.stringToElement(
+                          ReasonReact.string(
                             self.state.currentExercise === Running ?
                               string_of_int(
                                 Routines.variations[reductiveState.
@@ -324,7 +324,7 @@ let baseMake =
                         )
                       </Styled.SetReps>
                       (
-                        ReasonReact.stringToElement(
+                        ReasonReact.string(
                           " "
                           ++ (
                             switch (self.state.currentExercise) {

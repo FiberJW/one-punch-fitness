@@ -1,11 +1,11 @@
 import React from "react";
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 import MainTab from "./MainTab";
 import WorkoutScreen from "../screens/Workout/WorkoutScreen.bs";
 import InfoScreen from "../screens/Info/InfoScreen.bs";
 import Header from "./components/Header";
 
-export default StackNavigator(
+export default createStackNavigator(
   {
     MainTab: {
       screen: MainTab,

@@ -10,7 +10,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -24,7 +24,7 @@ module Switch = {
         ReasonReact.wrapJsForReason(
           ~reactClass=container,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
     module Knob = {
@@ -34,7 +34,7 @@ module Switch = {
         ReasonReact.wrapJsForReason(
           ~reactClass=knob,
           ~props={"on": on},
-          children
+          children,
         );
     };
   };
@@ -42,7 +42,7 @@ module Switch = {
   let make = (~value, _children) => {
     ...component,
     render: _self =>
-      <Styled.Container> <Styled.Knob on=value /> </Styled.Container>
+      <Styled.Container> <Styled.Knob on=value /> </Styled.Container>,
   };
 };
 
@@ -55,7 +55,7 @@ module Option = {
         ReasonReact.wrapJsForReason(
           ~reactClass=container,
           ~props={"tint": tint},
-          children
+          children,
         );
     };
     module Label = {
@@ -65,7 +65,7 @@ module Option = {
         ReasonReact.wrapJsForReason(
           ~reactClass=label,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
     module Text = {
@@ -75,7 +75,7 @@ module Option = {
         ReasonReact.wrapJsForReason(
           ~reactClass=text,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
   };
@@ -85,10 +85,10 @@ module Option = {
     render: _self =>
       <TouchableOpacity onPress activeOpacity=0.95>
         <Styled.Container tint>
-          <Styled.Label> (ReasonReact.stringToElement(label)) </Styled.Label>
+          <Styled.Label> (ReasonReact.string(label)) </Styled.Label>
           (render())
         </Styled.Container>
-      </TouchableOpacity>
+      </TouchableOpacity>,
   };
 };
 
@@ -96,7 +96,7 @@ type state = {
   remindersActive: bool,
   reminderTime: string,
   timeSet: bool,
-  datePickerVisible: bool
+  datePickerVisible: bool,
 };
 
 type action =
@@ -110,16 +110,10 @@ let persist = state => {
   let stateAsJson =
     Json.Encode.(
       object_([
-        (
-          "remindersActive",
-          Js.Json.boolean(Js.Boolean.to_js_boolean(state.remindersActive))
-        ),
-        (
-          "datePickerVisible",
-          Js.Json.boolean(Js.Boolean.to_js_boolean(state.datePickerVisible))
-        ),
-        ("timeSet", Js.Json.boolean(Js.Boolean.to_js_boolean(state.timeSet))),
-        ("reminderTime", Js.Json.string(state.reminderTime))
+        ("remindersActive", Js.Json.boolean(state.remindersActive)),
+        ("datePickerVisible", Js.Json.boolean(state.datePickerVisible)),
+        ("timeSet", Js.Json.boolean(state.timeSet)),
+        ("reminderTime", Js.Json.string(state.reminderTime)),
       ])
       |> Js.Json.stringify
     );
@@ -132,7 +126,7 @@ let persist = state => {
         | None => ()
         | Some(err) => Js.log(err)
         },
-    ()
+    (),
   )
   |> ignore;
 };
@@ -148,11 +142,12 @@ let hydrate = self => {
              let parsedJson = Js.Json.parseExn(s);
              let state =
                Json.Decode.{
-                 remindersActive: parsedJson |> field("remindersActive", bool),
+                 remindersActive:
+                   parsedJson |> field("remindersActive", bool),
                  reminderTime: parsedJson |> field("reminderTime", string),
                  datePickerVisible:
                    parsedJson |> field("datePickerVisible", bool),
-                 timeSet: parsedJson |> field("timeSet", bool)
+                 timeSet: parsedJson |> field("timeSet", bool),
                };
              self.ReasonReact.send(Rehydrate(state));
              ();
@@ -167,8 +162,8 @@ let hydrate = self => {
 
 let cancelNotifications = (self, callback) =>
   Platform.(
-    switch (os) {
-    | IOS =>
+    switch (os()) {
+    | IOS(_) =>
       Expo.Notifications.cancelAllScheduledNotifications() |> ignore;
       self.ReasonReact.send(UnsetNotification);
       callback();
@@ -195,7 +190,7 @@ let make = _children => {
     remindersActive: false,
     datePickerVisible: false,
     reminderTime: Js.Date.toUTCString(Js.Date.make()),
-    timeSet: false
+    timeSet: false,
   },
   reducer: (action, state) =>
     switch (action) {
@@ -206,18 +201,18 @@ let make = _children => {
     | ToggleDatePicker =>
       ReasonReact.Update({
         ...state,
-        datePickerVisible: ! state.datePickerVisible
+        datePickerVisible: ! state.datePickerVisible,
       })
     | SetTime(datestring) =>
       ReasonReact.Update({
         ...state,
         datePickerVisible: ! state.datePickerVisible,
         reminderTime: datestring,
-        timeSet: true
+        timeSet: true,
       })
     },
   didUpdate: ({newSelf}) => persist(newSelf.state),
-  didMount: self => hydrate(self),
+  didMount: self => hydrate(self) |> ignore,
   render: self =>
     <Styled.Container>
       <Option
@@ -238,7 +233,7 @@ let make = _children => {
                          Alert.alert(
                            ~title=
                              "Hey! If you want to remember to change yourself everyday, enable notifications!",
-                           ()
+                           (),
                          );
                        }
                      )
@@ -260,14 +255,14 @@ let make = _children => {
               () =>
                 <Option.Styled.Text>
                   (
-                    ReasonReact.stringToElement(
-                      Moment.make(self.state.reminderTime)##format("h:mmA")
+                    ReasonReact.string(
+                      Moment.make(self.state.reminderTime)##format("h:mmA"),
                     )
                   )
                 </Option.Styled.Text>
             )
           /> :
-          ReasonReact.nullElement
+          ReasonReact.null
       )
       <Option
         tint=Colors.bRED
@@ -287,16 +282,16 @@ let make = _children => {
                       () => {
                         AsyncStorage.clear() |> ignore;
                         Expo.Util.reload();
-                      }
+                      },
                     ),
-                  style: Some(`destructive)
-                }
+                  style: Some(`destructive),
+                },
               ],
               ~options={cancelable: Some(true), onDismiss: None},
-              ()
+              (),
             )
         )
-        render=(() => ReasonReact.nullElement)
+        render=(() => ReasonReact.null)
       />
       <DateTimePicker
         mode="time"
@@ -310,18 +305,20 @@ let make = _children => {
                   {
                     "time":
                       Js.Date.getTime(
-                        Moment.make(Js.Date.toUTCString(d))##toDate()
+                        Moment.make(Js.Date.toUTCString(d))##toDate(),
                       )
                       < Js.Date.now() ?
                         Js.Date.getTime(
-                          Moment.make(Js.Date.toUTCString(d))##add(1, "days")##toDate
-                            ()
+                          Moment.make(Js.Date.toUTCString(d))##add(
+                            1,
+                            "days",
+                          )##toDate(),
                         ) :
                         Js.Date.getTime(
-                          Moment.make(Js.Date.toUTCString(d))##toDate()
+                          Moment.make(Js.Date.toUTCString(d))##toDate(),
                         ),
-                    "repeat": "day"
-                  }
+                    "repeat": "day",
+                  },
                 )
                 |> then_(_localNotificationId =>
                      self.send(SetTime(Js.Date.toUTCString(d))) |> resolve
@@ -333,7 +330,7 @@ let make = _children => {
         onCancel=(() => self.send(ToggleDatePicker))
         isVisible=self.state.datePickerVisible
       />
-    </Styled.Container>
+    </Styled.Container>,
 };
 
 let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));

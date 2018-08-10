@@ -6,46 +6,46 @@ module RNCalendars = {
         (
           ~minDate: option(string)=?,
           ~onDayPress: option(Js.t({..}) => unit)=?,
-          ~hideArrows: option(Js.boolean)=?,
+          ~hideArrows: option(bool)=?,
           ~monthFormat: option(string)=?,
           ~current: option(string)=?,
           ~onMonthChange: option(string => unit)=?,
-          ~hideExtraDays: option(Js.boolean)=?,
-          ~disableMonthChange: option(Js.boolean)=?,
+          ~hideExtraDays: option(bool)=?,
+          ~disableMonthChange: option(bool)=?,
           ~firstDay: option(int)=?,
-          ~hideDayNames: option(Js.boolean)=?,
+          ~hideDayNames: option(bool)=?,
           ~markedDates:
              Js.Dict.t(
                {
                  .
-                 "startingDay": Js.boolean,
-                 "endingDay": Js.boolean,
+                 "startingDay": bool,
+                 "endingDay": bool,
                  "color": string,
-                 "textColor": string
-               }
+                 "textColor": string,
+               },
              ),
           ~style: option(BsReactNative.Style.t)=?,
           ~markingType: option(string)=?,
-          children
+          children,
         ) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=calendar,
         ~props={
-          "minDate": Js.Nullable.from_opt(minDate),
-          "current": Js.Nullable.from_opt(current),
-          "onDayPress": Js.Nullable.from_opt(onDayPress),
-          "hideArrows": Js.Nullable.from_opt(hideArrows),
-          "monthFormat": Js.Nullable.from_opt(monthFormat),
-          "onMonthChange": Js.Nullable.from_opt(onMonthChange),
-          "hideExtraDays": Js.Nullable.from_opt(hideExtraDays),
-          "disableMonthChange": Js.Nullable.from_opt(disableMonthChange),
-          "firstDay": Js.Nullable.from_opt(firstDay),
-          "hideDayNames": Js.Nullable.from_opt(hideDayNames),
+          "minDate": Js.Nullable.fromOption(minDate),
+          "current": Js.Nullable.fromOption(current),
+          "onDayPress": Js.Nullable.fromOption(onDayPress),
+          "hideArrows": Js.Nullable.fromOption(hideArrows),
+          "monthFormat": Js.Nullable.fromOption(monthFormat),
+          "onMonthChange": Js.Nullable.fromOption(onMonthChange),
+          "hideExtraDays": Js.Nullable.fromOption(hideExtraDays),
+          "disableMonthChange": Js.Nullable.fromOption(disableMonthChange),
+          "firstDay": Js.Nullable.fromOption(firstDay),
+          "hideDayNames": Js.Nullable.fromOption(hideDayNames),
           "markedDates": markedDates,
-          "markingType": Js.Nullable.from_opt(markingType),
-          "style": Js.Nullable.from_opt(style)
+          "markingType": Js.Nullable.fromOption(markingType),
+          "style": Js.Nullable.fromOption(style),
         },
-        children
+        children,
       );
   };
 };
@@ -62,7 +62,7 @@ module Expo = {
       ReasonReact.wrapJsForReason(
         ~reactClass=appLoading,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Permissions = {
@@ -75,8 +75,8 @@ module Expo = {
         {
           .
           "expires": string,
-          "status": string
-        }
+          "status": string,
+        },
       ) =
       "askAsync";
     [@bs.scope "Permissions"] [@bs.module "expo"]
@@ -86,8 +86,8 @@ module Expo = {
         {
           .
           "expires": string,
-          "status": string
-        }
+          "status": string,
+        },
       ) =
       "getAsync";
   };
@@ -95,12 +95,12 @@ module Expo = {
     type localNotification = {
       .
       "title": string,
-      "body": string
+      "body": string,
     };
     type schedulingOptions = {
       .
       "time": float,
-      "repeat": string
+      "repeat": string,
     };
     [@bs.scope "Notifications"] [@bs.module "expo"]
     external scheduleLocalNotificationAsync :
@@ -120,7 +120,7 @@ module Expo = {
       ReasonReact.wrapJsForReason(
         ~reactClass=keepAwake,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Util = {
@@ -137,7 +137,7 @@ module VectorIcons = {
       ReasonReact.wrapJsForReason(
         ~reactClass=feather,
         ~props={"name": name, "size": size, "color": color},
-        children
+        children,
       );
   };
 };
@@ -152,18 +152,18 @@ module DateTimePicker = {
         ~onCancel: option(unit => unit)=?,
         ~mode: option(string)=?,
         ~titleIOS: option(string)=?,
-        children
+        children,
       ) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=dateTimePicker,
       ~props={
-        "isVisible": Js.Boolean.to_js_boolean(isVisible),
-        "onConfirm": Js.Nullable.from_opt(onConfirm),
-        "onCancel": Js.Nullable.from_opt(onCancel),
-        "titleIOS": Js.Nullable.from_opt(titleIOS),
-        "mode": Js.Nullable.from_opt(mode)
+        "isVisible": isVisible,
+        "onConfirm": Js.Nullable.fromOption(onConfirm),
+        "onCancel": Js.Nullable.fromOption(onCancel),
+        "titleIOS": Js.Nullable.fromOption(titleIOS),
+        "mode": Js.Nullable.fromOption(mode),
       },
-      children
+      children,
     );
 };
 
@@ -178,7 +178,7 @@ module Chroma = {
     {
       .
       [@bs.meth]
-      "mode": string => {. [@bs.meth] "colors": int => Js.Array.t(string)}
+      "mode": string => {. [@bs.meth] "colors": int => Js.Array.t(string)},
     } =
     "scale";
   [@bs.module "chroma-js"]
@@ -193,7 +193,7 @@ module RNTicker = {
       (~text: string, ~textStyle: option(BsReactNative.Style.t)=?, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=js,
-      ~props={"text": text, "textStyle": Js.Nullable.from_opt(textStyle)},
-      children
+      ~props={"text": text, "textStyle": Js.Nullable.fromOption(textStyle)},
+      children,
     );
 };

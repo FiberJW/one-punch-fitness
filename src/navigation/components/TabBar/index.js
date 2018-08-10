@@ -25,7 +25,7 @@ export default class TabBar extends Component {
                   tintColor: "white",
                   focused,
                 })}
-                onPress={() => this.props.jumpToIndex(i)}
+                onPress={() => this.props.jumpTo(route.key)}
               />
             ) : null;
           })}
@@ -44,7 +44,7 @@ export default class TabBar extends Component {
                 key={i}
                 focused={focused}
                 icon={React.cloneElement(Icon)}
-                onPress={() => this.props.jumpToIndex(i)}
+                onPress={() => this.props.jumpTo(route.key)}
               />
             );
           }

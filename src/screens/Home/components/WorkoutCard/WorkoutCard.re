@@ -9,7 +9,7 @@ module Base = {
         ReasonReact.wrapJsForReason(
           ~reactClass=container,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
     module Header = {
@@ -19,7 +19,7 @@ module Base = {
         ReasonReact.wrapJsForReason(
           ~reactClass=header,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
     module RoutineContainer = {
@@ -29,7 +29,7 @@ module Base = {
         ReasonReact.wrapJsForReason(
           ~reactClass=routineContainer,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
     module LevelLabel = {
@@ -39,7 +39,7 @@ module Base = {
         ReasonReact.wrapJsForReason(
           ~reactClass=levelLabel,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
     module CoverImage = {
@@ -49,10 +49,10 @@ module Base = {
         ReasonReact.wrapJsForReason(
           ~reactClass=coverImage,
           ~props={
-            "source": Js.Nullable.from_opt(source),
-            "resizeMode": Js.Nullable.from_opt(resizeMode)
+            "source": Js.Nullable.fromOption(source),
+            "resizeMode": Js.Nullable.fromOption(resizeMode),
           },
-          children
+          children,
         );
     };
     module ImageGradient = {
@@ -62,7 +62,7 @@ module Base = {
         ReasonReact.wrapJsForReason(
           ~reactClass=imageGradient,
           ~props={"colors": colors},
-          children
+          children,
         );
     };
   };
@@ -72,7 +72,7 @@ module Base = {
         ~navigation,
         ~state as reductiveState: Progenitor.state,
         ~dispatch,
-        _children
+        _children,
       ) => {
     ...component,
     render: _self =>
@@ -96,9 +96,9 @@ module Base = {
           />
           <Styled.LevelLabel>
             (
-              ReasonReact.stringToElement(
+              ReasonReact.string(
                 "level "
-                ++ string_of_int(reductiveState.currentWorkout.level + 1)
+                ++ string_of_int(reductiveState.currentWorkout.level + 1),
               )
             )
           </Styled.LevelLabel>
@@ -181,7 +181,7 @@ module Base = {
             )
           />
         </View>
-      </Styled.Container>
+      </Styled.Container>,
   };
 };
 
@@ -193,5 +193,5 @@ let component = ReasonReact.statelessComponent("WorkoutCard");
 
 let make = (~navigation, _children) => {
   ...component,
-  render: _self => <Provider component=(Base.make(~navigation)) />
+  render: _self => <Provider component=(Base.make(~navigation)) />,
 };

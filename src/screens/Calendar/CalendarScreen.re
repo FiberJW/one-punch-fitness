@@ -25,18 +25,18 @@ let percComplete = (workout: Progenitor.workout) =>
 let baseMake =
     (~state as reductiveState: Progenitor.state, ~dispatch, _children) => {
   ...baseComponent,
-  didMount: _self => {
-    dispatch(Progenitor.SupressUnusedWarningError);
-    ReasonReact.NoUpdate;
-  },
+  didMount: _self => dispatch(Progenitor.SupressUnusedWarningError),
   initialState: () => {currentWorkout: reductiveState.currentWorkout},
   reducer: (action, _state) =>
-    switch action {
+    switch (action) {
     | ChangeVisibleWorkout(w) => ReasonReact.Update({currentWorkout: w})
     },
   render: self => {
     let hist =
-      Array.append([|reductiveState.currentWorkout|], reductiveState.history);
+      Array.append(
+        [|reductiveState.currentWorkout|],
+        reductiveState.history,
+      );
     let markedDates = Js.Dict.empty();
     Js.Array.forEach(
       (w: Progenitor.workout) => {
@@ -46,29 +46,29 @@ let baseMake =
                         Colors.bRED,
                         "orangered",
                         "yellow",
-                        Colors.start
+                        Colors.start,
                       |])##mode(
-                        "hsl"
+                        "hsl",
                       )##colors(
-                        100
+                        100,
                       )[int_of_float(progress) - 1];
           Js.Dict.set(
             markedDates,
             w.date,
             {
-              "startingDay": Js.true_,
+              "startingDay": true,
               "color": color,
-              "endingDay": Js.true_,
+              "endingDay": true,
               "textColor":
                 Chroma.make(color)##luminance() > 0.5 ?
-                  Colors.spotiBlack : "white"
-            }
+                  Colors.spotiBlack : "white",
+            },
           );
         } else {
           ();
         };
       },
-      hist
+      hist,
     );
     <ScrollView
       showsVerticalScrollIndicator=false
@@ -77,7 +77,7 @@ let baseMake =
                               style([
                                 flexGrow(1.),
                                 paddingVertical(Pt(16.)),
-                                alignItems(Center)
+                                alignItems(Center),
                               ])
                             )>
       <RNCalendars.Calendar
@@ -90,13 +90,13 @@ let baseMake =
                 if (w.date == day##dateString) {
                   self.send(ChangeVisibleWorkout(w));
                 },
-              hist
+              hist,
             )
         )
         style=Style.(
                 style([
                   width(Pt(float(Dimensions.get(`window)##width - 32))),
-                  flex(0.)
+                  flex(0.),
                 ])
               )
       />
@@ -109,12 +109,12 @@ let baseMake =
           percComplete(
             reductiveState.currentWorkout.date
             == self.state.currentWorkout.date ?
-              reductiveState.currentWorkout : self.state.currentWorkout
+              reductiveState.currentWorkout : self.state.currentWorkout,
           )
         )
       />
     </ScrollView>;
-  }
+  },
 };
 
 module Provider = {
@@ -125,7 +125,7 @@ let component = ReasonReact.statelessComponent("WorkoutScreen");
 
 let make = _children => {
   ...component,
-  render: _self => <Provider component=baseMake />
+  render: _self => <Provider component=baseMake />,
 };
 
 let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));

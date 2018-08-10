@@ -7,8 +7,8 @@ module Styled = {
     let make = (~onLayout=?, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
-        ~props={"onLayout": Js.Nullable.from_opt(onLayout)},
-        children
+        ~props={"onLayout": Js.Nullable.fromOption(onLayout)},
+        children,
       );
   };
   module Title = {
@@ -18,7 +18,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=title,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Status = {
@@ -28,7 +28,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=status,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Stats = {
@@ -39,7 +39,7 @@ module Styled = {
         ReasonReact.wrapJsForReason(
           ~reactClass=container,
           ~props={"parentContainerWidth": parentContainerWidth},
-          children
+          children,
         );
     };
     module Column = {
@@ -48,8 +48,8 @@ module Styled = {
       let make = (~center=?, children) =>
         ReasonReact.wrapJsForReason(
           ~reactClass=column,
-          ~props={"center": Js.Nullable.from_opt(center)},
-          children
+          ~props={"center": Js.Nullable.fromOption(center)},
+          children,
         );
     };
     module BarContainer = {
@@ -58,8 +58,8 @@ module Styled = {
       let make = (~onLayout=?, children) =>
         ReasonReact.wrapJsForReason(
           ~reactClass=barContainer,
-          ~props={"onLayout": Js.Nullable.from_opt(onLayout)},
-          children
+          ~props={"onLayout": Js.Nullable.fromOption(onLayout)},
+          children,
         );
     };
     module Bar = {
@@ -69,7 +69,7 @@ module Styled = {
         ReasonReact.wrapJsForReason(
           ~reactClass=bar,
           ~props={"width": width},
-          children
+          children,
         );
     };
     module Title = {
@@ -79,7 +79,7 @@ module Styled = {
         ReasonReact.wrapJsForReason(
           ~reactClass=title,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
     module Amount = {
@@ -89,7 +89,7 @@ module Styled = {
         ReasonReact.wrapJsForReason(
           ~reactClass=amount,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
   };
@@ -104,23 +104,23 @@ module Stats = {
     ...component,
     initialState: () => {maxBarWidth: 0},
     reducer: (action, _state) =>
-      switch action {
+      switch (action) {
       | MeasureMaxBarWidth(width) => ReasonReact.Update({maxBarWidth: width})
       },
     render: self =>
       <Styled.Stats.Container parentContainerWidth>
         <Styled.Stats.Column>
           <Styled.Stats.Title>
-            (ReasonReact.stringToElement("push-ups"))
+            (ReasonReact.string("push-ups"))
           </Styled.Stats.Title>
           <Styled.Stats.Title>
-            (ReasonReact.stringToElement("sit-ups"))
+            (ReasonReact.string("sit-ups"))
           </Styled.Stats.Title>
           <Styled.Stats.Title>
-            (ReasonReact.stringToElement("squats"))
+            (ReasonReact.string("squats"))
           </Styled.Stats.Title>
           <Styled.Stats.Title>
-            (ReasonReact.stringToElement("running"))
+            (ReasonReact.string("running"))
           </Styled.Stats.Title>
         </Styled.Stats.Column>
         <Styled.Stats.Column center=true>
@@ -128,7 +128,7 @@ module Stats = {
             onLayout=(
               event =>
                 self.send(
-                  MeasureMaxBarWidth(event##nativeEvent##layout##width)
+                  MeasureMaxBarWidth(event##nativeEvent##layout##width),
                 )
             )>
             <Styled.Stats.Bar
@@ -175,50 +175,46 @@ module Stats = {
         <Styled.Stats.Column>
           <Styled.Stats.Amount>
             (
-              ReasonReact.stringToElement(
+              ReasonReact.string(
                 string_of_int(
                   workout.setsCompleted.pushUps
-                  * Routines.variations[workout.level].pushUps.reps
-                )
+                  * Routines.variations[workout.level].pushUps.reps,
+                ),
               )
             )
           </Styled.Stats.Amount>
           <Styled.Stats.Amount>
             (
-              ReasonReact.stringToElement(
+              ReasonReact.string(
                 string_of_int(
                   workout.setsCompleted.sitUps
-                  * Routines.variations[workout.level].sitUps.reps
-                )
+                  * Routines.variations[workout.level].sitUps.reps,
+                ),
               )
             )
           </Styled.Stats.Amount>
           <Styled.Stats.Amount>
             (
-              ReasonReact.stringToElement(
+              ReasonReact.string(
                 string_of_int(
                   workout.setsCompleted.squats
-                  * Routines.variations[workout.level].squats.reps
-                )
+                  * Routines.variations[workout.level].squats.reps,
+                ),
               )
             )
           </Styled.Stats.Amount>
           <Styled.Stats.Amount>
-            (
-              ReasonReact.stringToElement(
-                workout.setsCompleted.run ? "10km" : "0 km"
-              )
-            )
+            (ReasonReact.string(workout.setsCompleted.run ? "10km" : "0 km"))
           </Styled.Stats.Amount>
         </Styled.Stats.Column>
-      </Styled.Stats.Container>
+      </Styled.Stats.Container>,
   };
   let default =
     ReasonReact.wrapReasonForJs(~component, jsProps =>
       make(
         ~workout=jsProps##workout,
         ~parentContainerWidth=jsProps##parentContainerWidth,
-        [||]
+        [||],
       )
     );
 };
@@ -229,7 +225,7 @@ type action =
 
 type state = {
   containerWidth: int,
-  maxBarWidth: int
+  maxBarWidth: int,
 };
 
 let component = ReasonReact.reducerComponent("DailyProgress");
@@ -238,7 +234,7 @@ let make = (~workout: Progenitor.workout, ~percComplete, _children) => {
   ...component,
   initialState: () => {containerWidth: 0, maxBarWidth: 0},
   reducer: (action, state) =>
-    switch action {
+    switch (action) {
     | MeasureContainerWidth(width) =>
       ReasonReact.Update({...state, containerWidth: width})
     | MeasureMaxBarWidth(width) =>
@@ -252,24 +248,24 @@ let make = (~workout: Progenitor.workout, ~percComplete, _children) => {
       )>
       <Styled.Title>
         (
-          ReasonReact.stringToElement(
+          ReasonReact.string(
             (
               workout.date == Progenitor.dateString(Js.Date.make()) ?
                 "Today" : Moment.make(workout.date)##format("MMMM Do, YYYY")
             )
-            ++ "'s workout"
+            ++ "'s workout",
           )
         )
       </Styled.Title>
       <Styled.Status>
         (
-          ReasonReact.stringToElement(
-            string_of_int(int_of_float(percComplete)) ++ "% complete"
+          ReasonReact.string(
+            string_of_int(int_of_float(percComplete)) ++ "% complete",
           )
         )
       </Styled.Status>
       <Stats workout parentContainerWidth=self.state.containerWidth />
-    </Styled.Container>
+    </Styled.Container>,
 };
 
 let default =

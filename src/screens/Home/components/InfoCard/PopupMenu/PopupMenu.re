@@ -8,7 +8,7 @@ module Option = {
         ReasonReact.wrapJsForReason(
           ~reactClass=label,
           ~props=Js.Obj.empty(),
-          children
+          children,
         );
     };
     module Base = {
@@ -17,8 +17,8 @@ module Option = {
       let make = (~last, children) =>
         ReasonReact.wrapJsForReason(
           ~reactClass=base,
-          ~props={"last": Js.Boolean.to_js_boolean(last)},
-          children
+          ~props={"last": last},
+          children,
         );
     };
   };
@@ -28,11 +28,9 @@ module Option = {
     render: _self =>
       <TouchableOpacity activeOpacity=0.8 onPress=action##onPress>
         <Styled.Base last>
-          <Styled.Label>
-            (ReasonReact.stringToElement(action##title))
-          </Styled.Label>
+          <Styled.Label> (ReasonReact.string(action##title)) </Styled.Label>
         </Styled.Base>
-      </TouchableOpacity>
+      </TouchableOpacity>,
   };
   let default =
     ReasonReact.wrapReasonForJs(~component, jsProps =>
@@ -48,7 +46,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -60,7 +58,7 @@ let make = (~actions, _children) => {
   render: _self =>
     <Styled.Container>
       (
-        ReasonReact.arrayToElement(
+        ReasonReact.array(
           Js.Array.mapi(
             (action, i) =>
               <Option
@@ -68,9 +66,9 @@ let make = (~actions, _children) => {
                 action
                 last=(i === Js.Array.length(actions) - 1)
               />,
-            actions
-          )
+            actions,
+          ),
         )
       )
-    </Styled.Container>
+    </Styled.Container>,
 };

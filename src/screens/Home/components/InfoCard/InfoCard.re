@@ -10,7 +10,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Description = {
@@ -20,7 +20,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=description,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module CoverImage = {
@@ -30,10 +30,10 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=coverImage,
         ~props={
-          "source": Js.Nullable.from_opt(source),
-          "resizeMode": Js.Nullable.from_opt(resizeMode)
+          "source": Js.Nullable.fromOption(source),
+          "resizeMode": Js.Nullable.fromOption(resizeMode),
         },
-        children
+        children,
       );
   };
   module ImageGradient = {
@@ -43,7 +43,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=imageGradient,
         ~props={"colors": colors},
-        children
+        children,
       );
   };
   module Title = {
@@ -53,7 +53,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=title,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -70,7 +70,7 @@ let make =
       ~shortDescription,
       ~content=?,
       ~url=?,
-      _children
+      _children,
     ) => {
   ...component,
   render: _self =>
@@ -84,8 +84,8 @@ let make =
               "title": title,
               "content": content,
               "url": url,
-              "coverImage": coverImage
-            }
+              "coverImage": coverImage,
+            },
           )
       )>
       <Styled.Container>
@@ -102,18 +102,18 @@ let make =
                 style=Style.(
                         style([
                           position(Absolute),
-                          backgroundColor("transparent"),
+                          backgroundColor(String("transparent")),
                           top(Pt(16.)),
-                          right(Pt(16.))
+                          right(Pt(16.)),
                         ])
                       )>
                 <VectorIcons.Feather name="link" size=16 color="white" />
               </View>
-            | None => ReasonReact.nullElement
+            | None => ReasonReact.null
             }
           )
         </View>
         <Styled.Description> shortDescription </Styled.Description>
       </Styled.Container>
-    </TouchableOpacity>
+    </TouchableOpacity>,
 };

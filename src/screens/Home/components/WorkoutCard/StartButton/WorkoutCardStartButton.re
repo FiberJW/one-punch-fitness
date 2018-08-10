@@ -6,7 +6,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module TouchableBase = {
@@ -15,11 +15,8 @@ module Styled = {
     let make = (~onPress, ~disabled, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=touchableBase,
-        ~props={
-          "onPress": onPress,
-          "disabled": Js.Boolean.to_js_boolean(disabled)
-        },
-        children
+        ~props={"onPress": onPress, "disabled": disabled},
+        children,
       );
   };
   module Label = {
@@ -29,7 +26,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=label,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -41,7 +38,7 @@ let make = (~disabled, ~label, ~onPress, _children) => {
   render: _self =>
     <Styled.Container>
       <Styled.TouchableBase onPress disabled>
-        <Styled.Label> (ReasonReact.stringToElement(label)) </Styled.Label>
+        <Styled.Label> (ReasonReact.string(label)) </Styled.Label>
       </Styled.TouchableBase>
-    </Styled.Container>
+    </Styled.Container>,
 };

@@ -10,7 +10,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -26,12 +26,12 @@ let make = (~time, _children) => {
         textStyle=Style.(
                     style([
                       fontFamily("InterReg"),
-                      backgroundColor("transparent"),
+                      backgroundColor(String("transparent")),
                       fontSize(Float(64.)),
-                      color(Colors.spotiBlack),
-                      textAlign(Center)
+                      color(String(Colors.spotiBlack)),
+                      textAlign(Center),
                     ])
                   )
       />
-    </Styled.Container>
+    </Styled.Container>,
 };

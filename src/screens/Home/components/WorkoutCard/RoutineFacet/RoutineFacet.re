@@ -6,7 +6,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Amount = {
@@ -16,7 +16,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=amount,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
   module Name = {
@@ -26,7 +26,7 @@ module Styled = {
       ReasonReact.wrapJsForReason(
         ~reactClass=name,
         ~props=Js.Obj.empty(),
-        children
+        children,
       );
   };
 };
@@ -42,23 +42,23 @@ let make =
         switch (name) {
         | "run" =>
           <Styled.Amount>
-            (ReasonReact.stringToElement(string_of_int(distance) ++ units))
+            (ReasonReact.string(string_of_int(distance) ++ units))
           </Styled.Amount>
         | "rest"
         | "transition" =>
           <Styled.Amount>
-            (ReasonReact.stringToElement(string_of_int(amount) ++ units))
+            (ReasonReact.string(string_of_int(amount) ++ units))
           </Styled.Amount>
         | _ =>
           <Styled.Amount>
             (
-              ReasonReact.stringToElement(
-                string_of_int(sets) ++ "x" ++ string_of_int(reps)
+              ReasonReact.string(
+                string_of_int(sets) ++ "x" ++ string_of_int(reps),
               )
             )
           </Styled.Amount>
         }
       )
-      <Styled.Name> (ReasonReact.stringToElement(" " ++ name)) </Styled.Name>
-    </Styled.Container>
+      <Styled.Name> (ReasonReact.string(" " ++ name)) </Styled.Name>
+    </Styled.Container>,
 };
