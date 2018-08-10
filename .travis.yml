@@ -4,15 +4,14 @@ node_js:
   - "node"
 cache: yarn
 before_script:
-  - exp login -u $EXP_UNAME -p $EXP_PASSWORD
+  - expo login -u $EXP_UNAME -p $EXP_PASSWORD
 script:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then exp p; fi
-  - if [ "$TRAVIS_BRANCH" == "develop" ]; then exp p --release-channel staging; fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then expo p; fi
+  - if [ "$TRAVIS_BRANCH" == "develop" ]; then expo p --release-channel staging; fi
 after_script:
-- exp logout
+  - expo logout
 
-# safelist
 branches:
   only:
-  - master
-  - develop
+    - master
+    - develop
