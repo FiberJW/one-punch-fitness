@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { Constants } from "expo";
 import { Platform } from "react-native";
 import colors from "../../../../config/colors";

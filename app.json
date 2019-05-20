@@ -4,7 +4,7 @@
     "description": "A \"One Punch Man\"-inspired workout app!",
     "slug": "one-punch-fitness",
     "privacy": "public",
-    "sdkVersion": "29.0.0",
+    "sdkVersion": "32.0.0",
     "version": "0.5.0",
     "githubUrl": "https://github.com/fiber-god/one-punch-fitness",
     "orientation": "portrait",

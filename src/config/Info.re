@@ -1,11 +1,12 @@
-[@bs.module "Assets"] external illustrations : Js.t({..}) = "Illustrations";
+[@bs.module "../../assets/index.js"]
+external illustrations: Js.t({..}) = "Illustrations";
 
 type info = {
   coverImage: int,
   title: string,
   shortDescription: string,
   content: option(string),
-  url: option(string)
+  url: option(string),
 };
 
 let cards = [|
@@ -32,9 +33,9 @@ let cards = [|
         ++ "A year and a half later, I started to notice a difference. "
         ++ "I was bald ... and I had become stronger. "
         ++ "In other words, you gotta train like hell to the point where your hair falls out."
-        ++ " That's the only way to become strong.\n\n- Saitama,\n\t\"Someone who is a hero for fun.\""
+        ++ " That's the only way to become strong.\n\n- Saitama,\n\t\"Someone who is a hero for fun.\"",
       ),
-    url: None
+    url: None,
   },
   {
     coverImage: illustrations##properPushups,
@@ -42,13 +43,15 @@ let cards = [|
     shortDescription: "Make sure you're training your arms the right way!",
     content: None,
     url:
-      Some("https://www.livestrong.com/article/32382-proper-pushup-technique/")
+      Some(
+        "https://www.livestrong.com/article/32382-proper-pushup-technique/",
+      ),
   },
   {
     coverImage: illustrations##wristsHurtPushup,
     title: "A Wrist Mobility Drill",
     shortDescription: "Don't let your joints tap out before your muscles!",
     url: Some("https://www.instagram.com/p/4Wf-bgMEVm/"),
-    content: None
-  }
+    content: None,
+  },
 |];

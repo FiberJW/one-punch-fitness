@@ -2,16 +2,17 @@ open BsReactNative;
 
 open NPMBindings;
 
-[@bs.val] external setInterval : (unit => unit, int) => int = "setInterval";
+[@bs.val] external setInterval: (unit => unit, int) => int = "setInterval";
 
-[@bs.val] external clearInterval : int => unit = "clearInterval";
+[@bs.val] external clearInterval: int => unit = "clearInterval";
 
-[@bs.module "Assets"] external illustrations : Js.t({..}) = "Illustrations";
+[@bs.module "../../../assets/index.js"]
+external illustrations: Js.t({..}) = "Illustrations";
 
 module Styled = {
   module Background = {
     [@bs.module "./components/styled/Background"]
-    external background : ReasonReact.reactClass = "default";
+    external background: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=background,
@@ -21,7 +22,7 @@ module Styled = {
   };
   module Container = {
     [@bs.module "./components/styled/Container"]
-    external container : ReasonReact.reactClass = "default";
+    external container: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
@@ -31,7 +32,7 @@ module Styled = {
   };
   module Progress = {
     [@bs.module "./components/styled/Progress"]
-    external progress : ReasonReact.reactClass = "default";
+    external progress: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=progress,
@@ -41,7 +42,7 @@ module Styled = {
   };
   module SetType = {
     [@bs.module "./components/styled/SetType"]
-    external setType : ReasonReact.reactClass = "default";
+    external setType: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=setType,
@@ -51,7 +52,7 @@ module Styled = {
   };
   module SetReps = {
     [@bs.module "./components/styled/SetReps"]
-    external setReps : ReasonReact.reactClass = "default";
+    external setReps: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=setReps,
@@ -61,7 +62,7 @@ module Styled = {
   };
   module SessionControlGroup = {
     [@bs.module "./components/SessionControl/styled/Group"]
-    external sessionControlGroup : ReasonReact.reactClass = "default";
+    external sessionControlGroup: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=sessionControlGroup,
@@ -71,7 +72,7 @@ module Styled = {
   };
   module Image = {
     [@bs.module "./components/styled/Image"]
-    external image : ReasonReact.reactClass = "default";
+    external image: ReasonReact.reactClass = "default";
     let make = (~source, ~resizeMode, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=image,
@@ -166,7 +167,7 @@ let baseMake =
         ReasonReact.NoUpdate;
       }
     | ToggleSession =>
-      ReasonReact.Update({...state, inSession: ! state.inSession})
+      ReasonReact.Update({...state, inSession: !state.inSession})
     | StartTimer(handle) =>
       ReasonReact.Update({
         ...state,

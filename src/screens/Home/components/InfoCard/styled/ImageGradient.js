@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 export default styled(LinearGradient)`
   position: absolute;

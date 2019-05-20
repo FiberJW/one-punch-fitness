@@ -3,7 +3,7 @@ open BsReactNative;
 module Styled = {
   module HeroImage = {
     [@bs.module "./styled/HeroImage"]
-    external heroImage : ReasonReact.reactClass = "default";
+    external heroImage: ReasonReact.reactClass = "default";
     let make = (~source, ~resizeMode, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=heroImage,
@@ -13,7 +13,7 @@ module Styled = {
   };
   module Container = {
     [@bs.module "./styled/Container"]
-    external container : ReasonReact.reactClass = "default";
+    external container: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
@@ -23,7 +23,7 @@ module Styled = {
   };
   module TextContentContainer = {
     [@bs.module "./styled/TextContentContainer"]
-    external textContentContainer : ReasonReact.reactClass = "default";
+    external textContentContainer: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=textContentContainer,
@@ -33,7 +33,7 @@ module Styled = {
   };
   module Title = {
     [@bs.module "./styled/Title"]
-    external title : ReasonReact.reactClass = "default";
+    external title: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=title,
@@ -43,7 +43,7 @@ module Styled = {
   };
   module Description = {
     [@bs.module "./styled/Description"]
-    external description : ReasonReact.reactClass = "default";
+    external description: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=description,
@@ -53,7 +53,8 @@ module Styled = {
   };
 };
 
-[@bs.module "Assets"] external illustrations : Js.t({..}) = "Illustrations";
+[@bs.module "../../../assets/index.js"]
+external illustrations: Js.t({..}) = "Illustrations";
 
 let component = ReasonReact.statelessComponent("InfoScreen");
 

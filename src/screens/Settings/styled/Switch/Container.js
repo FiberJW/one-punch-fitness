@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import colors from "ReColor";
+import styled from "styled-components/native";
+import colors from "../../../../config/colors";
 
 export default styled.View`
   background-color: ${colors.fortyBlack};

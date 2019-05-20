@@ -5,7 +5,7 @@ open NPMBindings;
 module Styled = {
   module Container = {
     [@bs.module "./styled/Container"]
-    external container : ReasonReact.reactClass = "default";
+    external container: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
@@ -15,7 +15,7 @@ module Styled = {
   };
   module Description = {
     [@bs.module "./styled/Description"]
-    external description : ReasonReact.reactClass = "default";
+    external description: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=description,
@@ -25,7 +25,7 @@ module Styled = {
   };
   module CoverImage = {
     [@bs.module "./styled/CoverImage"]
-    external coverImage : ReasonReact.reactClass = "default";
+    external coverImage: ReasonReact.reactClass = "default";
     let make = (~source=?, ~resizeMode=?, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=coverImage,
@@ -38,7 +38,7 @@ module Styled = {
   };
   module ImageGradient = {
     [@bs.module "./styled/ImageGradient"]
-    external imageGradient : ReasonReact.reactClass = "default";
+    external imageGradient: ReasonReact.reactClass = "default";
     let make = (~colors, children) =>
       ReasonReact.wrapJsForReason(
         ~reactClass=imageGradient,
@@ -48,7 +48,7 @@ module Styled = {
   };
   module Title = {
     [@bs.module "./styled/Title"]
-    external title : ReasonReact.reactClass = "default";
+    external title: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=title,
@@ -58,7 +58,8 @@ module Styled = {
   };
 };
 
-[@bs.module "Assets"] external illustrations : Js.t({..}) = "Illustrations";
+[@bs.module "../../../../../assets/index.js"]
+external illustrations: Js.t({..}) = "Illustrations";
 
 let component = ReasonReact.statelessComponent("InfoCard");
 
@@ -100,13 +101,13 @@ let make =
             | Some(_) =>
               <View
                 style=Style.(
-                        style([
-                          position(Absolute),
-                          backgroundColor(String("transparent")),
-                          top(Pt(16.)),
-                          right(Pt(16.)),
-                        ])
-                      )>
+                  style([
+                    position(Absolute),
+                    backgroundColor(String("transparent")),
+                    top(Pt(16.)),
+                    right(Pt(16.)),
+                  ])
+                )>
                 <VectorIcons.Feather name="link" size=16 color="white" />
               </View>
             | None => ReasonReact.null

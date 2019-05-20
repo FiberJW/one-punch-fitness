@@ -1,10 +1,11 @@
 module Base = {
   open BsReactNative;
-  [@bs.module "Assets"] external illustrations : Js.t({..}) = "Illustrations";
+  [@bs.module "../../../../../assets/index.js"]
+  external illustrations: Js.t({..}) = "Illustrations";
   module Styled = {
     module Container = {
       [@bs.module "./styled/Container"]
-      external container : ReasonReact.reactClass = "default";
+      external container: ReasonReact.reactClass = "default";
       let make = children =>
         ReasonReact.wrapJsForReason(
           ~reactClass=container,
@@ -14,7 +15,7 @@ module Base = {
     };
     module Header = {
       [@bs.module "./styled/Header"]
-      external header : ReasonReact.reactClass = "default";
+      external header: ReasonReact.reactClass = "default";
       let make = children =>
         ReasonReact.wrapJsForReason(
           ~reactClass=header,
@@ -24,7 +25,7 @@ module Base = {
     };
     module RoutineContainer = {
       [@bs.module "./styled/RoutineContainer"]
-      external routineContainer : ReasonReact.reactClass = "default";
+      external routineContainer: ReasonReact.reactClass = "default";
       let make = children =>
         ReasonReact.wrapJsForReason(
           ~reactClass=routineContainer,
@@ -34,7 +35,7 @@ module Base = {
     };
     module LevelLabel = {
       [@bs.module "./styled/LevelLabel"]
-      external levelLabel : ReasonReact.reactClass = "default";
+      external levelLabel: ReasonReact.reactClass = "default";
       let make = children =>
         ReasonReact.wrapJsForReason(
           ~reactClass=levelLabel,
@@ -44,7 +45,7 @@ module Base = {
     };
     module CoverImage = {
       [@bs.module "./styled/CoverImage"]
-      external coverImage : ReasonReact.reactClass = "default";
+      external coverImage: ReasonReact.reactClass = "default";
       let make = (~source=?, ~resizeMode=?, children) =>
         ReasonReact.wrapJsForReason(
           ~reactClass=coverImage,
@@ -57,7 +58,7 @@ module Base = {
     };
     module ImageGradient = {
       [@bs.module "./styled/ImageGradient"]
-      external imageGradient : ReasonReact.reactClass = "default";
+      external imageGradient: ReasonReact.reactClass = "default";
       let make = (~colors, children) =>
         ReasonReact.wrapJsForReason(
           ~reactClass=imageGradient,

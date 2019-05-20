@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 export default styled.View`
   margin-horizontal: 16px;

@@ -1,11 +1,11 @@
 open NPMBindings;
 
-[@bs.module "Assets"] external fonts : Js.t({..}) = "Fonts";
+[@bs.module "../assets/index.js"] external fonts: Js.t({..}) = "Fonts";
 
 module Styled = {
   module Container = {
     [@bs.module "./components/styled/Container"]
-    external container : ReasonReact.reactClass = "default";
+    external container: ReasonReact.reactClass = "default";
     let make = children =>
       ReasonReact.wrapJsForReason(
         ~reactClass=container,
@@ -17,7 +17,7 @@ module Styled = {
 
 module MainStack = {
   [@bs.module "./navigation/MainStack"]
-  external mainStack : ReasonReact.reactClass = "default";
+  external mainStack: ReasonReact.reactClass = "default";
   let make = children =>
     ReasonReact.wrapJsForReason(
       ~reactClass=mainStack,

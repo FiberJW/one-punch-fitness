@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-navigation";
-import styled from "styled-components";
-import colors from "ReColor";
+import styled from "styled-components/native";
+import colors from "../../config/colors";
 
 export default styled(SafeAreaView)`
   flex: 1;

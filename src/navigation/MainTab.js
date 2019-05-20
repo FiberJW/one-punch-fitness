@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { createTabNavigator } from "react-navigation";
 import { Feather } from "@expo/vector-icons";
-import colors from "ReColor";
+import colors from "../config/colors";
 import HomeScreen from "../screens/Home/HomeScreen.bs";
 import CalendarScreen from "../screens/Calendar/CalendarScreen.bs";
 import SettingsScreen from "../screens/Settings/SettingsScreen.bs";

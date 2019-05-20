@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { Dimensions } from "react-native";
-import colors from "ReColor";
+import colors from "../../../../../config/colors";
 
 export default styled.View`
   width: ${Dimensions.get("window").width * 0.6};
