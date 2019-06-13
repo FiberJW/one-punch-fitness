@@ -5,7 +5,7 @@
     "slug": "one-punch-fitness",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "githubUrl": "https://github.com/fiber-god/one-punch-fitness",
     "orientation": "portrait",
     "primaryColor": "#651FFF",
@@ -24,14 +24,14 @@
     },
     "ios": {
       "supportsTablet": false,
-      "buildNumber": "1",
+      "buildNumber": "2",
       "bundleIdentifier": "co.jwheatley.opf",
       "loadJSInBackgroundExperimental": true,
       "icon": "./assets/ios-icon.png"
     },
     "android": {
       "package": "co.jwheatley.opf",
-      "versionCode": 1,
+      "versionCode": 2,
       "icon": "./assets/android-icon.png"
     },
     "assetBundlePatterns": ["assets/**/*"],
