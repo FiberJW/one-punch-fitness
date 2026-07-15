@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { useCallback, useMemo, useState } from 'react';
+import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import { Calendar, type DateData } from 'react-native-calendars';
 
 import { DailyProgress } from '@/components/daily-progress';
@@ -8,14 +8,25 @@ import { fonts } from '@/constants/fonts';
 import { progressColor, relativeLuminance } from '@/lib/colors';
 import { percentComplete, useWorkoutStore, type Workout } from '@/store/workout';
 
-const CONTENT_WIDTH = Dimensions.get('window').width - 32;
-
 type PeriodMark = { startingDay: boolean; endingDay: boolean; color: string; textColor: string };
+
+// Hoisted so the Calendar receives a stable theme identity and does not
+// re-render its ~70 Day components on every unrelated store change.
+const CALENDAR_THEME = {
+  calendarBackground: 'white',
+  arrowColor: colors.status,
+  todayTextColor: colors.status,
+  monthTextColor: colors.spotiBlack,
+  textMonthFontFamily: fonts.bold,
+  textDayFontFamily: fonts.regular,
+  textDayHeaderFontFamily: fonts.medium,
+} as const;
 
 export default function CalendarScreen() {
   const currentWorkout = useWorkoutStore((s) => s.currentWorkout);
   const history = useWorkoutStore((s) => s.history);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const { width } = useWindowDimensions();
 
   const workouts = useMemo(() => [currentWorkout, ...history], [currentWorkout, history]);
 
@@ -42,9 +53,12 @@ export default function CalendarScreen() {
       ? (workouts.find((w) => w.date === selectedDate) ?? currentWorkout)
       : currentWorkout;
 
-  const onDayPress = (day: DateData) => {
-    if (workouts.some((w) => w.date === day.dateString)) setSelectedDate(day.dateString);
-  };
+  // Read workouts from the store at press time so the callback keeps a stable
+  // identity and never forces the Calendar to re-render its Day components.
+  const onDayPress = useCallback((day: DateData) => {
+    const { currentWorkout: c, history: h } = useWorkoutStore.getState();
+    if ([c, ...h].some((w) => w.date === day.dateString)) setSelectedDate(day.dateString);
+  }, []);
 
   return (
     <ScrollView
@@ -54,19 +68,11 @@ export default function CalendarScreen() {
       showsVerticalScrollIndicator={false}
       alwaysBounceVertical={false}>
       <Calendar
-        style={styles.calendar}
+        style={[styles.calendar, { width: width - 32 }]}
         markedDates={markedDates}
         markingType="period"
         onDayPress={onDayPress}
-        theme={{
-          calendarBackground: 'white',
-          arrowColor: colors.status,
-          todayTextColor: colors.status,
-          monthTextColor: colors.spotiBlack,
-          textMonthFontFamily: fonts.bold,
-          textDayFontFamily: fonts.regular,
-          textDayHeaderFontFamily: fonts.medium,
-        }}
+        theme={CALENDAR_THEME}
       />
       <DailyProgress workout={selectedWorkout} />
     </ScrollView>
@@ -84,7 +90,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   calendar: {
-    width: CONTENT_WIDTH,
     borderRadius: 12,
     overflow: 'hidden',
   },

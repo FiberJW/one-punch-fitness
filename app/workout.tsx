@@ -1,14 +1,14 @@
 import { useKeepAwake } from 'expo-keep-awake';
 import { router } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import {
   Alert,
-  Dimensions,
   Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
 
@@ -17,9 +17,6 @@ import { fonts } from '@/constants/fonts';
 import { illustrations } from '@/constants/illustrations';
 import { routines } from '@/constants/routines';
 import { currentExercise, useWorkoutStore, type Exercise } from '@/store/workout';
-
-const WIDTH = Dimensions.get('window').width;
-const TIMER_SIZE = WIDTH * 0.6;
 
 type TimerStatus = 'active' | 'paused' | 'stopped';
 
@@ -43,9 +40,50 @@ function formatTime(seconds: number): string {
   return `${mm}:${ss}`;
 }
 
+type SessionTimerHandle = { getElapsed: () => number; reset: () => void };
+
+// Owns the 1s ticking state so each tick re-renders only the timer text rather
+// than the whole workout screen. Frozen while paused or stopped.
+const SessionTimer = forwardRef<SessionTimerHandle, { status: TimerStatus }>(
+  function SessionTimer({ status }, ref) {
+    const { width } = useWindowDimensions();
+    const size = width * 0.6;
+    const elapsed = useRef(0);
+    const [display, setDisplay] = useState(0);
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        getElapsed: () => elapsed.current,
+        reset: () => {
+          elapsed.current = 0;
+          setDisplay(0);
+        },
+      }),
+      [],
+    );
+
+    useEffect(() => {
+      if (status !== 'active') return;
+      const id = setInterval(() => {
+        elapsed.current += 1;
+        setDisplay(elapsed.current);
+      }, 1000);
+      return () => clearInterval(id);
+    }, [status]);
+
+    return (
+      <View style={[styles.timer, { width: size, height: size, borderRadius: size / 2 }]}>
+        <Text style={styles.timerText}>{formatTime(display)}</Text>
+      </View>
+    );
+  },
+);
+
 export default function WorkoutScreen() {
   useKeepAwake();
 
+  const { width } = useWindowDimensions();
   const currentWorkout = useWorkoutStore((s) => s.currentWorkout);
   const completeSet = useWorkoutStore((s) => s.completeSet);
   const completeWorkout = useWorkoutStore((s) => s.completeWorkout);
@@ -54,36 +92,12 @@ export default function WorkoutScreen() {
   const routine = routines[currentWorkout.level];
 
   const [inSession, setInSession] = useState(false);
-  const [timeUsed, setTimeUsed] = useState(0);
   const [status, setStatus] = useState<TimerStatus>('active');
-
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const statusRef = useRef<TimerStatus>(status);
-  useEffect(() => {
-    statusRef.current = status;
-  }, [status]);
-
-  const stopInterval = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  };
-
-  const startInterval = () => {
-    stopInterval();
-    intervalRef.current = setInterval(() => {
-      if (statusRef.current !== 'paused') setTimeUsed((t) => t + 1);
-    }, 1000);
-  };
-
-  // Clear the interval when leaving the screen.
-  useEffect(() => stopInterval, []);
+  const timerRef = useRef<SessionTimerHandle>(null);
 
   const onAction = () => {
     if (inSession) {
-      stopInterval();
-      completeSet(exercise, timeUsed);
+      completeSet(exercise, timerRef.current?.getElapsed() ?? 0);
       if (exercise === 'run') {
         completeWorkout();
         Alert.alert('Congrats!', "You've completed today's workout. Rock on!");
@@ -91,11 +105,8 @@ export default function WorkoutScreen() {
       }
       setInSession(false);
       setStatus('active');
-      setTimeUsed(0);
     } else {
-      setTimeUsed(0);
       setStatus('active');
-      startInterval();
       setInSession(true);
     }
   };
@@ -106,16 +117,12 @@ export default function WorkoutScreen() {
     } else if (status === 'paused') {
       setStatus('active');
     } else {
-      setTimeUsed(0);
+      timerRef.current?.reset();
       setStatus('active');
-      startInterval();
     }
   };
 
-  const onStop = () => {
-    stopInterval();
-    setStatus('stopped');
-  };
+  const onStop = () => setStatus('stopped');
 
   const sessionControlLabel =
     status === 'active' ? 'PAUSE' : status === 'paused' ? 'RESUME' : 'START';
@@ -147,9 +154,7 @@ export default function WorkoutScreen() {
           {inSession ? (
             <>
               {setInfo}
-              <View style={styles.timer}>
-                <Text style={styles.timerText}>{formatTime(timeUsed)}</Text>
-              </View>
+              <SessionTimer ref={timerRef} status={status} />
               {showProgress ? <Text style={styles.progress}>{progressText}</Text> : null}
               <View style={styles.controlGroup}>
                 <TouchableOpacity style={styles.control} activeOpacity={0.75} onPress={onSessionControl}>
@@ -168,7 +173,11 @@ export default function WorkoutScreen() {
             </>
           ) : (
             <>
-              <Image style={styles.image} source={exerciseImages[exercise]} resizeMode="cover" />
+              <Image
+                style={[styles.image, { width: width - 32, height: width * 0.7 }]}
+                source={exerciseImages[exercise]}
+                resizeMode="cover"
+              />
               {showProgress ? <Text style={styles.progress}>{progressText}</Text> : null}
               {setInfo}
             </>
@@ -199,9 +208,8 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   image: {
-    width: WIDTH - 32,
-    height: WIDTH * 0.7,
     borderRadius: 12,
+    borderCurve: 'continuous',
   },
   progress: {
     fontFamily: fonts.regular,
@@ -224,9 +232,6 @@ const styles = StyleSheet.create({
     color: colors.start,
   },
   timer: {
-    width: TIMER_SIZE,
-    height: TIMER_SIZE,
-    borderRadius: TIMER_SIZE / 2,
     borderWidth: 8,
     justifyContent: 'center',
     alignItems: 'center',

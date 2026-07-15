@@ -1,12 +1,11 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { memo } from 'react';
+import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
 import { routines } from '@/constants/routines';
 import { formatLongDate, localDate } from '@/lib/dates';
 import { percentComplete, type Workout } from '@/store/workout';
-
-const CONTENT_WIDTH = Dimensions.get('window').width - 32;
 
 function StatRow({ label, fraction, amount }: { label: string; fraction: number; amount: string }) {
   return (
@@ -20,13 +19,14 @@ function StatRow({ label, fraction, amount }: { label: string; fraction: number;
   );
 }
 
-export function DailyProgress({ workout }: { workout: Workout }) {
+export const DailyProgress = memo(function DailyProgress({ workout }: { workout: Workout }) {
+  const { width } = useWindowDimensions();
   const routine = routines[workout.level];
   const { setsCompleted } = workout;
   const title = workout.date === localDate() ? 'Today' : formatLongDate(workout.date);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: width - 32, minHeight: width * 0.6 }]}>
       <Text style={styles.title}>{`${title}'s workout`}</Text>
       <Text style={styles.status}>{`${Math.floor(percentComplete(workout))}% complete`}</Text>
       <View style={styles.stats}>
@@ -53,17 +53,15 @@ export function DailyProgress({ workout }: { workout: Workout }) {
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.status,
-    width: CONTENT_WIDTH,
     marginTop: 16,
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    minHeight: Dimensions.get('window').width * 0.6,
     borderRadius: 12,
   },
   title: {

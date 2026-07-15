@@ -2,11 +2,11 @@ import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import {
-  Dimensions,
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
 
@@ -15,8 +15,6 @@ import { fonts } from '@/constants/fonts';
 import { illustrations } from '@/constants/illustrations';
 import { routines } from '@/constants/routines';
 import { useWorkoutStore } from '@/store/workout';
-
-const CARD_WIDTH = Dimensions.get('window').width - 16;
 
 const levelCovers = [
   illustrations.workoutLevel1,
@@ -61,6 +59,7 @@ function RoutineFacet({ amount, name }: { amount: string; name: string }) {
 }
 
 export function WorkoutCard() {
+  const { width } = useWindowDimensions();
   const currentWorkout = useWorkoutStore((s) => s.currentWorkout);
   const incrementLevel = useWorkoutStore((s) => s.incrementLevel);
   const decrementLevel = useWorkoutStore((s) => s.decrementLevel);
@@ -77,7 +76,7 @@ export function WorkoutCard() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: width - 16 }]}>
       <View style={styles.header}>
         <Image style={styles.cover} source={levelCovers[level]} resizeMode="cover" />
         <LinearGradient
@@ -120,7 +119,6 @@ export function WorkoutCard() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.elevated,
-    width: CARD_WIDTH,
     marginHorizontal: 8,
     marginVertical: 8,
     overflow: 'hidden',

@@ -2,11 +2,11 @@ import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import {
-  Dimensions,
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
 
@@ -14,14 +14,13 @@ import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
 import type { Guide } from '@/constants/guides';
 
-const CARD_WIDTH = Dimensions.get('window').width - 16;
-
 export function InfoCard({ guide }: { guide: Guide }) {
+  const { width } = useWindowDimensions();
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       onPress={() => router.push({ pathname: '/info', params: { id: guide.id } })}>
-      <View style={styles.container}>
+      <View style={[styles.container, { width: width - 16 }]}>
         <View>
           <Image
             style={styles.cover}
@@ -48,7 +47,6 @@ export function InfoCard({ guide }: { guide: Guide }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.elevated,
-    width: CARD_WIDTH,
     marginHorizontal: 8,
     marginVertical: 8,
     overflow: 'hidden',
