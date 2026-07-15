@@ -29,7 +29,7 @@ export default function CalendarScreen() {
           startingDay: true,
           endingDay: true,
           color,
-          textColor: relativeLuminance(color) > 0.5 ? colors.spotiBlack : 'white',
+          textColor: relativeLuminance(color) > 0.179 ? colors.spotiBlack : 'white',
         };
       }
     }

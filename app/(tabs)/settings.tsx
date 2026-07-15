@@ -75,8 +75,15 @@ export default function SettingsScreen() {
       setRemindersActive(false);
       return;
     }
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.DEFAULT,
+      });
+    }
     const { granted } = await Notifications.requestPermissionsAsync();
     if (granted) {
+      if (timeSet) await scheduleDailyReminder(new Date(reminderTime));
       setRemindersActive(true);
     } else {
       Alert.alert(
@@ -108,8 +115,9 @@ export default function SettingsScreen() {
         {
           text: 'OK',
           style: 'destructive',
-          onPress: () => {
-            void AsyncStorage.clear();
+          onPress: async () => {
+            await Notifications.cancelAllScheduledNotificationsAsync();
+            await AsyncStorage.clear();
             resetWorkout();
             reset();
           },
