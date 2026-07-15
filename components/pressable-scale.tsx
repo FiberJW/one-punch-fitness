@@ -1,4 +1,4 @@
-import { Pressable, type PressableProps } from 'react-native';
+import { Pressable, type PressableProps, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { triggerHaptic, type Haptic } from '@/lib/haptics';
@@ -18,7 +18,12 @@ export function PressableScale({
   style,
   children,
   ...rest
-}: PressableProps & { haptic?: Haptic }) {
+}: Omit<PressableProps, 'style'> & {
+  haptic?: Haptic;
+  // Plain styles only: the Pressable function-style form would be silently
+  // ignored once composed with the animated scale style.
+  style?: StyleProp<ViewStyle>;
+}) {
   const scale = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
 

@@ -10,7 +10,8 @@ import { formatLongDate, localDate } from '@/lib/dates';
 import { percentComplete, type Workout } from '@/store/workout';
 
 function StatRow({ label, fraction, amount }: { label: string; fraction: number; amount: string }) {
-  const width = useSharedValue(Math.min(1, fraction));
+  // Start at 0 so the fill springs in on mount, then tracks changes.
+  const width = useSharedValue(0);
   useEffect(() => {
     width.value = withSpring(Math.min(1, fraction), { damping: 18, stiffness: 140 });
   }, [fraction, width]);

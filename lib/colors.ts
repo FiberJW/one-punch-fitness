@@ -2,8 +2,12 @@
 // heroYellow as the day fills in, with the fully-complete "K.O." day in gloveRed.
 import { colors } from '@/constants/colors';
 
-const PANEL: [number, number, number] = [0x1d, 0x17, 0x17]; // colors.panel
-const HERO: [number, number, number] = [0xff, 0xc9, 0x3c]; // colors.heroYellow
+const channels = (hex: string): [number, number, number] => {
+  const int = parseInt(hex.slice(1), 16);
+  return [(int >> 16) & 0xff, (int >> 8) & 0xff, int & 0xff];
+};
+const PANEL = channels(colors.panel);
+const HERO = channels(colors.heroYellow);
 
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 const toHex = (n: number) => Math.round(n).toString(16).padStart(2, '0');

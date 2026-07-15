@@ -47,18 +47,21 @@ function Switch({ value }: { value: boolean }) {
 function Option({
   label,
   danger,
+  checked,
   onPress,
   children,
 }: {
   label: string;
   danger?: boolean;
+  checked?: boolean;
   onPress: () => void;
   children?: React.ReactNode;
 }) {
   return (
     <PressableScale
       haptic="selection"
-      accessibilityRole="button"
+      accessibilityRole={checked === undefined ? 'button' : 'switch'}
+      accessibilityState={checked === undefined ? undefined : { checked }}
       accessibilityLabel={label}
       style={styles.option}
       onPress={onPress}>
@@ -141,7 +144,7 @@ export default function SettingsScreen() {
         style={styles.container}
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16 }]}
         alwaysBounceVertical={false}>
-        <Option label="reminders" onPress={() => void onToggleReminders()}>
+        <Option label="reminders" checked={remindersActive} onPress={() => void onToggleReminders()}>
           <Switch value={remindersActive} />
         </Option>
 

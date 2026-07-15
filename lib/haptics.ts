@@ -7,16 +7,16 @@ export type Haptic = 'selection' | 'impact' | 'success' | 'warning';
 export function triggerHaptic(kind: Haptic): void {
   switch (kind) {
     case 'selection':
-      void Haptics.selectionAsync();
+      Haptics.selectionAsync().catch(() => {});
       return;
     case 'impact':
-      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
       return;
     case 'success':
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       return;
     case 'warning':
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning).catch(() => {});
       return;
   }
 }

@@ -97,10 +97,13 @@ const SessionTimer = forwardRef<SessionTimerHandle, { status: TimerStatus }>(
 
     const mm = Math.floor(display / 60);
     const ss = display % 60;
+    // String-derived digits so sessions of 100+ minutes grow a third column.
+    const minuteDigits = `${mm}`.padStart(2, '0').split('');
     return (
       <View style={styles.timer}>
-        <RollingDigit digit={Math.floor(mm / 10)} />
-        <RollingDigit digit={mm % 10} />
+        {minuteDigits.map((d, i) => (
+          <RollingDigit key={`m${minuteDigits.length - i}`} digit={Number(d)} />
+        ))}
         <Text style={styles.colon}>:</Text>
         <RollingDigit digit={Math.floor(ss / 10)} />
         <RollingDigit digit={ss % 10} />
