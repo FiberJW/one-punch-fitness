@@ -16,36 +16,37 @@ beforeEach(() => {
 });
 
 describe('WorkoutCard level controls', () => {
-  it('shows the current level as a 1-based label', async () => {
+  // The level is shown as a bare Anton numeral (1-based) beneath a "level" eyebrow.
+  it('shows the current level as a 1-based numeral', async () => {
     await render(<WorkoutCard />);
-    expect(screen.getByText('level 1')).toBeTruthy();
+    expect(screen.getByText('1')).toBeTruthy();
   });
 
   it('plus and minus change the displayed level', async () => {
     await render(<WorkoutCard />);
 
     await fireEvent.press(screen.getByLabelText('increase intensity'));
-    expect(screen.getByText('level 2')).toBeTruthy();
+    expect(screen.getByText('2')).toBeTruthy();
 
     await fireEvent.press(screen.getByLabelText('increase intensity'));
-    expect(screen.getByText('level 3')).toBeTruthy();
+    expect(screen.getByText('3')).toBeTruthy();
 
     await fireEvent.press(screen.getByLabelText('decrease intensity'));
-    expect(screen.getByText('level 2')).toBeTruthy();
+    expect(screen.getByText('2')).toBeTruthy();
   });
 
   it('does not go below level 1 when minus is pressed at the bottom', async () => {
     await render(<WorkoutCard />);
     // minus is disabled at the lowest level, so pressing it changes nothing.
     await fireEvent.press(screen.getByLabelText('decrease intensity'));
-    expect(screen.getByText('level 1')).toBeTruthy();
+    expect(screen.getByText('1')).toBeTruthy();
     expect(screen.getByLabelText('decrease intensity').props.accessibilityState?.disabled).toBe(true);
   });
 
   it('does not go above level 5 when plus is pressed at the top', async () => {
     await render(<WorkoutCard />);
     for (let i = 0; i < 6; i++) await fireEvent.press(screen.getByLabelText('increase intensity'));
-    expect(screen.getByText('level 5')).toBeTruthy();
+    expect(screen.getByText('5')).toBeTruthy();
     expect(screen.getByLabelText('increase intensity').props.accessibilityState?.disabled).toBe(true);
   });
 
@@ -55,27 +56,32 @@ describe('WorkoutCard level controls', () => {
     // Neither control can change the level while a session is underway.
     await fireEvent.press(screen.getByLabelText('increase intensity'));
     await fireEvent.press(screen.getByLabelText('decrease intensity'));
-    expect(screen.getByText('level 1')).toBeTruthy();
+    expect(screen.getByText('1')).toBeTruthy();
     expect(screen.getByLabelText('increase intensity').props.accessibilityState?.disabled).toBe(true);
     expect(screen.getByLabelText('decrease intensity').props.accessibilityState?.disabled).toBe(true);
   });
 });
 
 describe('WorkoutCard start button', () => {
-  it('reads "start" before starting, "resume" once started, "completed" when done', async () => {
+  // The CTA label reskins to GO / RESUME / DONE TODAY; the accessibility label
+  // keeps the stable start/resume/complete semantics.
+  it('reads "GO" before starting, "RESUME" once started, "DONE TODAY" when done', async () => {
     await render(<WorkoutCard />);
-    expect(screen.getByText('start')).toBeTruthy();
+    expect(screen.getByText('GO')).toBeTruthy();
+    expect(screen.getByLabelText('start workout')).toBeTruthy();
 
     await act(async () => useWorkoutStore.getState().startWorkout());
-    expect(screen.getByText('resume')).toBeTruthy();
+    expect(screen.getByText('RESUME')).toBeTruthy();
+    expect(screen.getByLabelText('resume workout')).toBeTruthy();
 
     await act(async () => useWorkoutStore.getState().completeWorkout());
-    expect(screen.getByText('completed')).toBeTruthy();
+    expect(screen.getByText('DONE TODAY')).toBeTruthy();
+    expect(screen.getByLabelText('workout complete')).toBeTruthy();
   });
 
   it('starts the session and navigates to the workout screen when pressed', async () => {
     await render(<WorkoutCard />);
-    await fireEvent.press(screen.getByText('start'));
+    await fireEvent.press(screen.getByText('GO'));
     expect(useWorkoutStore.getState().currentWorkout.started).toBe(true);
     expect(mockPush).toHaveBeenCalledWith('/workout');
   });

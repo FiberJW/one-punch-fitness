@@ -1,17 +1,20 @@
 import { useKeepAwake } from 'expo-keep-awake';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import {
-  Alert,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeInDown,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
+import { ImpactBurst, type ImpactBurstHandle } from '@/components/impact-burst';
+import { PressableScale } from '@/components/pressable-scale';
+import { Eyebrow } from '@/components/type';
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
 import { illustrations } from '@/constants/illustrations';
@@ -34,20 +37,40 @@ const exerciseNames: Record<Exercise, string> = {
   run: 'run',
 };
 
-function formatTime(seconds: number): string {
-  const mm = `${Math.floor(seconds / 60)}`.padStart(2, '0');
-  const ss = `${seconds % 60}`.padStart(2, '0');
-  return `${mm}:${ss}`;
+const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const DIGIT_SIZE = 96;
+const DIGIT_CELL = DIGIT_SIZE * 1.04;
+
+// A single fixed-width digit cell that rolls: on value change the column of
+// 0-9 slides so the new digit enters from below/above the old one.
+function RollingDigit({ digit }: { digit: number }) {
+  const translateY = useSharedValue(-digit * DIGIT_CELL);
+  useEffect(() => {
+    translateY.value = withTiming(-digit * DIGIT_CELL, {
+      duration: 200,
+      easing: Easing.out(Easing.cubic),
+    });
+  }, [digit, translateY]);
+  const style = useAnimatedStyle(() => ({ transform: [{ translateY: translateY.value }] }));
+  return (
+    <View style={styles.digitCell}>
+      <Animated.View style={style}>
+        {DIGITS.map((d) => (
+          <Text key={d} style={styles.digit}>
+            {d}
+          </Text>
+        ))}
+      </Animated.View>
+    </View>
+  );
 }
 
 type SessionTimerHandle = { getElapsed: () => number; reset: () => void };
 
-// Owns the 1s ticking state so each tick re-renders only the timer text rather
-// than the whole workout screen. Frozen while paused or stopped.
+// Owns the 1s ticking state so each tick re-renders only the timer rather than
+// the whole workout screen. Frozen while paused or stopped.
 const SessionTimer = forwardRef<SessionTimerHandle, { status: TimerStatus }>(
   function SessionTimer({ status }, ref) {
-    const { width } = useWindowDimensions();
-    const size = width * 0.6;
     const elapsed = useRef(0);
     const [display, setDisplay] = useState(0);
 
@@ -72,9 +95,15 @@ const SessionTimer = forwardRef<SessionTimerHandle, { status: TimerStatus }>(
       return () => clearInterval(id);
     }, [status]);
 
+    const mm = Math.floor(display / 60);
+    const ss = display % 60;
     return (
-      <View style={[styles.timer, { width: size, height: size, borderRadius: size / 2 }]}>
-        <Text style={styles.timerText}>{formatTime(display)}</Text>
+      <View style={styles.timer}>
+        <RollingDigit digit={Math.floor(mm / 10)} />
+        <RollingDigit digit={mm % 10} />
+        <Text style={styles.colon}>:</Text>
+        <RollingDigit digit={Math.floor(ss / 10)} />
+        <RollingDigit digit={ss % 10} />
       </View>
     );
   },
@@ -83,7 +112,6 @@ const SessionTimer = forwardRef<SessionTimerHandle, { status: TimerStatus }>(
 export default function WorkoutScreen() {
   useKeepAwake();
 
-  const { width } = useWindowDimensions();
   const currentWorkout = useWorkoutStore((s) => s.currentWorkout);
   const completeSet = useWorkoutStore((s) => s.completeSet);
   const completeWorkout = useWorkoutStore((s) => s.completeWorkout);
@@ -94,9 +122,11 @@ export default function WorkoutScreen() {
   const [inSession, setInSession] = useState(false);
   const [status, setStatus] = useState<TimerStatus>('active');
   const timerRef = useRef<SessionTimerHandle>(null);
+  const burstRef = useRef<ImpactBurstHandle>(null);
 
   const onAction = () => {
     if (inSession) {
+      burstRef.current?.fire();
       completeSet(exercise, timerRef.current?.getElapsed() ?? 0);
       if (exercise === 'run') {
         completeWorkout();
@@ -128,67 +158,83 @@ export default function WorkoutScreen() {
     status === 'active' ? 'PAUSE' : status === 'paused' ? 'RESUME' : 'START';
 
   const showProgress = exercise !== 'run';
-  const reps =
+  const count =
     exercise === 'run'
-      ? `${routine.run.distance}${routine.run.units}`
+      ? `${routine.run.distance}${routine.run.units.toUpperCase()}`
       : `${routine[exercise].reps}`;
-  const progressText =
-    exercise === 'run'
-      ? ''
-      : `set ${currentWorkout.setsCompleted[exercise] + 1} of ${routine[exercise].sets}`;
-
-  const setInfo = (
-    <Text style={styles.setType}>
-      <Text style={styles.setReps}>{reps}</Text>
-      {` ${exerciseNames[exercise]}`}
-    </Text>
-  );
+  const progressText = showProgress
+    ? `set ${currentWorkout.setsCompleted[exercise] + 1} of ${routine[exercise].sets}`
+    : exerciseNames[exercise];
 
   return (
     <View style={styles.background}>
-      <ScrollView
-        contentContainerStyle={styles.content}
-        alwaysBounceVertical={false}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-          {inSession ? (
-            <>
-              {setInfo}
-              <SessionTimer ref={timerRef} status={status} />
-              {showProgress ? <Text style={styles.progress}>{progressText}</Text> : null}
-              <View style={styles.controlGroup}>
-                <TouchableOpacity style={styles.control} activeOpacity={0.75} onPress={onSessionControl}>
-                  <View style={styles.controlBase}>
-                    <Text style={[styles.controlLabel, { color: colors.blueLeftUsTooSoon }]}>
-                      {sessionControlLabel}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.control} activeOpacity={0.75} onPress={onStop}>
-                  <View style={styles.controlBase}>
-                    <Text style={[styles.controlLabel, { color: colors.bRED }]}>STOP</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </>
-          ) : (
-            <>
-              <Image
-                style={[styles.image, { width: width - 32, height: width * 0.7 }]}
-                source={exerciseImages[exercise]}
-                resizeMode="cover"
-              />
-              {showProgress ? <Text style={styles.progress}>{progressText}</Text> : null}
-              {setInfo}
-            </>
-          )}
-          <TouchableOpacity style={styles.action} activeOpacity={0.75} onPress={onAction}>
-            <View style={styles.actionBase}>
-              <Text style={styles.actionLabel}>{inSession ? 'COMPLETE' : 'GO'}</Text>
+      {inSession ? (
+        <View style={styles.session}>
+          <Animated.View entering={FadeInDown.duration(400)} style={styles.sessionTop}>
+            <Eyebrow>{progressText}</Eyebrow>
+          </Animated.View>
+          <View style={styles.sessionCenter}>
+            <SessionTimer ref={timerRef} status={status} />
+            <View style={styles.controlGroup}>
+              <PressableScale
+                haptic="selection"
+                accessibilityRole="button"
+                style={styles.controlPill}
+                onPress={onSessionControl}>
+                <Text style={styles.controlLabel}>{sessionControlLabel}</Text>
+              </PressableScale>
+              <PressableScale
+                haptic="selection"
+                accessibilityRole="button"
+                style={[styles.controlPill, styles.stopPill]}
+                onPress={onStop}>
+                <Text style={[styles.controlLabel, styles.stopLabel]}>STOP</Text>
+              </PressableScale>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
-      </ScrollView>
+      ) : (
+        <View style={styles.transition}>
+          <View style={styles.hero}>
+            <Animated.Image
+              key={`${currentWorkout.level}-${exercise}`}
+              entering={FadeIn.duration(300)}
+              style={StyleSheet.absoluteFill}
+              source={exerciseImages[exercise]}
+              resizeMode="cover"
+            />
+            <LinearGradient
+              style={StyleSheet.absoluteFill}
+              colors={['rgba(15,12,12,0)', 'rgba(15,12,12,0.4)', colors.ink]}
+            />
+          </View>
+          <View style={styles.transitionCenter}>
+            {showProgress ? (
+              <Animated.View entering={FadeInDown.delay(60).duration(400)}>
+                <Eyebrow style={styles.centerEyebrow}>{progressText}</Eyebrow>
+              </Animated.View>
+            ) : null}
+            <Animated.Text entering={FadeInDown.delay(120).duration(400)} style={styles.bigCount}>
+              {count}
+            </Animated.Text>
+            <Animated.View entering={FadeInDown.delay(180).duration(400)}>
+              <Eyebrow style={styles.centerEyebrow}>{exerciseNames[exercise]}</Eyebrow>
+            </Animated.View>
+          </View>
+        </View>
+      )}
+
+      <View style={styles.actionContainer}>
+        <PressableScale
+          haptic={inSession ? 'success' : 'impact'}
+          accessibilityRole="button"
+          style={styles.action}
+          onPress={onAction}>
+          <Text style={styles.actionLabel}>{inSession ? 'COMPLETE' : 'GO'}</Text>
+        </PressableScale>
+      </View>
+
+      <ImpactBurst ref={burstRef} />
     </View>
   );
 }
@@ -196,90 +242,112 @@ export default function WorkoutScreen() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: colors.spotiBlack,
+    backgroundColor: colors.ink,
   },
-  content: {
-    flexGrow: 1,
-  },
-  container: {
+  transition: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 16,
   },
-  image: {
-    borderRadius: 12,
-    borderCurve: 'continuous',
+  hero: {
+    height: '45%',
+    width: '100%',
   },
-  progress: {
-    fontFamily: fonts.regular,
-    fontSize: 14,
-    textAlign: 'center',
-    color: colors.seventyWhite,
-    marginTop: 16,
-  },
-  setType: {
-    fontFamily: fonts.regular,
-    fontSize: 36,
-    textAlign: 'center',
-    color: colors.offWhite,
-    marginVertical: 8,
-  },
-  setReps: {
-    fontFamily: fonts.bold,
-    fontSize: 36,
-    textAlign: 'center',
-    color: colors.start,
-  },
-  timer: {
-    borderWidth: 8,
+  transitionCenter: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: colors.status,
+    paddingHorizontal: 24,
   },
-  timerText: {
-    fontFamily: fonts.regular,
-    backgroundColor: 'transparent',
-    fontSize: 64,
-    color: colors.offWhite,
+  centerEyebrow: {
     textAlign: 'center',
+  },
+  bigCount: {
+    fontFamily: fonts.display,
+    fontSize: 110,
+    lineHeight: 116,
+    color: colors.capeWhite,
+    textAlign: 'center',
+  },
+  session: {
+    flex: 1,
+  },
+  sessionTop: {
+    alignItems: 'center',
+    paddingTop: 32,
+  },
+  sessionCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 40,
+  },
+  timer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: DIGIT_CELL,
+  },
+  digitCell: {
+    height: DIGIT_CELL,
+    width: DIGIT_SIZE * 0.62,
+    overflow: 'hidden',
+    alignItems: 'center',
+  },
+  digit: {
+    fontFamily: fonts.display,
+    fontSize: DIGIT_SIZE,
+    lineHeight: DIGIT_CELL,
+    color: colors.heroYellow,
+    textAlign: 'center',
+  },
+  colon: {
+    fontFamily: fonts.display,
+    fontSize: DIGIT_SIZE,
+    lineHeight: DIGIT_CELL,
+    color: colors.heroYellow,
+    marginHorizontal: 2,
+    textAlignVertical: 'center',
   },
   controlGroup: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 16,
+  },
+  controlPill: {
+    minWidth: 128,
+    paddingVertical: 14,
+    borderRadius: 999,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.faint,
     alignItems: 'center',
-    alignSelf: 'stretch',
   },
-  control: {
-    width: '50%',
-  },
-  controlBase: {
-    marginHorizontal: 16,
-    backgroundColor: 'transparent',
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignSelf: 'stretch',
+  stopPill: {
+    borderColor: colors.gloveRed,
   },
   controlLabel: {
-    fontFamily: fonts.bold,
-    fontSize: 36,
-    textAlign: 'center',
+    fontFamily: fonts.medium,
+    fontSize: 13,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    color: colors.capeWhite,
+  },
+  stopLabel: {
+    color: colors.gloveRed,
+  },
+  actionContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 24,
+    paddingTop: 8,
   },
   action: {
-    width: '100%',
-  },
-  actionBase: {
-    marginHorizontal: 16,
-    backgroundColor: colors.start,
-    borderRadius: 12,
-    paddingVertical: 8,
-    alignSelf: 'stretch',
+    height: 64,
+    borderRadius: 16,
+    borderCurve: 'continuous',
+    backgroundColor: colors.heroYellow,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   actionLabel: {
-    fontFamily: fonts.bold,
-    fontSize: 36,
-    color: 'white',
-    backgroundColor: 'transparent',
-    textAlign: 'center',
+    fontFamily: fonts.display,
+    fontSize: 28,
+    letterSpacing: 1,
+    color: colors.ink,
   },
 });

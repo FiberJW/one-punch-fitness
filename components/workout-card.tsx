@@ -2,15 +2,11 @@ import { Feather } from '@expo/vector-icons';
 import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
+import { PressableScale } from '@/components/pressable-scale';
+import { Eyebrow } from '@/components/type';
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
 import { illustrations } from '@/constants/illustrations';
@@ -27,18 +23,16 @@ const levelCovers = [
 
 function IntensityButton({
   icon,
-  side,
   disabled,
   onPress,
 }: {
   icon: 'minus' | 'plus';
-  side: 'left' | 'right';
   disabled: boolean;
   onPress: () => void;
 }) {
   return (
-    <TouchableOpacity
-      style={[styles.intensityTouchable, side === 'left' ? styles.left : styles.right]}
+    <PressableScale
+      haptic="selection"
       accessibilityRole="button"
       accessibilityLabel={icon === 'minus' ? 'decrease intensity' : 'increase intensity'}
       disabled={disabled}
@@ -47,28 +41,41 @@ function IntensityButton({
         <GlassView
           isInteractive={!disabled}
           style={[styles.intensityGlass, disabled && styles.intensityDisabled]}>
-          <Feather name={icon} color="white" size={18} />
+          <Feather name={icon} color={colors.capeWhite} size={18} />
         </GlassView>
       ) : (
         <View style={[styles.intensityBase, disabled && styles.intensityDisabled]}>
-          <Feather name={icon} color="white" size={18} />
+          <Feather name={icon} color={colors.capeWhite} size={18} />
         </View>
       )}
-    </TouchableOpacity>
+    </PressableScale>
   );
 }
 
-function RoutineFacet({ amount, name }: { amount: string; name: string }) {
+function RoutineFacet({
+  count,
+  name,
+  style,
+  delay,
+}: {
+  count: string;
+  name: string;
+  style?: object;
+  delay: number;
+}) {
   return (
-    <View style={styles.facet}>
-      <Text style={styles.facetAmount}>{amount}</Text>
-      <Text style={styles.facetName}>{` ${name}`}</Text>
-    </View>
+    <Animated.View
+      entering={FadeInDown.delay(delay).duration(400)}
+      style={[styles.facet, style]}>
+      <Text style={styles.facetCount}>{count}</Text>
+      <Eyebrow>{name}</Eyebrow>
+    </Animated.View>
   );
 }
 
 export function WorkoutCard() {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const heroHeight = Math.round(height * 0.52);
   const currentWorkout = useWorkoutStore((s) => s.currentWorkout);
   const incrementLevel = useWorkoutStore((s) => s.incrementLevel);
   const decrementLevel = useWorkoutStore((s) => s.decrementLevel);
@@ -77,7 +84,8 @@ export function WorkoutCard() {
   const { level, started, completed } = currentWorkout;
   const routine = routines[level];
 
-  const startLabel = completed ? 'completed' : started ? 'resume' : 'start';
+  const ctaLabel = completed ? 'DONE TODAY' : started ? 'RESUME' : 'GO';
+  const a11yLabel = completed ? 'workout complete' : started ? 'resume workout' : 'start workout';
 
   const onStart = () => {
     startWorkout();
@@ -85,139 +93,170 @@ export function WorkoutCard() {
   };
 
   return (
-    <View style={[styles.container, { width: width - 16 }]}>
-      <View style={styles.header}>
-        <Image style={styles.cover} source={levelCovers[level]} resizeMode="cover" />
-        <LinearGradient
-          style={styles.gradient}
-          colors={['rgba(0,0,0,0)', colors.spotiBlack]}
-        />
-        <Text style={styles.levelLabel}>{`level ${level + 1}`}</Text>
-        <IntensityButton
-          icon="minus"
-          side="left"
-          disabled={started || level === 0}
-          onPress={decrementLevel}
-        />
-        <IntensityButton
-          icon="plus"
-          side="right"
-          disabled={started || level === 4}
-          onPress={incrementLevel}
-        />
-      </View>
-      <View style={styles.routineContainer}>
-        <View>
-          <RoutineFacet amount={`${routine.pushUps.sets}x${routine.pushUps.reps}`} name="push-ups" />
-          <RoutineFacet amount={`${routine.sitUps.sets}x${routine.sitUps.reps}`} name="sit-ups" />
-        </View>
-        <View>
-          <RoutineFacet amount={`${routine.squats.sets}x${routine.squats.reps}`} name="squats" />
-          <RoutineFacet amount={`${routine.run.distance}${routine.run.units}`} name="run" />
+    <View style={{ width }}>
+      <View style={[styles.hero, { height: heroHeight }]}>
+        <Animated.View entering={FadeIn.duration(500)} style={StyleSheet.absoluteFill}>
+          <Image style={styles.cover} source={levelCovers[level]} resizeMode="cover" />
+          <LinearGradient style={styles.gradient} colors={['rgba(15,12,12,0)', colors.ink]} />
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(80).duration(400)} style={styles.levelBlock}>
+          <Eyebrow>level</Eyebrow>
+          <Text style={styles.levelNumeral}>{level + 1}</Text>
+        </Animated.View>
+        <View style={styles.intensityGroup}>
+          <IntensityButton icon="minus" disabled={started || level === 0} onPress={decrementLevel} />
+          <IntensityButton icon="plus" disabled={started || level === 4} onPress={incrementLevel} />
         </View>
       </View>
-      <View style={styles.startContainer}>
-        <TouchableOpacity style={styles.startTouchable} disabled={completed} onPress={onStart}>
-          <Text style={styles.startLabel}>{startLabel}</Text>
-        </TouchableOpacity>
+
+      <View style={styles.facetGrid}>
+        <View style={[styles.facetRow, styles.facetRowTop]}>
+          <RoutineFacet
+            delay={160}
+            style={styles.facetLeft}
+            count={`${routine.pushUps.sets}×${routine.pushUps.reps}`}
+            name="push-ups"
+          />
+          <RoutineFacet
+            delay={220}
+            count={`${routine.sitUps.sets}×${routine.sitUps.reps}`}
+            name="sit-ups"
+          />
+        </View>
+        <View style={styles.facetRow}>
+          <RoutineFacet
+            delay={280}
+            style={styles.facetLeft}
+            count={`${routine.squats.sets}×${routine.squats.reps}`}
+            name="squats"
+          />
+          <RoutineFacet
+            delay={340}
+            count={`${routine.run.distance}${routine.run.units.toUpperCase()}`}
+            name="run"
+          />
+        </View>
+      </View>
+
+      <View style={styles.ctaContainer}>
+        <PressableScale
+          haptic="impact"
+          accessibilityRole="button"
+          accessibilityLabel={a11yLabel}
+          disabled={completed}
+          style={[styles.cta, completed && styles.ctaDisabled]}
+          onPress={onStart}>
+          <Text style={[styles.ctaLabel, completed && styles.ctaLabelDisabled]}>{ctaLabel}</Text>
+        </PressableScale>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.elevated,
-    marginHorizontal: 8,
-    marginVertical: 8,
-    overflow: 'hidden',
-    borderRadius: 12,
-    borderCurve: 'continuous',
-  },
-  header: {
-    alignItems: 'center',
+  hero: {
+    width: '100%',
+    justifyContent: 'flex-end',
   },
   cover: {
-    height: 200,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     width: '100%',
-    borderTopRightRadius: 12,
-    borderTopLeftRadius: 12,
+    height: '100%',
   },
   gradient: {
     position: 'absolute',
+    top: 0,
     left: 0,
     right: 0,
-    top: 0,
-    height: 200,
+    bottom: 0,
   },
-  levelLabel: {
-    color: 'white',
-    fontSize: 24,
-    fontFamily: fonts.medium,
-    backgroundColor: 'transparent',
+  levelBlock: {
     position: 'absolute',
-    bottom: 18,
-  },
-  intensityTouchable: {
-    position: 'absolute',
+    left: 20,
     bottom: 16,
   },
-  left: { left: 16 },
-  right: { right: 16 },
+  levelNumeral: {
+    fontFamily: fonts.display,
+    fontSize: 110,
+    lineHeight: 112,
+    color: colors.capeWhite,
+  },
+  intensityGroup: {
+    position: 'absolute',
+    right: 20,
+    bottom: 24,
+    flexDirection: 'row',
+    gap: 12,
+  },
   intensityBase: {
-    height: 32,
-    width: 32,
-    borderRadius: 8,
+    height: 40,
+    width: 40,
+    borderRadius: 10,
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.twentyWhite,
+    backgroundColor: colors.panelHigh,
   },
   intensityGlass: {
-    height: 32,
-    width: 32,
-    borderRadius: 8,
+    height: 40,
+    width: 40,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   intensityDisabled: { opacity: 0.3 },
-  routineContainer: {
+  facetGrid: {
+    marginTop: 8,
+  },
+  facetRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: 16,
+  },
+  facetRowTop: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.faint,
   },
   facet: {
-    flexDirection: 'row',
-  },
-  facetAmount: {
-    fontFamily: fonts.bold,
-    color: colors.offWhite,
-    fontSize: 14,
-  },
-  facetName: {
-    fontFamily: fonts.regular,
-    color: colors.offWhite,
-    fontSize: 14,
-  },
-  startContainer: {
-    height: 64,
-    backgroundColor: colors.start,
-    borderBottomRightRadius: 12,
-    borderBottomLeftRadius: 12,
-  },
-  startTouchable: {
-    backgroundColor: colors.twentyOnStart,
-    borderRadius: 8,
     flex: 1,
-    margin: 16,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
+  },
+  facetLeft: {
+    borderRightWidth: StyleSheet.hairlineWidth,
+    borderRightColor: colors.faint,
+  },
+  facetCount: {
+    fontFamily: fonts.display,
+    fontSize: 22,
+    color: colors.capeWhite,
+    marginBottom: 4,
+  },
+  ctaContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 4,
+  },
+  cta: {
+    height: 60,
+    borderRadius: 14,
+    borderCurve: 'continuous',
+    backgroundColor: colors.heroYellow,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  startLabel: {
-    fontFamily: fonts.medium,
-    fontSize: 16,
-    color: 'white',
-    backgroundColor: 'transparent',
+  ctaDisabled: {
+    backgroundColor: colors.panel,
+  },
+  ctaLabel: {
+    fontFamily: fonts.display,
+    fontSize: 26,
+    letterSpacing: 1,
+    color: colors.ink,
+  },
+  ctaLabelDisabled: {
+    color: colors.smoke,
   },
 });
