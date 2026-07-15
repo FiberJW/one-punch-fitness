@@ -48,14 +48,14 @@ export default function InfoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.spotiBlack,
   },
   fallback: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   fallbackText: {
-    color: colors.spotiBlack,
+    color: colors.offWhite,
     fontSize: 18,
     fontFamily: fonts.regular,
   },
@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   title: {
-    color: colors.spotiBlack,
+    color: colors.offWhite,
     fontSize: 24,
     fontFamily: fonts.medium,
     marginTop: 24,
     backgroundColor: 'transparent',
   },
   description: {
-    color: colors.spotiBlack,
+    color: colors.seventyWhite,
     fontSize: 18,
     fontFamily: fonts.regular,
     marginVertical: 16,

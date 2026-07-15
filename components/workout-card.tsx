@@ -119,12 +119,13 @@ export function WorkoutCard() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: colors.elevated,
     width: CARD_WIDTH,
     marginHorizontal: 8,
     marginVertical: 8,
     overflow: 'hidden',
     borderRadius: 12,
+    borderCurve: 'continuous',
   },
   header: {
     alignItems: 'center',
@@ -177,12 +178,12 @@ const styles = StyleSheet.create({
   },
   facetAmount: {
     fontFamily: fonts.bold,
-    color: colors.spotiBlack,
+    color: colors.offWhite,
     fontSize: 14,
   },
   facetName: {
     fontFamily: fonts.regular,
-    color: colors.spotiBlack,
+    color: colors.offWhite,
     fontSize: 14,
   },
   startContainer: {

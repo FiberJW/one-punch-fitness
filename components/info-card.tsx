@@ -47,12 +47,13 @@ export function InfoCard({ guide }: { guide: Guide }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: colors.elevated,
     width: CARD_WIDTH,
     marginHorizontal: 8,
     marginVertical: 8,
     overflow: 'hidden',
     borderRadius: 12,
+    borderCurve: 'continuous',
   },
   cover: {
     height: 148,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     backgroundColor: 'transparent',
     fontSize: 12,
-    color: colors.spotiBlack,
+    color: colors.seventyWhite,
     margin: 16,
   },
 });

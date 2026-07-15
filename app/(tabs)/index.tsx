@@ -34,7 +34,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.offWhite,
+    backgroundColor: colors.spotiBlack,
     flex: 1,
   },
   content: {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     fontSize: 14,
     marginLeft: 16,
-    color: colors.halfBlack,
+    color: colors.seventyWhite,
   },
   guides: {
     flexGrow: 0,

@@ -187,7 +187,7 @@ export default function WorkoutScreen() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: '#faf8ff',
+    backgroundColor: colors.spotiBlack,
   },
   content: {
     flexGrow: 1,
@@ -207,21 +207,21 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     fontSize: 14,
     textAlign: 'center',
-    color: colors.halfBlack,
+    color: colors.seventyWhite,
     marginTop: 16,
   },
   setType: {
     fontFamily: fonts.regular,
     fontSize: 36,
     textAlign: 'center',
-    color: colors.status,
+    color: colors.offWhite,
     marginVertical: 8,
   },
   setReps: {
     fontFamily: fonts.bold,
     fontSize: 36,
     textAlign: 'center',
-    color: colors.status,
+    color: colors.start,
   },
   timer: {
     width: TIMER_SIZE,
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     backgroundColor: 'transparent',
     fontSize: 64,
-    color: colors.spotiBlack,
+    color: colors.offWhite,
     textAlign: 'center',
   },
   controlGroup: {
