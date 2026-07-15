@@ -4,6 +4,7 @@ import { Calendar, type DateData } from 'react-native-calendars';
 
 import { DailyProgress } from '@/components/daily-progress';
 import { colors } from '@/constants/colors';
+import { fonts } from '@/constants/fonts';
 import { progressColor, relativeLuminance } from '@/lib/colors';
 import { percentComplete, useWorkoutStore, type Workout } from '@/store/workout';
 
@@ -61,9 +62,9 @@ export default function CalendarScreen() {
           arrowColor: colors.status,
           todayTextColor: colors.status,
           monthTextColor: colors.spotiBlack,
-          textMonthFontFamily: 'InterUI-Bold',
-          textDayFontFamily: 'InterUI-Regular',
-          textDayHeaderFontFamily: 'InterUI-Medium',
+          textMonthFontFamily: fonts.bold,
+          textDayFontFamily: fonts.regular,
+          textDayHeaderFontFamily: fonts.medium,
         }}
       />
       <DailyProgress workout={selectedWorkout} />
