@@ -6,7 +6,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DailyProgress } from '@/components/daily-progress';
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
-import { progressColor, relativeLuminance } from '@/lib/colors';
+import { triggerHaptic } from '@/lib/haptics';
+import { progressFill } from '@/lib/colors';
 import { percentComplete, useWorkoutStore, type Workout } from '@/store/workout';
 
 type PeriodMark = { startingDay: boolean; endingDay: boolean; color: string; textColor: string };
@@ -14,13 +15,16 @@ type PeriodMark = { startingDay: boolean; endingDay: boolean; color: string; tex
 // Hoisted so the Calendar receives a stable theme identity and does not
 // re-render its ~70 Day components on every unrelated store change.
 const CALENDAR_THEME = {
-  calendarBackground: 'white',
-  arrowColor: colors.status,
-  todayTextColor: colors.status,
-  monthTextColor: colors.spotiBlack,
-  textMonthFontFamily: fonts.bold,
+  calendarBackground: colors.panel,
+  arrowColor: colors.heroYellow,
+  todayTextColor: colors.heroYellow,
+  dayTextColor: colors.capeWhite,
+  textDisabledColor: colors.faint,
+  monthTextColor: colors.capeWhite,
+  textMonthFontFamily: fonts.display,
   textDayFontFamily: fonts.regular,
   textDayHeaderFontFamily: fonts.medium,
+  textSectionTitleColor: colors.smoke,
 } as const;
 
 export default function CalendarScreen() {
@@ -36,12 +40,12 @@ export default function CalendarScreen() {
     for (const workout of workouts) {
       const progress = percentComplete(workout);
       if (progress > 0) {
-        const color = progressColor(progress);
         marks[workout.date] = {
           startingDay: true,
           endingDay: true,
-          color,
-          textColor: relativeLuminance(color) > 0.179 ? colors.spotiBlack : 'white',
+          color: progressFill(progress),
+          // Bright yellow fills read dark; low fills and the gloveRed K.O. day read light.
+          textColor: progress > 60 && progress < 100 ? colors.ink : colors.capeWhite,
         };
       }
     }
@@ -58,7 +62,10 @@ export default function CalendarScreen() {
   // identity and never forces the Calendar to re-render its Day components.
   const onDayPress = useCallback((day: DateData) => {
     const { currentWorkout: c, history: h } = useWorkoutStore.getState();
-    if ([c, ...h].some((w) => w.date === day.dateString)) setSelectedDate(day.dateString);
+    if ([c, ...h].some((w) => w.date === day.dateString)) {
+      triggerHaptic('selection');
+      setSelectedDate(day.dateString);
+    }
   }, []);
 
   const insets = useSafeAreaInsets();
@@ -83,7 +90,7 @@ export default function CalendarScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.spotiBlack,
+    backgroundColor: colors.ink,
     flex: 1,
   },
   content: {
@@ -91,7 +98,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   calendar: {
-    borderRadius: 12,
+    borderRadius: 16,
+    borderCurve: 'continuous',
     overflow: 'hidden',
+    paddingBottom: 8,
   },
 });

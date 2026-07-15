@@ -1,44 +1,27 @@
-import { progressColor, relativeLuminance } from '@/lib/colors';
+import { progressFill } from '@/lib/colors';
 
-describe('progressColor', () => {
-  it('starts at red (#FF5252) for 0% progress', () => {
-    expect(progressColor(0).toLowerCase()).toBe('#ff5252');
+describe('progressFill', () => {
+  it('starts at the panel surface (#1d1717) for 0% progress', () => {
+    expect(progressFill(0).toLowerCase()).toBe('#1d1717');
   });
 
-  it('ends at teal (#1DE9B6) for 100% progress', () => {
-    expect(progressColor(100).toLowerCase()).toBe('#1de9b6');
+  it('returns the gloveRed K.O. fill (#e5484d) at 100%', () => {
+    expect(progressFill(100).toLowerCase()).toBe('#e5484d');
   });
 
-  it('passes through each interpolation stop at even thirds', () => {
-    // t = (percent / 100) * 3, so the stops land at 0, 33.3, 66.6, 100.
-    expect(progressColor(100 / 3).toLowerCase()).toBe('#ff4500'); // orangered
-    expect(progressColor(200 / 3).toLowerCase()).toBe('#ffff00'); // yellow
+  it('interpolates panel -> heroYellow: each channel rises toward yellow as progress grows', () => {
+    const channel = (hex: string, i: number) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16);
+    const samples = [0, 25, 50, 75, 99].map((p) => progressFill(p));
+    for (const i of [0, 1]) {
+      // red and green climb from panel (29, 23) toward heroYellow (255, 201).
+      for (let j = 1; j < samples.length; j++) {
+        expect(channel(samples[j], i)).toBeGreaterThanOrEqual(channel(samples[j - 1], i));
+      }
+    }
   });
 
   it('clamps out-of-range input to the endpoints', () => {
-    expect(progressColor(-50).toLowerCase()).toBe('#ff5252');
-    expect(progressColor(150).toLowerCase()).toBe('#1de9b6');
-  });
-
-  it('the red channel decreases monotonically across the scale', () => {
-    const redChannel = (hex: string) => parseInt(hex.slice(1, 3), 16);
-    const reds = [0, 25, 50, 75, 100].map((p) => redChannel(progressColor(p)));
-    for (let i = 1; i < reds.length; i++) {
-      expect(reds[i]).toBeLessThanOrEqual(reds[i - 1]);
-    }
-  });
-});
-
-describe('relativeLuminance', () => {
-  it('is 1 for white and 0 for black', () => {
-    expect(relativeLuminance('#ffffff')).toBeCloseTo(1, 5);
-    expect(relativeLuminance('#000000')).toBeCloseTo(0, 5);
-  });
-
-  it('drives the calendar text-color threshold: bright fills read dark, dark fills read light', () => {
-    // Calendar picks dark text when luminance > 0.5, light text otherwise.
-    const pickText = (hex: string) => (relativeLuminance(hex) > 0.5 ? 'dark' : 'light');
-    expect(pickText(progressColor(100))).toBe('dark'); // bright teal
-    expect(pickText(progressColor(0))).toBe('light'); // red
+    expect(progressFill(-50).toLowerCase()).toBe('#1d1717');
+    expect(progressFill(150).toLowerCase()).toBe('#e5484d');
   });
 });

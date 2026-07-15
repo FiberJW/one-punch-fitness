@@ -11,13 +11,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
+import { PressableScale } from '@/components/pressable-scale';
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
 import { formatTime } from '@/lib/dates';
+import { triggerHaptic } from '@/lib/haptics';
 import { useSettingsStore } from '@/store/settings';
 import { useWorkoutStore } from '@/store/workout';
 
@@ -37,30 +38,33 @@ async function scheduleDailyReminder(date: Date) {
 
 function Switch({ value }: { value: boolean }) {
   return (
-    <View style={styles.switchTrack}>
+    <View style={[styles.switchTrack, value && styles.switchTrackOn]}>
       <View style={[styles.switchKnob, value ? styles.knobOn : styles.knobOff]} />
     </View>
   );
 }
 
 function Option({
-  tint,
   label,
+  danger,
   onPress,
   children,
 }: {
-  tint: string;
   label: string;
+  danger?: boolean;
   onPress: () => void;
   children?: React.ReactNode;
 }) {
   return (
-    <TouchableOpacity activeOpacity={0.95} onPress={onPress}>
-      <View style={[styles.option, { backgroundColor: tint }]}>
-        <Text style={styles.optionLabel}>{label}</Text>
-        {children}
-      </View>
-    </TouchableOpacity>
+    <PressableScale
+      haptic="selection"
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={styles.option}
+      onPress={onPress}>
+      <Text style={[styles.optionLabel, danger && styles.dangerLabel]}>{label}</Text>
+      {children}
+    </PressableScale>
   );
 }
 
@@ -119,6 +123,7 @@ export default function SettingsScreen() {
           text: 'OK',
           style: 'destructive',
           onPress: async () => {
+            triggerHaptic('warning');
             await Notifications.cancelAllScheduledNotificationsAsync();
             await AsyncStorage.clear();
             resetWorkout();
@@ -136,26 +141,22 @@ export default function SettingsScreen() {
         style={styles.container}
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16 }]}
         alwaysBounceVertical={false}>
-        <Option
-          tint={remindersActive ? colors.start : colors.disabled}
-          label="reminders"
-          onPress={() => void onToggleReminders()}>
+        <Option label="reminders" onPress={() => void onToggleReminders()}>
           <Switch value={remindersActive} />
         </Option>
 
         {remindersActive && (
           <Option
-            tint={timeSet ? colors.status : colors.disabled}
             label="reminder time"
             onPress={() => {
               setTempTime(new Date(reminderTime));
               setPickerVisible(true);
             }}>
-            <Text style={styles.optionText}>{formatTime(new Date(reminderTime))}</Text>
+            <Text style={styles.optionValue}>{formatTime(new Date(reminderTime))}</Text>
           </Option>
         )}
 
-        <Option tint={colors.bRED} label="clear workout data" onPress={onClearData} />
+        <Option label="clear workout data" danger onPress={onClearData} />
       </ScrollView>
 
       {pickerVisible && Platform.OS === 'android' && (
@@ -175,16 +176,17 @@ export default function SettingsScreen() {
                 onChange={onPickerChange}
               />
               <View style={styles.modalButtons}>
-                <TouchableOpacity onPress={() => setPickerVisible(false)}>
+                <PressableScale accessibilityRole="button" onPress={() => setPickerVisible(false)}>
                   <Text style={styles.modalCancel}>cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </PressableScale>
+                <PressableScale
+                  accessibilityRole="button"
                   onPress={() => {
                     setPickerVisible(false);
                     void confirmTime(tempTime);
                   }}>
                   <Text style={styles.modalDone}>done</Text>
-                </TouchableOpacity>
+                </PressableScale>
               </View>
             </View>
           </View>
@@ -197,7 +199,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.spotiBlack,
+    backgroundColor: colors.ink,
   },
   content: {
     flexGrow: 1,
@@ -207,7 +209,9 @@ const styles = StyleSheet.create({
   option: {
     width: CONTENT_WIDTH,
     padding: 24,
-    borderRadius: 12,
+    borderRadius: 16,
+    borderCurve: 'continuous',
+    backgroundColor: colors.panel,
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 16,
@@ -215,27 +219,35 @@ const styles = StyleSheet.create({
   },
   optionLabel: {
     fontFamily: fonts.medium,
-    fontSize: 24,
-    color: 'white',
+    fontSize: 18,
+    color: colors.capeWhite,
   },
-  optionText: {
+  dangerLabel: {
+    color: colors.gloveRed,
+  },
+  optionValue: {
     fontFamily: fonts.regular,
-    fontSize: 24,
-    color: 'white',
+    fontSize: 18,
+    color: colors.smoke,
   },
   switchTrack: {
-    backgroundColor: colors.fortyBlack,
-    borderRadius: 12,
-    height: 24,
-    width: 64,
+    backgroundColor: colors.faint,
+    borderRadius: 15,
+    height: 30,
+    width: 52,
+    padding: 3,
+    justifyContent: 'center',
+  },
+  switchTrackOn: {
+    backgroundColor: colors.heroYellow,
   },
   switchKnob: {
     height: 24,
     width: 24,
     borderRadius: 12,
-    backgroundColor: 'white',
+    backgroundColor: colors.capeWhite,
   },
-  knobOn: { alignSelf: 'flex-end' },
+  knobOn: { alignSelf: 'flex-end', backgroundColor: colors.ink },
   knobOff: { alignSelf: 'flex-start' },
   modalBackdrop: {
     flex: 1,
@@ -243,7 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.halfBlack,
   },
   modalSheet: {
-    backgroundColor: colors.elevated,
+    backgroundColor: colors.panel,
     paddingBottom: 32,
     paddingTop: 24,
     paddingHorizontal: 16,
@@ -256,7 +268,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.medium,
     fontSize: 16,
     textAlign: 'center',
-    color: colors.offWhite,
+    color: colors.capeWhite,
   },
   modalButtons: {
     flexDirection: 'row',
@@ -266,11 +278,11 @@ const styles = StyleSheet.create({
   modalCancel: {
     fontFamily: fonts.medium,
     fontSize: 18,
-    color: colors.disabled,
+    color: colors.smoke,
   },
   modalDone: {
     fontFamily: fonts.bold,
     fontSize: 18,
-    color: colors.status,
+    color: colors.heroYellow,
   },
 });
