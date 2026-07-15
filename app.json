@@ -53,6 +53,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "babbfa81-37b4-41ad-9d36-0405aabe5e49"
+      }
+    },
+    "owner": "fiberjw"
   }
 }
