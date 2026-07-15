@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import { Calendar, type DateData } from 'react-native-calendars';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DailyProgress } from '@/components/daily-progress';
 import { colors } from '@/constants/colors';
@@ -60,11 +61,12 @@ export default function CalendarScreen() {
     if ([c, ...h].some((w) => w.date === day.dateString)) setSelectedDate(day.dateString);
   }, []);
 
+  const insets = useSafeAreaInsets();
+
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={styles.content}
-      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}
       showsVerticalScrollIndicator={false}
       alwaysBounceVertical={false}>
       <Calendar
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flexGrow: 1,
-    paddingVertical: 16,
+    paddingBottom: 16,
     alignItems: 'center',
   },
   calendar: {

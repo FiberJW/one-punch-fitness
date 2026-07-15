@@ -1,6 +1,7 @@
 import DateTimePicker, { type DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import {
   Alert,
@@ -64,6 +65,7 @@ function Option({
 }
 
 export default function SettingsScreen() {
+  const insets = useSafeAreaInsets();
   const { remindersActive, reminderTime, timeSet, setRemindersActive, setReminderTime, reset } =
     useSettingsStore();
   const resetWorkout = useWorkoutStore((s) => s.reset);
@@ -132,8 +134,7 @@ export default function SettingsScreen() {
     <>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.content}
-        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}
         alwaysBounceVertical={false}>
         <Option
           tint={remindersActive ? colors.start : colors.disabled}

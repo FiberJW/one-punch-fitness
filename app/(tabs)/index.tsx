@@ -1,4 +1,5 @@
 import { FlatList, type ListRenderItem, ScrollView, StyleSheet, Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { InfoCard } from '@/components/info-card';
 import { WorkoutCard } from '@/components/workout-card';
@@ -10,11 +11,12 @@ import { guides, type Guide } from '@/constants/guides';
 const renderGuide: ListRenderItem<Guide> = ({ item }) => <InfoCard guide={item} />;
 
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
+
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={styles.content}
-      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={[styles.content, { paddingTop: insets.top }]}
       alwaysBounceVertical={false}
       showsVerticalScrollIndicator={false}>
       <WorkoutCard />
