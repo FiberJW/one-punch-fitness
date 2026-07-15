@@ -46,7 +46,7 @@
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "4.25.2",
     "react-native-webview": "13.16.1",
-    "react-native-worklets": "0.10.0",
+    "react-native-worklets": "^0.10.2",
     "zustand": "^5.0.14"
   },
   "overrides": {
@@ -73,6 +73,11 @@
           "react-native-worklets"
         ]
       }
+    },
+    "install": {
+      "exclude": [
+        "react-native-worklets"
+      ]
     }
   }
 }
