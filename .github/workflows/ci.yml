@@ -19,3 +19,4 @@ jobs:
       - run: npx expo-doctor
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm test -- --ci
