@@ -7,4 +7,12 @@ module.exports = defineConfig([
   {
     ignores: ['dist/*'],
   },
+  {
+    // jest.mock() factories are hoisted, so their module references must use
+    // require() rather than a top-level import.
+    files: ['**/__tests__/**', '**/*.test.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
 ]);
