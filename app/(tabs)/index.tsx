@@ -16,7 +16,7 @@ export default function HomeScreen() {
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={[styles.content, { paddingTop: insets.top }]}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top, paddingBottom: insets.bottom + 16 }]}
       alwaysBounceVertical={false}
       showsVerticalScrollIndicator={false}>
       <WorkoutCard />

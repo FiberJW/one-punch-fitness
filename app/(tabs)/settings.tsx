@@ -134,7 +134,7 @@ export default function SettingsScreen() {
     <>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16 }]}
         alwaysBounceVertical={false}>
         <Option
           tint={remindersActive ? colors.start : colors.disabled}

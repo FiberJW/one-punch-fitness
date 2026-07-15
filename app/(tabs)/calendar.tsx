@@ -66,7 +66,7 @@ export default function CalendarScreen() {
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16 }]}
       showsVerticalScrollIndicator={false}
       alwaysBounceVertical={false}>
       <Calendar

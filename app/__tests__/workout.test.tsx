@@ -23,6 +23,8 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
+afterEach(() => jest.restoreAllMocks());
+
 describe('WorkoutScreen session', () => {
   it('starts a session when GO is pressed, revealing COMPLETE', async () => {
     await render(<WorkoutScreen />);
@@ -68,6 +70,5 @@ describe('WorkoutScreen session', () => {
     );
     expect(mockBack).toHaveBeenCalled();
 
-    alertSpy.mockRestore();
   });
 });
