@@ -30,7 +30,7 @@ export const guides: Guide[] = [
       ' And of course, make sure you eat three meals a day. ' +
       'Just a banana in the morning is fine. But the most important thing is ' +
       ' to never use the a.c. or heat in the summer or winter ' +
-      'so that you can strenghten the mind. ' +
+      'so that you can strengthen the mind. ' +
       "In the beginning, you'll wish you were dead. " +
       "You might start thinking, what's the harm of taking a day off? " +
       'But for me, in order to be a strong hero, no matter how tough it was even if I was spitting blood, I never stopped. ' +

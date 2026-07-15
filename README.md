@@ -24,13 +24,17 @@
 
 ## Development
 
+This app relies on native modules (WebView, splash screen, etc.), so it needs a
+[development build](https://docs.expo.dev/develop/development-builds/introduction/)
+— it will not run in Expo Go.
+
 ```sh
-npm install      # install dependencies
-npx expo start   # start the dev server
+npm install       # install dependencies
+npx expo run:ios  # build and run the iOS development build (use run:android for Android)
 ```
 
-Then press `i` / `a` to open the iOS simulator or Android emulator, or scan the
-QR code with a development build.
+Once a development build is installed, `npx expo start` starts the dev server;
+press `i` / `a` to open it in the iOS simulator or Android emulator.
 
 ### Scripts
 

@@ -10,7 +10,13 @@ export default function InfoScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const guide = guides.find((g) => g.id === id);
 
-  if (!guide) return <View style={styles.container} />;
+  if (!guide) {
+    return (
+      <View style={[styles.container, styles.fallback]}>
+        <Text style={styles.fallbackText}>guide not found</Text>
+      </View>
+    );
+  }
 
   if (guide.url) {
     return (
@@ -43,6 +49,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  fallback: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fallbackText: {
+    color: colors.spotiBlack,
+    fontSize: 18,
+    fontFamily: fonts.regular,
   },
   loading: {
     position: 'absolute',

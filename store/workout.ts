@@ -104,6 +104,7 @@ export const useWorkoutStore = create<WorkoutStore>()(
         set((s) => {
           const w = s.currentWorkout;
           if (exercise === 'run') {
+            if (w.setsCompleted.run) return {};
             return {
               currentWorkout: {
                 ...w,
@@ -112,6 +113,7 @@ export const useWorkoutStore = create<WorkoutStore>()(
               },
             };
           }
+          if (w.setsCompleted[exercise] >= routines[w.level][exercise].sets) return {};
           return {
             currentWorkout: {
               ...w,

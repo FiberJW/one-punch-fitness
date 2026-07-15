@@ -40,6 +40,8 @@ function IntensityButton({
   return (
     <TouchableOpacity
       style={[styles.intensityTouchable, side === 'left' ? styles.left : styles.right]}
+      accessibilityRole="button"
+      accessibilityLabel={icon === 'minus' ? 'decrease intensity' : 'increase intensity'}
       disabled={disabled}
       onPress={onPress}>
       <View style={[styles.intensityBase, disabled && styles.intensityDisabled]}>
