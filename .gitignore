@@ -1,8 +1,34 @@
-node_modules/**/*
-.expo/*
+# Learn more https://docs.expo.io/guides/using-git
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
 npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
 .DS_Store
-lib/**/*
-.merlin
-.bsb.lock
-**/**/*.bs.js
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
