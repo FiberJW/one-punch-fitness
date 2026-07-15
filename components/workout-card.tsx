@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import {
@@ -42,9 +43,17 @@ function IntensityButton({
       accessibilityLabel={icon === 'minus' ? 'decrease intensity' : 'increase intensity'}
       disabled={disabled}
       onPress={onPress}>
-      <View style={[styles.intensityBase, disabled && styles.intensityDisabled]}>
-        <Feather name={icon} color="white" size={18} />
-      </View>
+      {isLiquidGlassAvailable() ? (
+        <GlassView
+          isInteractive={!disabled}
+          style={[styles.intensityGlass, disabled && styles.intensityDisabled]}>
+          <Feather name={icon} color="white" size={18} />
+        </GlassView>
+      ) : (
+        <View style={[styles.intensityBase, disabled && styles.intensityDisabled]}>
+          <Feather name={icon} color="white" size={18} />
+        </View>
+      )}
     </TouchableOpacity>
   );
 }
@@ -163,6 +172,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.twentyWhite,
+  },
+  intensityGlass: {
+    height: 32,
+    width: 32,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   intensityDisabled: { opacity: 0.3 },
   routineContainer: {

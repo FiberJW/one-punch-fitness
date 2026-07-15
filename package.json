@@ -27,6 +27,7 @@
     "expo-constants": "~57.0.5",
     "expo-dev-client": "~57.0.6",
     "expo-font": "~57.0.1",
+    "expo-glass-effect": "~57.0.1",
     "expo-keep-awake": "~57.0.1",
     "expo-linear-gradient": "~57.0.1",
     "expo-linking": "~57.0.3",
