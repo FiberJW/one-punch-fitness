@@ -13,7 +13,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          check-latest: true
           cache: npm
       - run: npm ci
+      - run: npx expo-doctor
       - run: npm run lint
       - run: npm run typecheck

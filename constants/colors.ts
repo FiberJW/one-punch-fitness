@@ -3,7 +3,6 @@ export const colors = {
   purpp: '#42002F',
   halfWhite: 'rgba(255, 255, 255, 0.5)',
   twentyWhite: 'rgba(255, 255, 255, 0.2)',
-  fiftyWhite: 'rgba(255, 255, 255, 0.5)',
   seventyWhite: 'rgba(255, 255, 255, 0.7)',
   offWhite: '#E0E0E0',
   offYellow: '#FFFEEC',
