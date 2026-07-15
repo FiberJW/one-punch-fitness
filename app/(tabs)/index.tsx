@@ -1,10 +1,13 @@
-import { FlatList, ScrollView, StyleSheet, Text } from 'react-native';
+import { FlatList, type ListRenderItem, ScrollView, StyleSheet, Text } from 'react-native';
 
 import { InfoCard } from '@/components/info-card';
 import { WorkoutCard } from '@/components/workout-card';
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
-import { guides } from '@/constants/guides';
+import { guides, type Guide } from '@/constants/guides';
+
+// Stable reference so FlatList rows are not rebuilt on every screen redraw.
+const renderGuide: ListRenderItem<Guide> = ({ item }) => <InfoCard guide={item} />;
 
 export default function HomeScreen() {
   return (
@@ -22,7 +25,7 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
         data={guides}
         keyExtractor={(guide) => guide.id}
-        renderItem={({ item }) => <InfoCard guide={item} />}
+        renderItem={renderGuide}
       />
     </ScrollView>
   );
