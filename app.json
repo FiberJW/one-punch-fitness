@@ -33,10 +33,10 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Inter-UI-Regular.ttf",
-            "./assets/fonts/Inter-UI-Medium.ttf",
-            "./assets/fonts/Inter-UI-Bold.ttf",
-            "./assets/fonts/Inter-UI-Black.ttf"
+            "./assets/fonts/InterUI-Regular.ttf",
+            "./assets/fonts/InterUI-Medium.ttf",
+            "./assets/fonts/InterUI-Bold.ttf",
+            "./assets/fonts/InterUI-Black.ttf"
           ]
         }
       ]
