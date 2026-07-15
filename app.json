@@ -18,7 +18,9 @@
       "package": "co.jwheatley.opf",
       "icon": "./assets/android-icon.png"
     },
-    "assetBundlePatterns": ["assets/**/*"],
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
     "plugins": [
       "expo-router",
       [
@@ -38,6 +40,14 @@
             "./assets/fonts/InterUI-Bold.ttf",
             "./assets/fonts/InterUI-Black.ttf"
           ]
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#191414"
         }
       ]
     ],
