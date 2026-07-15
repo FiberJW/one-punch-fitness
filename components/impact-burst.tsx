@@ -14,7 +14,8 @@ const RAYS = Array.from({ length: RAY_COUNT }, (_, i) => (i * 360) / RAY_COUNT);
 export const ImpactBurst = forwardRef<ImpactBurstHandle>(function ImpactBurst(_props, ref) {
   const { width, height } = useWindowDimensions();
   const rayLength = Math.max(width, height);
-  const t = useSharedValue(0);
+  // Rest state is t=1 (opacity 0); fire() rewinds to 0 and plays forward.
+  const t = useSharedValue(1);
   const flash = useSharedValue(0);
 
   useImperativeHandle(ref, () => ({
