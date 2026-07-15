@@ -7,4 +7,6 @@ export const fonts = {
   medium: 'InterUI-Medium',
   bold: 'InterUI-Bold',
   black: 'InterUI-Black',
+  // Anton condensed display face — numerals, timer, big counts, GO/COMPLETE.
+  display: 'Anton-Regular',
 } as const;

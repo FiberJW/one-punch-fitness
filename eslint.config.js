@@ -30,7 +30,10 @@ module.exports = defineConfig([
   {
     // jest.mock() factories are hoisted, so their module references must use
     // require() rather than a top-level import.
-    files: ['**/__tests__/**', '**/*.test.{ts,tsx}'],
+    files: ['**/__tests__/**', '**/*.test.{ts,tsx}', 'jest.setup.js'],
+    languageOptions: {
+      globals: { jest: 'readonly', require: 'readonly', module: 'writable' },
+    },
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
     },

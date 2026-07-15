@@ -28,7 +28,7 @@
         {
           "image": "./assets/splash.png",
           "resizeMode": "contain",
-          "backgroundColor": "#651FFF"
+          "backgroundColor": "#0F0C0C"
         }
       ],
       [
@@ -38,7 +38,8 @@
             "./assets/fonts/InterUI-Regular.ttf",
             "./assets/fonts/InterUI-Medium.ttf",
             "./assets/fonts/InterUI-Bold.ttf",
-            "./assets/fonts/InterUI-Black.ttf"
+            "./assets/fonts/InterUI-Black.ttf",
+            "./assets/fonts/Anton-Regular.ttf"
           ]
         }
       ],
