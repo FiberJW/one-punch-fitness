@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import { DarkTheme, ThemeProvider } from 'expo-router/react-navigation';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
+import { AppState } from 'react-native';
 
 import { colors } from '@/constants/colors';
 import { useWorkoutStore } from '@/store/workout';
@@ -20,6 +21,14 @@ export default function RootLayout() {
   useEffect(() => {
     if (hydrated) SplashScreen.hideAsync();
   }, [hydrated]);
+
+  // Archive an earlier day's workout when the app returns to the foreground.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active') useWorkoutStore.getState().rolloverIfNeeded();
+    });
+    return () => sub.remove();
+  }, []);
 
   if (!hydrated) return null;
 
