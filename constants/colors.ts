@@ -7,6 +7,9 @@ export const colors = {
   offWhite: '#E0E0E0',
   offYellow: '#FFFEEC',
   spotiBlack: '#191414',
+  // Elevated dark surfaces layered above spotiBlack (cards, sheets).
+  elevated: '#221C1C',
+  elevatedHigh: '#2A2424',
   fortyBlack: 'rgba(0, 0, 0, 0.4)',
   twentyBlack: 'rgba(0, 0, 0, 0.2)',
   halfBlack: 'rgba(0, 0, 0, 0.5)',

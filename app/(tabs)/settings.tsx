@@ -7,6 +7,7 @@ import {
   Dimensions,
   Modal,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -128,27 +129,33 @@ export default function SettingsScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Option
-        tint={remindersActive ? colors.start : colors.disabled}
-        label="reminders"
-        onPress={() => void onToggleReminders()}>
-        <Switch value={remindersActive} />
-      </Option>
-
-      {remindersActive && (
+    <>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.content}
+        contentInsetAdjustmentBehavior="automatic"
+        alwaysBounceVertical={false}>
         <Option
-          tint={timeSet ? colors.status : colors.disabled}
-          label="reminder time"
-          onPress={() => {
-            setTempTime(new Date(reminderTime));
-            setPickerVisible(true);
-          }}>
-          <Text style={styles.optionText}>{formatTime(new Date(reminderTime))}</Text>
+          tint={remindersActive ? colors.start : colors.disabled}
+          label="reminders"
+          onPress={() => void onToggleReminders()}>
+          <Switch value={remindersActive} />
         </Option>
-      )}
 
-      <Option tint={colors.bRED} label="clear workout data" onPress={onClearData} />
+        {remindersActive && (
+          <Option
+            tint={timeSet ? colors.status : colors.disabled}
+            label="reminder time"
+            onPress={() => {
+              setTempTime(new Date(reminderTime));
+              setPickerVisible(true);
+            }}>
+            <Text style={styles.optionText}>{formatTime(new Date(reminderTime))}</Text>
+          </Option>
+        )}
+
+        <Option tint={colors.bRED} label="clear workout data" onPress={onClearData} />
+      </ScrollView>
 
       {pickerVisible && Platform.OS === 'android' && (
         <DateTimePicker value={tempTime} mode="time" display="default" onChange={onPickerChange} />
@@ -163,6 +170,7 @@ export default function SettingsScreen() {
                 value={tempTime}
                 mode="time"
                 display="spinner"
+                themeVariant="dark"
                 onChange={onPickerChange}
               />
               <View style={styles.modalButtons}>
@@ -181,15 +189,19 @@ export default function SettingsScreen() {
           </View>
         </Modal>
       )}
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: colors.spotiBlack,
+  },
+  content: {
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingBottom: 16,
   },
   option: {
     width: CONTENT_WIDTH,
@@ -230,22 +242,25 @@ const styles = StyleSheet.create({
     backgroundColor: colors.halfBlack,
   },
   modalSheet: {
-    backgroundColor: 'white',
+    backgroundColor: colors.elevated,
     paddingBottom: 32,
-    paddingTop: 16,
+    paddingTop: 24,
     paddingHorizontal: 16,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    borderCurve: 'continuous',
+    gap: 16,
   },
   modalTitle: {
     fontFamily: fonts.medium,
     fontSize: 16,
     textAlign: 'center',
-    color: colors.spotiBlack,
+    color: colors.offWhite,
   },
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 24,
-    marginTop: 8,
   },
   modalCancel: {
     fontFamily: fonts.medium,

@@ -14,6 +14,7 @@ export default function HomeScreen() {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}
+      contentInsetAdjustmentBehavior="automatic"
       alwaysBounceVertical={false}
       showsVerticalScrollIndicator={false}>
       <WorkoutCard />

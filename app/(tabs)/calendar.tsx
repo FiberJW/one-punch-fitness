@@ -50,6 +50,7 @@ export default function CalendarScreen() {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}
+      contentInsetAdjustmentBehavior="automatic"
       showsVerticalScrollIndicator={false}
       alwaysBounceVertical={false}>
       <Calendar
