@@ -6,7 +6,7 @@
     "version": "0.5.1",
     "orientation": "portrait",
     "scheme": "onepunchfitness",
-    "primaryColor": "#651FFF",
+    "primaryColor": "#FFC93C",
     "userInterfaceStyle": "dark",
     "icon": "./assets/expo-icon.png",
     "ios": {
@@ -48,7 +48,7 @@
         "expo-notifications",
         {
           "icon": "./assets/notification-icon.png",
-          "color": "#191414"
+          "color": "#0F0C0C"
         }
       ]
     ],

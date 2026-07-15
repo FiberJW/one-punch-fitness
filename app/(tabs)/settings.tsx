@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   modalBackdrop: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: colors.halfBlack,
+    backgroundColor: colors.scrim,
   },
   modalSheet: {
     backgroundColor: colors.panel,

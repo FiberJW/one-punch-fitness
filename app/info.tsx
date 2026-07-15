@@ -26,7 +26,7 @@ export default function InfoScreen() {
           startInLoadingState
           renderLoading={() => (
             <View style={styles.loading}>
-              <ActivityIndicator size="large" color={colors.status} />
+              <ActivityIndicator size="large" color={colors.heroYellow} />
             </View>
           )}
         />
@@ -48,14 +48,14 @@ export default function InfoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.spotiBlack,
+    backgroundColor: colors.ink,
   },
   fallback: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   fallbackText: {
-    color: colors.offWhite,
+    color: colors.capeWhite,
     fontSize: 18,
     fontFamily: fonts.regular,
   },
@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   title: {
-    color: colors.offWhite,
+    color: colors.capeWhite,
     fontSize: 24,
     fontFamily: fonts.medium,
     marginTop: 24,
     backgroundColor: 'transparent',
   },
   description: {
-    color: colors.seventyWhite,
+    color: colors.smoke,
     fontSize: 18,
     fontFamily: fonts.regular,
     marginVertical: 16,

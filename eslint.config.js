@@ -18,10 +18,6 @@ module.exports = defineConfig([
       // code, and adding it would invalidate the existing dev-client build
       // currently used for simulator QA. Intentional use of react-native Image.
       'react-doctor/rn-prefer-expo-image': 'off',
-      // TouchableOpacity + activeOpacity is a deliberate design choice across
-      // these screens; switching to Pressable changes the press-feedback
-      // semantics and warrants a design review rather than a lint autofix.
-      'react-doctor/rn-prefer-pressable': 'off',
     },
   },
   {

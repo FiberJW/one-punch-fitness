@@ -1,9 +1,11 @@
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 
+import { colors } from '@/constants/colors';
+
 // Liquid glass tab bar on iOS 26; Material 3 bottom nav on Android.
 export default function TabLayout() {
   return (
-    <NativeTabs>
+    <NativeTabs tintColor={colors.heroYellow}>
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Icon sf="house.fill" md="home" />
         <NativeTabs.Trigger.Label>home</NativeTabs.Trigger.Label>

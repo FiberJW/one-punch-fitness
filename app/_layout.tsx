@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { AppState } from 'react-native';
 
 import { colors } from '@/constants/colors';
+import { fonts } from '@/constants/fonts';
 import { useWorkoutStore } from '@/store/workout';
 
 // Keep the splash visible until the workout store has rehydrated so cold-start
@@ -36,13 +37,18 @@ export default function RootLayout() {
     <ThemeProvider value={DarkTheme}>
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: colors.spotiBlack },
-          headerTintColor: colors.offWhite,
+          headerStyle: { backgroundColor: colors.ink },
+          headerTintColor: colors.capeWhite,
+          headerTitleStyle: { fontFamily: fonts.regular },
+          headerShadowVisible: false,
           headerBackButtonDisplayMode: 'minimal',
-          contentStyle: { backgroundColor: colors.spotiBlack },
+          contentStyle: { backgroundColor: colors.ink },
         }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="workout" options={{ title: 'workout' }} />
+        <Stack.Screen
+          name="workout"
+          options={{ title: 'workout', headerTransparent: true, headerStyle: { backgroundColor: 'transparent' } }}
+        />
         <Stack.Screen name="info" options={{ title: 'info' }} />
       </Stack>
     </ThemeProvider>
