@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, type PersistStorage } from 'zustand/middleware';
 
-import { sessionPercent } from '@/constants/expert-plan';
 import { isoWeekStart, localDate } from '@/lib/dates';
 
 // A single expert training session. `setsDone` maps exercise id -> completed
@@ -111,7 +110,3 @@ export function sessionsThisWeek(state: Persisted): number {
   return sessions.filter((s) => isoWeekStart(s.date) === week).length;
 }
 
-// Live percent for the current session (re-exported convenience for UI).
-export function currentSessionPercent(state: Persisted): number {
-  return sessionPercent(state.currentSession);
-}

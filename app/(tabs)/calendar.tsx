@@ -71,22 +71,24 @@ export default function CalendarScreen() {
 
   // Always show the live current entries when the selected day is today.
   const activeDate = selectedDate ?? currentWorkout.date;
-  const selectedWorkout: Workout =
-    activeDate !== currentWorkout.date
-      ? (workouts.find((w) => w.date === activeDate) ?? currentWorkout)
-      : currentWorkout;
+  const saitamaForDate: Workout | undefined =
+    activeDate === currentWorkout.date
+      ? currentWorkout
+      : workouts.find((w) => w.date === activeDate);
+  const selectedWorkout: Workout = saitamaForDate ?? currentWorkout;
   const selectedSession: ExpertSession | undefined =
     activeDate === currentSession.date
       ? currentSession
       : sessions.find((s) => s.date === activeDate);
 
   // Prefer the expert card when that day has a logged expert session whose
-  // progress meets or beats the Saitama workout's.
+  // progress meets or beats the Saitama workout's. A day with no Saitama
+  // workout has no competing progress — don't compare against today's.
   const expertTouched =
     selectedSession !== undefined &&
     Object.values(selectedSession.setsDone).some((n) => n > 0);
-  const showExpert =
-    expertTouched && sessionPercent(selectedSession!) >= percentComplete(selectedWorkout);
+  const saitamaPercent = saitamaForDate ? percentComplete(saitamaForDate) : -1;
+  const showExpert = expertTouched && sessionPercent(selectedSession!) >= saitamaPercent;
 
   // Read both stores at press time so the callback keeps a stable identity and
   // never forces the Calendar to re-render its Day components.
