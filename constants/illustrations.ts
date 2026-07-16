@@ -19,3 +19,13 @@ export const illustrations = {
 } satisfies Record<string, ImageSourcePropType>;
 
 export type IllustrationName = keyof typeof illustrations;
+
+// Expert-mode imagery: the ExpertCard header cover plus one banner per section.
+export const expertIllustrations = {
+  cover: require('../assets/illustrations/expert/expert-cover.png'),
+  upperBody: require('../assets/illustrations/expert/upper-body.png'),
+  lowerBody: require('../assets/illustrations/expert/lower-body.png'),
+  core: require('../assets/illustrations/expert/core.png'),
+} satisfies Record<string, ImageSourcePropType>;
+
+export type ExpertIllustrationName = keyof typeof expertIllustrations;
