@@ -9,11 +9,13 @@ export interface Persisted {
   remindersActive: boolean;
   reminderTime: string; // UTC date string
   timeSet: boolean;
+  expertMode: boolean;
 }
 
 interface SettingsStore extends Persisted {
   setRemindersActive: (active: boolean) => void;
   setReminderTime: (utcString: string) => void;
+  setExpertMode: (expertMode: boolean) => void;
   reset: () => void;
 }
 
@@ -21,6 +23,7 @@ const initial: Persisted = {
   remindersActive: false,
   reminderTime: new Date().toUTCString(),
   timeSet: false,
+  expertMode: false,
 };
 
 // Raw-shape storage adapter (same approach as store/workout.ts): reads/writes the
@@ -43,6 +46,7 @@ export const useSettingsStore = create<SettingsStore>()(
       ...initial,
       setRemindersActive: (remindersActive) => set({ remindersActive }),
       setReminderTime: (reminderTime) => set({ reminderTime, timeSet: true }),
+      setExpertMode: (expertMode) => set({ expertMode }),
       reset: () => set(initial),
     }),
     {
@@ -52,6 +56,7 @@ export const useSettingsStore = create<SettingsStore>()(
         remindersActive: s.remindersActive,
         reminderTime: s.reminderTime,
         timeSet: s.timeSet,
+        expertMode: s.expertMode,
       }),
     },
   ),

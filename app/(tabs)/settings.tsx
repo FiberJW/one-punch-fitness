@@ -19,6 +19,7 @@ import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
 import { formatTime } from '@/lib/dates';
 import { triggerHaptic } from '@/lib/haptics';
+import { useExpertStore } from '@/store/expert';
 import { useSettingsStore } from '@/store/settings';
 import { useWorkoutStore } from '@/store/workout';
 
@@ -73,9 +74,18 @@ function Option({
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
-  const { remindersActive, reminderTime, timeSet, setRemindersActive, setReminderTime, reset } =
-    useSettingsStore();
+  const {
+    remindersActive,
+    reminderTime,
+    timeSet,
+    expertMode,
+    setRemindersActive,
+    setReminderTime,
+    setExpertMode,
+    reset,
+  } = useSettingsStore();
   const resetWorkout = useWorkoutStore((s) => s.reset);
+  const resetExpert = useExpertStore((s) => s.reset);
   const [pickerVisible, setPickerVisible] = useState(false);
   const [tempTime, setTempTime] = useState(() => new Date(reminderTime));
 
@@ -130,6 +140,7 @@ export default function SettingsScreen() {
             await Notifications.cancelAllScheduledNotificationsAsync();
             await AsyncStorage.clear();
             resetWorkout();
+            resetExpert();
             reset();
           },
         },
@@ -158,6 +169,13 @@ export default function SettingsScreen() {
             <Text style={styles.optionValue}>{formatTime(new Date(reminderTime))}</Text>
           </Option>
         )}
+
+        <Option
+          label="expert mode"
+          checked={expertMode}
+          onPress={() => setExpertMode(!expertMode)}>
+          <Switch value={expertMode} />
+        </Option>
 
         <Option label="clear workout data" danger onPress={onClearData} />
       </ScrollView>

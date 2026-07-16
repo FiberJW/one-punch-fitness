@@ -6,27 +6,44 @@ import { AppState } from 'react-native';
 
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
+import { useExpertStore } from '@/store/expert';
 import { useWorkoutStore } from '@/store/workout';
 
-// Keep the splash visible until the workout store has rehydrated so cold-start
-// taps can't act on pre-hydration state.
+// Keep the splash visible until both persisted stores have rehydrated so
+// cold-start taps can't act on pre-hydration state.
 SplashScreen.preventAutoHideAsync();
 
 // Inter fonts are embedded at build time via the expo-font config plugin (app.json),
 // so no runtime font loading is needed here.
 export default function RootLayout() {
-  const [hydrated, setHydrated] = useState(() => useWorkoutStore.persist.hasHydrated());
+  const [hydrated, setHydrated] = useState(
+    () => useWorkoutStore.persist.hasHydrated() && useExpertStore.persist.hasHydrated(),
+  );
 
-  useEffect(() => useWorkoutStore.persist.onFinishHydration(() => setHydrated(true)), []);
+  useEffect(() => {
+    const check = () =>
+      setHydrated(
+        useWorkoutStore.persist.hasHydrated() && useExpertStore.persist.hasHydrated(),
+      );
+    const unsubWorkout = useWorkoutStore.persist.onFinishHydration(check);
+    const unsubExpert = useExpertStore.persist.onFinishHydration(check);
+    return () => {
+      unsubWorkout();
+      unsubExpert();
+    };
+  }, []);
 
   useEffect(() => {
     if (hydrated) SplashScreen.hideAsync();
   }, [hydrated]);
 
-  // Archive an earlier day's workout when the app returns to the foreground.
+  // Archive an earlier day's sessions when the app returns to the foreground.
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') useWorkoutStore.getState().rolloverIfNeeded();
+      if (state === 'active') {
+        useWorkoutStore.getState().rolloverIfNeeded();
+        useExpertStore.getState().rolloverIfNeeded();
+      }
     });
     return () => sub.remove();
   }, []);

@@ -7,6 +7,16 @@ export function localDate(date: Date = new Date()): string {
   return `${year}-${month}-${day}`;
 }
 
+// Monday-based ISO week start for a "YYYY-MM-DD" date, returned as "YYYY-MM-DD".
+// Two dates share a week iff their isoWeekStart values are equal.
+export function isoWeekStart(dateString: string): string {
+  const [year, month, day] = dateString.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+  const daysSinceMonday = (date.getDay() + 6) % 7; // getDay: 0=Sun..6=Sat
+  date.setDate(date.getDate() - daysSinceMonday);
+  return localDate(date);
+}
+
 function ordinal(day: number): string {
   if (day >= 11 && day <= 13) return `${day}th`;
   switch (day % 10) {

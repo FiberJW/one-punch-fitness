@@ -36,7 +36,7 @@ describe('rehydration of legacy "settings" payload', () => {
 });
 
 describe('persisted output stays in the raw legacy shape', () => {
-  it('writes only the three known fields, dropping any stray keys', async () => {
+  it('writes only the known fields, dropping any stray keys', async () => {
     useSettingsStore.getState().setReminderTime('Thu, 17 Jul 2026 08:00:00 GMT');
     await flush();
 
@@ -44,9 +44,41 @@ describe('persisted output stays in the raw legacy shape', () => {
     const [key, value] = setItemMock.mock.calls.at(-1)!;
     expect(key).toBe('settings');
     const parsed = JSON.parse(value);
-    expect(Object.keys(parsed).sort()).toEqual(['reminderTime', 'remindersActive', 'timeSet']);
+    expect(Object.keys(parsed).sort()).toEqual([
+      'expertMode',
+      'reminderTime',
+      'remindersActive',
+      'timeSet',
+    ]);
     expect(parsed).not.toHaveProperty('datePickerVisible');
     expect(parsed).not.toHaveProperty('state');
     expect(parsed.timeSet).toBe(true);
+  });
+});
+
+describe('expertMode flag', () => {
+  it('defaults off and persists alongside the legacy fields', async () => {
+    expect(useSettingsStore.getState().expertMode).toBe(false);
+
+    useSettingsStore.getState().setExpertMode(true);
+    await flush();
+
+    expect(useSettingsStore.getState().expertMode).toBe(true);
+    const [, value] = setItemMock.mock.calls.at(-1)!;
+    expect(JSON.parse(value).expertMode).toBe(true);
+  });
+
+  it('tolerates a legacy payload with no expertMode key (defaults to false)', async () => {
+    const legacy = {
+      remindersActive: true,
+      reminderTime: 'Wed, 16 Jul 2026 09:00:00 GMT',
+      timeSet: true,
+    };
+    await AsyncStorage.setItem('settings', JSON.stringify(legacy));
+
+    await useSettingsStore.persist.rehydrate();
+    await flush();
+
+    expect(useSettingsStore.getState().expertMode).toBe(false);
   });
 });
