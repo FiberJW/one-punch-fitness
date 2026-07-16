@@ -32,7 +32,7 @@ const REST_SECONDS = 90;
 const sectionBanners: Record<ExpertSectionName, { source: number; aspectRatio: number; bottomOffset: number }> = {
   'UPPER BODY': { source: expertIllustrations.upperBody, aspectRatio: 1440 / 1080, bottomOffset: 0 },
   'LOWER BODY': { source: expertIllustrations.lowerBody, aspectRatio: 680 / 632, bottomOffset: 76 },
-  CORE: { source: expertIllustrations.core, aspectRatio: 1440 / 1080, bottomOffset: 0 },
+  CORE: { source: expertIllustrations.core, aspectRatio: 1280 / 720, bottomOffset: 10 },
 };
 
 function BarDayPill({ barDay, onToggle }: { barDay: boolean; onToggle: () => void }) {

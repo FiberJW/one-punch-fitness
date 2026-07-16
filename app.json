@@ -1,12 +1,10 @@
 {
   "expo": {
     "name": "One Punch Fitness",
-    "description": "A \"One Punch Man\"-inspired workout app!",
     "slug": "one-punch-fitness",
     "version": "0.5.1",
     "orientation": "portrait",
     "scheme": "onepunchfitness",
-    "primaryColor": "#FFC93C",
     "userInterfaceStyle": "dark",
     "icon": "./assets/expo-icon.png",
     "ios": {
@@ -26,7 +24,8 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/splash.png",
+          "image": "./assets/splash-fist.png",
+          "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#0F0C0C"
         }
