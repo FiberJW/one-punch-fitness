@@ -20,7 +20,7 @@ import {
   type ExpertExercise,
   type ExpertSectionName,
 } from '@/constants/expert-plan';
-import { expertIllustrations } from '@/constants/illustrations';
+import { expertIllustrations, illustrations } from '@/constants/illustrations';
 import { triggerHaptic } from '@/lib/haptics';
 import { useExpertStore } from '@/store/expert';
 
@@ -31,7 +31,7 @@ const REST_SECONDS = 90;
 // subject (drawn low in each still) stays in view — RN has no objectPosition.
 const sectionBanners: Record<ExpertSectionName, { source: number; aspectRatio: number; bottomOffset: number }> = {
   'UPPER BODY': { source: expertIllustrations.upperBody, aspectRatio: 1440 / 1080, bottomOffset: 0 },
-  'LOWER BODY': { source: expertIllustrations.lowerBody, aspectRatio: 680 / 632, bottomOffset: 76 },
+  'LOWER BODY': { source: illustrations.squats, aspectRatio: 597 / 448, bottomOffset: 47 },
   CORE: { source: expertIllustrations.core, aspectRatio: 1280 / 720, bottomOffset: 10 },
 };
 
