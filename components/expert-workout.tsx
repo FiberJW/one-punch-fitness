@@ -2,7 +2,7 @@ import { useKeepAwake } from 'expo-keep-awake';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,10 +26,13 @@ import { useExpertStore } from '@/store/expert';
 
 const REST_SECONDS = 90;
 
-const sectionBanners: Record<ExpertSectionName, number> = {
-  'UPPER BODY': expertIllustrations.upperBody,
-  'LOWER BODY': expertIllustrations.lowerBody,
-  CORE: expertIllustrations.core,
+// source + crop framing: aspectRatio sizes the absolute image from the banner
+// width, and bottomOffset slides the visible 100pt window up the frame so the
+// subject (drawn low in each still) stays in view — RN has no objectPosition.
+const sectionBanners: Record<ExpertSectionName, { source: number; aspectRatio: number; bottomOffset: number }> = {
+  'UPPER BODY': { source: expertIllustrations.upperBody, aspectRatio: 1440 / 1080, bottomOffset: 0 },
+  'LOWER BODY': { source: expertIllustrations.lowerBody, aspectRatio: 680 / 632, bottomOffset: 76 },
+  CORE: { source: expertIllustrations.core, aspectRatio: 1440 / 1080, bottomOffset: 0 },
 };
 
 function BarDayPill({ barDay, onToggle }: { barDay: boolean; onToggle: () => void }) {
@@ -47,9 +50,17 @@ function BarDayPill({ barDay, onToggle }: { barDay: boolean; onToggle: () => voi
 }
 
 function SectionBanner({ name }: { name: ExpertSectionName }) {
+  const { source, aspectRatio, bottomOffset } = sectionBanners[name];
+  const { width } = useWindowDimensions();
+  const imageWidth = width - 40; // banner spans the screen minus its margins
+  const imageHeight = imageWidth / aspectRatio;
   return (
     <View style={styles.banner}>
-      <Image style={StyleSheet.absoluteFill} source={sectionBanners[name]} resizeMode="cover" />
+      <Image
+        style={[styles.bannerImage, { width: imageWidth, height: imageHeight, bottom: -bottomOffset }]}
+        source={source}
+        resizeMode="cover"
+      />
       <View style={[StyleSheet.absoluteFill, styles.bannerTint]} />
       <LinearGradient
         style={StyleSheet.absoluteFill}
@@ -169,7 +180,7 @@ export function ExpertWorkout() {
   const sections = visibleSections(barDay);
 
   return (
-    <View style={[styles.background, { paddingTop: insets.top + 8 }]}>
+    <View style={[styles.background, { paddingTop: insets.top + 52 }]}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Animated.View entering={FadeInDown.duration(400)} style={styles.header}>
           <Eyebrow>expert session</Eyebrow>
@@ -266,8 +277,12 @@ const styles = StyleSheet.create({
   section: {
     marginTop: 20,
   },
+  bannerImage: {
+    position: 'absolute',
+    left: 0,
+  },
   banner: {
-    height: 100,
+    height: 150,
     marginHorizontal: 20,
     borderRadius: 12,
     borderCurve: 'continuous',
@@ -276,7 +291,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   bannerTint: {
-    backgroundColor: 'rgba(15, 12, 12, 0.15)',
+    backgroundColor: 'rgba(15, 12, 12, 0.08)',
   },
   bannerTitle: {
     color: colors.capeWhite,

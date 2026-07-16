@@ -52,7 +52,7 @@ export function ExpertCard() {
   return (
     <View style={styles.card}>
       <Animated.View entering={FadeIn.duration(500)} style={styles.cover}>
-        <Image style={StyleSheet.absoluteFill} source={expertIllustrations.cover} resizeMode="cover" />
+        <Image style={styles.coverImage} source={expertIllustrations.cover} resizeMode="cover" />
         {/* The manga panel has a white background; darken it so it sits on the dark UI. */}
         <View style={[StyleSheet.absoluteFill, styles.coverTint]} />
         <LinearGradient style={StyleSheet.absoluteFill} colors={['rgba(15,12,12,0)', colors.panel]} />
@@ -107,9 +107,14 @@ const styles = StyleSheet.create({
   cover: {
     height: 180,
     width: '100%',
+    overflow: 'hidden',
+  },
+  coverImage: {
+    width: '100%',
+    height: 180,
   },
   coverTint: {
-    backgroundColor: 'rgba(15, 12, 12, 0.15)',
+    backgroundColor: 'rgba(15, 12, 12, 0.3)',
   },
   body: {
     padding: 20,
