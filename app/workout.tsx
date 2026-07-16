@@ -13,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { DisplayText } from '@/components/display-text';
+import { ExpertWorkout } from '@/components/expert-workout';
 import { ImpactBurst, type ImpactBurstHandle } from '@/components/impact-burst';
 import { PressableScale } from '@/components/pressable-scale';
 import { Eyebrow } from '@/components/type';
@@ -20,6 +21,7 @@ import { colors } from '@/constants/colors';
 import { ANTON, fonts } from '@/constants/fonts';
 import { illustrations } from '@/constants/illustrations';
 import { routines } from '@/constants/routines';
+import { useSettingsStore } from '@/store/settings';
 import { currentExercise, useWorkoutStore, type Exercise } from '@/store/workout';
 
 type TimerStatus = 'active' | 'paused' | 'stopped';
@@ -119,7 +121,14 @@ const SessionTimer = forwardRef<SessionTimerHandle, { status: TimerStatus }>(
   },
 );
 
+// Picks the expert checklist or the Saitama session by the persisted mode flag.
+// Each variant is a separate component so their hooks stay isolated.
 export default function WorkoutScreen() {
+  const expertMode = useSettingsStore((s) => s.expertMode);
+  return expertMode ? <ExpertWorkout /> : <SaitamaWorkout />;
+}
+
+function SaitamaWorkout() {
   useKeepAwake();
 
   const currentWorkout = useWorkoutStore((s) => s.currentWorkout);
