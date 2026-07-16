@@ -12,11 +12,12 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { DisplayText } from '@/components/display-text';
 import { ImpactBurst, type ImpactBurstHandle } from '@/components/impact-burst';
 import { PressableScale } from '@/components/pressable-scale';
 import { Eyebrow } from '@/components/type';
 import { colors } from '@/constants/colors';
-import { fonts } from '@/constants/fonts';
+import { ANTON, fonts } from '@/constants/fonts';
 import { illustrations } from '@/constants/illustrations';
 import { routines } from '@/constants/routines';
 import { currentExercise, useWorkoutStore, type Exercise } from '@/store/workout';
@@ -39,14 +40,18 @@ const exerciseNames: Record<Exercise, string> = {
 
 const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const DIGIT_SIZE = 96;
-const DIGIT_CELL = DIGIT_SIZE * 1.04;
+// Each rolled digit occupies one full Anton line box; the visible cell clips
+// to the glyph ink so the tall font metrics don't crop or pad the timer.
+const DIGIT_STRIDE = Math.round(DIGIT_SIZE * ANTON.line);
+const DIGIT_INK_TOP = DIGIT_SIZE * ANTON.inkTop - 1;
+const DIGIT_CELL = Math.ceil(DIGIT_SIZE * ANTON.inkHeight) + 2;
 
 // A single fixed-width digit cell that rolls: on value change the column of
 // 0-9 slides so the new digit enters from below/above the old one.
 function RollingDigit({ digit }: { digit: number }) {
-  const translateY = useSharedValue(-digit * DIGIT_CELL);
+  const translateY = useSharedValue(-digit * DIGIT_STRIDE);
   useEffect(() => {
-    translateY.value = withTiming(-digit * DIGIT_CELL, {
+    translateY.value = withTiming(-digit * DIGIT_STRIDE, {
       duration: 200,
       easing: Easing.out(Easing.cubic),
     });
@@ -54,7 +59,7 @@ function RollingDigit({ digit }: { digit: number }) {
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: translateY.value }] }));
   return (
     <View style={styles.digitCell}>
-      <Animated.View style={style}>
+      <Animated.View style={[styles.digitColumn, style]}>
         {DIGITS.map((d) => (
           <Text key={d} style={styles.digit}>
             {d}
@@ -104,7 +109,9 @@ const SessionTimer = forwardRef<SessionTimerHandle, { status: TimerStatus }>(
         {minuteDigits.map((d, i) => (
           <RollingDigit key={`m${minuteDigits.length - i}`} digit={Number(d)} />
         ))}
-        <Text style={styles.colon}>:</Text>
+        <DisplayText size={DIGIT_SIZE} style={styles.colon}>
+          :
+        </DisplayText>
         <RollingDigit digit={Math.floor(ss / 10)} />
         <RollingDigit digit={ss % 10} />
       </View>
@@ -217,9 +224,11 @@ export default function WorkoutScreen() {
                 <Eyebrow style={styles.centerEyebrow}>{progressText}</Eyebrow>
               </Animated.View>
             ) : null}
-            <Animated.Text entering={FadeInDown.delay(120).duration(400)} style={styles.bigCount}>
-              {count}
-            </Animated.Text>
+            <Animated.View entering={FadeInDown.delay(120).duration(400)} style={styles.bigCountBlock}>
+              <DisplayText size={110} style={styles.bigCount}>
+                {count}
+              </DisplayText>
+            </Animated.View>
             <Animated.View entering={FadeInDown.delay(180).duration(400)}>
               <Eyebrow style={styles.centerEyebrow}>{exerciseNames[exercise]}</Eyebrow>
             </Animated.View>
@@ -263,11 +272,10 @@ const styles = StyleSheet.create({
   centerEyebrow: {
     textAlign: 'center',
   },
+  bigCountBlock: {
+    marginVertical: 8,
+  },
   bigCount: {
-    fontFamily: fonts.display,
-    fontSize: 110,
-    lineHeight: 116,
-    color: colors.capeWhite,
     textAlign: 'center',
   },
   session: {
@@ -294,20 +302,20 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
   },
+  digitColumn: {
+    marginTop: -DIGIT_INK_TOP,
+  },
   digit: {
     fontFamily: fonts.display,
     fontSize: DIGIT_SIZE,
-    lineHeight: DIGIT_CELL,
+    lineHeight: DIGIT_STRIDE,
     color: colors.heroYellow,
     textAlign: 'center',
+    includeFontPadding: false,
   },
   colon: {
-    fontFamily: fonts.display,
-    fontSize: DIGIT_SIZE,
-    lineHeight: DIGIT_CELL,
     color: colors.heroYellow,
     marginHorizontal: 2,
-    textAlignVertical: 'center',
   },
   controlGroup: {
     flexDirection: 'row',

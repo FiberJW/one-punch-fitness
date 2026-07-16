@@ -2,6 +2,7 @@ import { memo, useEffect } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
+import { DisplayText } from '@/components/display-text';
 import { Eyebrow } from '@/components/type';
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
@@ -37,7 +38,9 @@ export const DailyProgress = memo(function DailyProgress({ workout }: { workout:
   return (
     <View style={[styles.container, { width: width - 32 }]}>
       <Eyebrow>{dateLabel}</Eyebrow>
-      <Text style={styles.percent}>{`${Math.floor(percentComplete(workout))}%`}</Text>
+      <View style={styles.percentBlock}>
+        <DisplayText size={72}>{`${Math.floor(percentComplete(workout))}%`}</DisplayText>
+      </View>
       <View style={styles.stats}>
         <StatRow
           label="push-ups"
@@ -72,12 +75,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderCurve: 'continuous',
   },
-  percent: {
-    color: colors.capeWhite,
-    fontFamily: fonts.display,
-    fontSize: 72,
-    lineHeight: 78,
-    marginTop: 4,
+  percentBlock: {
+    marginTop: 8,
   },
   stats: {
     marginTop: 12,

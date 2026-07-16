@@ -6,6 +6,7 @@ import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
 import { PressableScale } from '@/components/pressable-scale';
+import { DisplayText } from '@/components/display-text';
 import { Eyebrow } from '@/components/type';
 import { colors } from '@/constants/colors';
 import { fonts } from '@/constants/fonts';
@@ -101,7 +102,7 @@ export function WorkoutCard() {
         </Animated.View>
         <Animated.View entering={FadeInDown.delay(80).duration(400)} style={styles.levelBlock}>
           <Eyebrow>level</Eyebrow>
-          <Text style={styles.levelNumeral}>{level + 1}</Text>
+          <DisplayText size={110}>{level + 1}</DisplayText>
         </Animated.View>
         <View style={styles.intensityGroup}>
           <IntensityButton icon="minus" disabled={started || level === 0} onPress={decrementLevel} />
@@ -178,12 +179,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 16,
-  },
-  levelNumeral: {
-    fontFamily: fonts.display,
-    fontSize: 110,
-    lineHeight: 112,
-    color: colors.capeWhite,
   },
   intensityGroup: {
     position: 'absolute',
