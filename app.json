@@ -1,12 +1,10 @@
 {
   "expo": {
     "name": "One Punch Fitness",
-    "description": "A \"One Punch Man\"-inspired workout app!",
     "slug": "one-punch-fitness",
     "version": "0.5.1",
     "orientation": "portrait",
     "scheme": "onepunchfitness",
-    "primaryColor": "#651FFF",
     "userInterfaceStyle": "dark",
     "icon": "./assets/expo-icon.png",
     "ios": {
@@ -18,15 +16,18 @@
       "package": "co.jwheatley.opf",
       "icon": "./assets/android-icon.png"
     },
-    "assetBundlePatterns": ["assets/**/*"],
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/splash.png",
+          "image": "./assets/splash-fist.png",
+          "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#651FFF"
+          "backgroundColor": "#0F0C0C"
         }
       ],
       [
@@ -36,13 +37,29 @@
             "./assets/fonts/InterUI-Regular.ttf",
             "./assets/fonts/InterUI-Medium.ttf",
             "./assets/fonts/InterUI-Bold.ttf",
-            "./assets/fonts/InterUI-Black.ttf"
+            "./assets/fonts/InterUI-Black.ttf",
+            "./assets/fonts/Anton-Regular.ttf"
           ]
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#0F0C0C"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "babbfa81-37b4-41ad-9d36-0405aabe5e49"
+      }
+    },
+    "owner": "fiberjw"
   }
 }

@@ -7,12 +7,10 @@
 </h3>
 
 <p align="center">
-  A "One Punch Man"-inspired workout app!
+  A "One Punch Man"-inspired workout app: 100 push-ups, 100 sit-ups, 100 squats,
+  and a 10km run — every single day. Pick one of five intensity levels, work
+  through each exercise on a timer, and track your streak on the calendar.
 </p>
-
----
-
-[Get it on Expo!](https://expo.io/@datwheat/one-punch-fitness)
 
 ## Screenshots
 
@@ -24,12 +22,30 @@
   <img style="display:inline-block" alt="Settings Screen" src="./docs/images/settings.png" width="170">
 </p>
 
-## Key technologies used to build this
+## Development
 
-* [Expo](https://expo.io/)
-* [ReasonML](https://reasonml.github.io/)
-* [ReasonReact](https://reasonml.github.io/reason-react/) +
-  [Reductive](https://github.com/reasonml-community/reductive)
-* [styled-components](https://www.styled-components.com/)
-* [React Navigation](https://reactnavigation.org/)
-* [Figma](https://www.figma.com/) (for design)
+This app relies on native modules (WebView, splash screen, etc.), so it needs a
+[development build](https://docs.expo.dev/develop/development-builds/introduction/)
+— it will not run in Expo Go.
+
+```sh
+npm install       # install dependencies
+npx expo run:ios  # build and run the iOS development build (use run:android for Android)
+```
+
+Once a development build is installed, `npx expo start` starts the dev server;
+press `i` / `a` to open it in the iOS simulator or Android emulator.
+
+### Scripts
+
+```sh
+npm run lint       # eslint (eslint-config-expo), zero warnings tolerated
+npm run typecheck  # tsc --noEmit (strict)
+```
+
+## Built with
+
+- [Expo SDK 57](https://expo.dev/) + [React Native](https://reactnative.dev/)
+- [Expo Router](https://docs.expo.dev/router/introduction/) (typed routes, native tabs)
+- [TypeScript](https://www.typescriptlang.org/) (strict)
+- [Zustand](https://github.com/pmndrs/zustand) + AsyncStorage for persistence
